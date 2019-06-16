@@ -1,0 +1,38 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Contacts List</title>
+    <script type="text/javascript">
+        var xMLHttpRequest = new XMLHttpRequest();
+        function showAllContacts() {
+            xMLHttpRequest.open("GET", "/contactsList_war/servlet?command=getAll", true);
+            xMLHttpRequest.onreadystatechange = processContacts;
+            xMLHttpRequest.send(null);
+        }
+        function processContacts() {
+            if (xMLHttpRequest.readyState === 4 && xMLHttpRequest.status === 200) {
+                var contacts = JSON.parse(xMLHttpRequest.response);
+                var text = "<table id=\"contactsTable\" style=\"border:1px solid black\">";
+                text += "<tr><td>Id</td><td>First name</td><td>Surname</td><td>Patronymic</td><td>Birth Date</td>" +
+                    "<td>Sex</td><td>Nationality</td><td>Family Status</td><td>Website</td><td>E-mail</td>" +
+                    "<td>Current Workplace</td><tr>";
+                for (var i = 0; i < contacts.length; i++) {
+                    text+= "<tr><td>" + contacts[i].id + "</td><td>" + contacts[i].firstName + "</td><td>" +
+                        contacts[i].surname + "</td><td>" + contacts[i].patronymic + "</td><td>" + contacts[i].birthDate +
+                        "</td><td>" + contacts[i].sex + "</td><td>" + contacts[i].nationality + "</td><td>" +
+                        contacts[i].familyStatus + "</td><td>" + contacts[i].website + "</td><td>" + contacts[i].email +
+                        "</td><td>" + contacts[i].currentWorkplace +  "</td></tr>";
+                }
+                text += "</table>";
+                document.getElementById("users").innerHTML = text;
+            } else {
+                console.log("cannot get all contacts");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button type="button" onclick="showAllContacts()">Show all contacts</button>
+    <p id="users"></p>
+</body>
+</html>
