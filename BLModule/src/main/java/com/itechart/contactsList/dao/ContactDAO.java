@@ -4,7 +4,7 @@ import com.itechart.contactsList.dto.ContactDTO;
 
 import java.util.List;
 
-public interface MySQLContactDAO {
+public interface ContactDAO {
 
     List<ContactDTO> getAll();
 

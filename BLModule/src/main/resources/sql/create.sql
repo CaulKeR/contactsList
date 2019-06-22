@@ -13,7 +13,7 @@ CREATE TABLE `contacts_list`.`contact` (
   `family_status` enum('single', 'divorced', 'married'),
   `website` varchar(512),
   `email` varchar(50),
-  `сurrent_workplace` varchar(100),
+  `current_workplace` varchar(100),
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

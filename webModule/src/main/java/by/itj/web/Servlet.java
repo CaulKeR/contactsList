@@ -1,10 +1,10 @@
-package com.itechart.contactsList.web;
+package by.itj.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itechart.contactsList.dao.impl.ContactDAO;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.itechart.contactsList.dao.impl.ContactDAOImpl;
 import com.itechart.contactsList.dto.ContactDTO;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,10 +37,9 @@ public class Servlet extends HttpServlet {
 
     private void getAll(HttpServletRequest request, HttpServletResponse response){
         try {
-            ContactDAO contactDAO = new ContactDAO();
+            ContactDAOImpl contactDAO = new ContactDAOImpl();
             ObjectMapper mapper = new ObjectMapper();
-            SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            mapper.setDateFormat(df);
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             List<ContactDTO> list = contactDAO.getAll();
             response.getWriter().write(mapper.writeValueAsString(list));
         } catch (IOException e) {

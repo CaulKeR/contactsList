@@ -1,5 +1,7 @@
 package com.itechart.contactsList.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 
 public class ContactDTO {
@@ -8,6 +10,8 @@ public class ContactDTO {
     private String firstName;
     private String surname;
     private String patronymic;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date birthDate;
     private String sex;
     private String nationality;
