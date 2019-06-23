@@ -1,0 +1,23 @@
+table {
+    margin: auto;
+    border-collapse: collapse;
+}
+th {
+    padding: 3px;
+    border: 1px solid black;
+    text-align: center;
+    background: #b0e0e6;
+}
+td {
+    text-align: left;
+    padding: 3px;
+    border: 1px solid black;
+}
+td a{
+    cursor: pointer;
+}
+.majorButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

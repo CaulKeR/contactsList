@@ -10,6 +10,26 @@ public class AddressDTO {
     private short apartment;
     private String postcode;
 
+    public AddressDTO(long id, String country, String locality, String street, String house, short apartment, String postcode) {
+        this.id = id;
+        this.country = country;
+        this.locality = locality;
+        this.street = street;
+        this.house = house;
+        this.apartment = apartment;
+        this.postcode = postcode;
+    }
+
+    public AddressDTO(String country, String locality, String street, String house, short apartment, String postcode) {
+        this.country = country;
+        this.locality = locality;
+        this.street = street;
+        this.house = house;
+        this.apartment = apartment;
+        this.postcode = postcode;
+    }
+
+
     public long getId() {
         return id;
     }

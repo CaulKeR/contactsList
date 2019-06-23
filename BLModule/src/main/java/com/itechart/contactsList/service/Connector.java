@@ -1,26 +1,23 @@
 package com.itechart.contactsList.service;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.Objects;
-import java.util.Properties;
 
 public class Connector {
 
     private static Connection connection = null;
 
     public static Connection getConnection(){
-
         if (connection == null) {
             try {
-                Properties properties = new Properties();
-                properties.load(Objects.requireNonNull(Connector.class.getClassLoader()
-                        .getResourceAsStream("\\connection.properties")));
-                Class.forName(properties.getProperty("driver")).getDeclaredConstructor();
-                connection = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"),
-                        properties.getProperty("password"));
+                Context initContext = new InitialContext();
+                DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/Users");
+                connection = ds.getConnection();
             } catch (Exception e) {
                 System.err.println("Error in Connector");
+                e.printStackTrace();
             }
         }
         return connection;

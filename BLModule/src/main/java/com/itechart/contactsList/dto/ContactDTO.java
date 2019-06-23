@@ -19,9 +19,16 @@ public class ContactDTO {
     private String website;
     private String email;
     private String currentWorkplace;
+    private AddressDTO address;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private Date deleteDate;
+
+    public ContactDTO() {}
 
     public ContactDTO(long id, String firstName, String surname, String patronymic, Date birthDate, String sex,
-                      String nationality, String familyStatus, String website, String email, String currentWorkplace) {
+                      String nationality, String familyStatus, String website, String email, String currentWorkplace,
+                      Date deleteDate) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -32,6 +39,17 @@ public class ContactDTO {
         this.familyStatus = familyStatus;
         this.website = website;
         this.email = email;
+        this.currentWorkplace = currentWorkplace;
+        this.deleteDate = deleteDate;
+    }
+
+    public ContactDTO(long id, String firstName, String surname, String patronymic, Date birthDate,
+                      String currentWorkplace) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.birthDate = birthDate;
         this.currentWorkplace = currentWorkplace;
     }
 
@@ -124,4 +142,19 @@ public class ContactDTO {
         this.currentWorkplace = currentWorkplace;
     }
 
+    public AddressDTO getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressDTO address) {
+        this.address = address;
+    }
+
+    public Date getDeleteDate() {
+        return deleteDate;
+    }
+
+    public void setDeleteDate(Date deleteDate) {
+        this.deleteDate = deleteDate;
+    }
 }
