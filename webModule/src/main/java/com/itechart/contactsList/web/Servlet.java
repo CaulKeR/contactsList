@@ -3,11 +3,10 @@ package com.itechart.contactsList.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.itechart.contactsList.dao.impl.ContactDAOImpl;
-import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.dto.ContactDTO;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,8 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "Servlet", urlPatterns = {"/servlet"}
-)
+@WebServlet(name = "Servlet", urlPatterns = {"/api"})
 public class Servlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,8 +26,9 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("text/html");
-        response.setCharacterEncoding( "UTF-8" );
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.addHeader("Access-Control-Allow-Origin", "*");
         String command = request.getParameter("command");
         switch (command) {
             case "getAll" :
@@ -38,8 +37,14 @@ public class Servlet extends HttpServlet {
             case "getMainContactsInfo" :
                 getMainContactsInfo(request, response);
                 break;
+            case "createContact" :
+                createContact(request, response);
+                break;
             case "getContactById" :
                 getContactById(request, response);
+                break;
+            case "deleteContact" :
+                deleteContact(request, response);
                 break;
         }
     }
@@ -68,26 +73,46 @@ public class Servlet extends HttpServlet {
         }
     }
 
+    private void createContact(HttpServletRequest request, HttpServletResponse response){
+        try {
+            ContactDAOImpl contactDAO = new ContactDAOImpl();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            String tempLine = null;
+            StringBuffer sb = new StringBuffer();
+            BufferedReader reader = request.getReader();
+            while ((tempLine = reader.readLine()) != null) {
+                sb.append(tempLine);
+            }
+            System.out.println(sb.toString());
+            ContactDTO contactDTO = mapper.readValue(sb.toString(), ContactDTO.class);
+            contactDTO.print();
+            contactDAO.create(contactDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void getContactById(HttpServletRequest request, HttpServletResponse response){
         try {
             ContactDAOImpl contactDAO = new ContactDAOImpl();
-            ContactDTO contact = new ContactDTO();
-            contact.setFirstName(request.getParameter("name"));
-            contact.setSurname("Karpuk");
-            contact.setPatronymic("Aleksandrovich");
-            Calendar cal = Calendar.getInstance();
-            cal.set(1999, 9, 22);
-            contact.setBirthDate(new Date(cal.getTime().getTime()));
-            contact.setSex("male");
-            contact.setNationality("Belarus");
-            contact.setFamilyStatus("single");
-            contact.setWebsite("https://vk.com/kirillkarpuk");
-            contact.setEmail("kirillkarpuk0@gmail.com");
-            contact.setCurrentWorkplace("");
-            contact.setAddress(new AddressDTO(1L,"B", "M", "M", "3", (short) 3, "2"));
-            contactDAO.update(contact);
-            response.getWriter().write("updated");
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            ContactDTO contact = contactDAO.getContactById(Long.valueOf(request.getParameter("id")));
+            response.getWriter().write(mapper.writeValueAsString(contact));
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteContact(HttpServletRequest request, HttpServletResponse response){
+        try {
+            ContactDAOImpl contactDAO = new ContactDAOImpl();
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            System.out.println(request.getParameter("id"));
+            contactDAO.delete(Long.valueOf(request.getParameter("id")));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

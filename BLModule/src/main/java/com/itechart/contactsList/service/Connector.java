@@ -7,9 +7,9 @@ import java.sql.Connection;
 
 public class Connector {
 
-    private static Connection connection = null;
+    private Connection connection = null;
 
-    public static Connection getConnection(){
+    public Connection getConnection(){
         if (connection == null) {
             try {
                 Context initContext = new InitialContext();

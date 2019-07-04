@@ -4,6 +4,7 @@ import com.itechart.contactsList.dto.AddressDTO;
 
 public interface AddressDAO {
 
-    void create(AddressDTO address);
+    long create(AddressDTO address);
+    AddressDTO getAddressById(long id);
 
 }

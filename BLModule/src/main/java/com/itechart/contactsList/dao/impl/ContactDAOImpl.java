@@ -17,12 +17,15 @@ public class ContactDAOImpl implements ContactDAO {
     private PreparedStatement getMainContactsInfoPs = null;
     private PreparedStatement createPs = null;
     private PreparedStatement updatePs = null;
+    private PreparedStatement getContactById = null;
+    private PreparedStatement deletePs = null;
 
     @Override
     public List<ContactDTO> getAll() {
         List<ContactDTO> contactsList = new ArrayList<>();
         try {
-            Connection connection = Connector.getConnection();
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
             if (getAllPs == null) {
                 getAllPs = connection.prepareStatement("select * from contact");
             }
@@ -47,7 +50,8 @@ public class ContactDAOImpl implements ContactDAO {
     public List<ContactDTO> getMainContactsInfo() {
         List<ContactDTO> contactsList = new ArrayList<>();
         try {
-            Connection connection = Connector.getConnection();
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
             if (getMainContactsInfoPs == null) {
                 getMainContactsInfoPs = connection.prepareStatement("select c.id, c.first_name, c.surname, c.patronymic," +
                         " c.birth_date, a.country, a.locality, a.street, a.house, a.apartment, a.postcode, " +
@@ -72,11 +76,13 @@ public class ContactDAOImpl implements ContactDAO {
         return contactsList;
     }
 
+    @Override
     public void create(ContactDTO contact) {
         try {
-            Connection connection = Connector.getConnection();
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
             AddressDAOImpl addressDAO = new AddressDAOImpl();
-            addressDAO.create(contact.getAddress());
+            long addressId = addressDAO.create(contact.getAddress());
             if (createPs == null) {
                 createPs = connection.prepareStatement("insert into contact (first_name, surname, patronymic," +
                         "birth_date, sex, nationality, family_status, website, email, сurrent_workplace, address_id)" +
@@ -92,8 +98,8 @@ public class ContactDAOImpl implements ContactDAO {
             createPs.setString(8, contact.getWebsite());
             createPs.setString(9, contact.getEmail());
             createPs.setString(10, contact.getCurrentWorkplace());
-            createPs.setLong(11, contact.getAddress().getId());
-            createPs.executeQuery();
+            createPs.setLong(11, addressId);
+            createPs.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error in DAO create");
             e.printStackTrace();
@@ -101,9 +107,37 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
+    public ContactDTO getContactById(long id) {
+        ContactDTO contact = new ContactDTO();
+        try {
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
+            if (getContactById == null) {
+                getContactById = connection.prepareStatement("select * from contact where id = ? and deleteDate is null;");
+            }
+            getContactById.setLong(1, id);
+            ResultSet rs = getContactById.executeQuery();
+            rs.next();
+            contact = new ContactDTO(rs.getLong("id"), rs.getString("first_name"),
+                    rs.getString("surname"), rs.getString("patronymic"),
+                    rs.getDate("birth_date"), rs.getString("sex"),
+                    rs.getString("nationality"), rs.getString("family_status"),
+                    rs.getString("website"), rs.getString("email"),
+                    rs.getString("сurrent_workplace"), rs.getDate("deleteDate"));
+            AddressDAOImpl addressDAO = new AddressDAOImpl();
+            contact.setAddress(addressDAO.getAddressById(rs.getLong("address_id")));
+        } catch (SQLException e) {
+            System.err.println("Error in DAO update");
+            e.printStackTrace();
+        }
+        return contact;
+    }
+
+    @Override
     public void update(ContactDTO contact) {
         try {
-            Connection connection = Connector.getConnection();
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
             if (updatePs == null) {
                 updatePs = connection.prepareStatement("update contact set first_name = ?, surname = ?, patronymic = ?," +
                         "birth_date = ?, sex = ?, nationality = ?, family_status = ?, website = ?, email = ?," +
@@ -124,6 +158,22 @@ public class ContactDAOImpl implements ContactDAO {
             updatePs.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error in DAO update");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(long id) {
+        try {
+            Connector connector = new Connector();
+            Connection connection = connector.getConnection();
+            if (updatePs == null) {
+                updatePs = connection.prepareStatement("update contact set deleteDate = curdate() where id = ?;");
+            }
+            updatePs.setLong(1, id);
+            updatePs.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error in DAO delete");
             e.printStackTrace();
         }
     }

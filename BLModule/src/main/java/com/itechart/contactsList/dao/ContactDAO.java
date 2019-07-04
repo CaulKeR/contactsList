@@ -9,6 +9,8 @@ public interface ContactDAO {
     List<ContactDTO> getAll();
     List<ContactDTO> getMainContactsInfo();
     void create(ContactDTO contact);
+    ContactDTO getContactById(long id);
     void update(ContactDTO contact);
+    void delete(long id);
 
 }

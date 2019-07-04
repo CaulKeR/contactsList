@@ -1,5 +1,5 @@
 table {
-    margin: auto;
+    margin: 10px auto 10px;
     border-collapse: collapse;
 }
 th {
@@ -13,7 +13,7 @@ td {
     padding: 3px;
     border: 1px solid black;
 }
-td a{
+td a {
     cursor: pointer;
 }
 .majorButtons{

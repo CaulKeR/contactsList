@@ -1,24 +1,157 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Contacts List</title>
-    <script type="text/javascript" src="js/mainTable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.0/mustache.min.js"></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.js?features=fetch,Promise"></script>
+    <script type="text/javascript" src="js/utility.js"></script>
+    <script type="text/javascript" src="js/mainForm.js"></script>
+    <script type="text/javascript" src="js/createForm.js"></script>
+    <script type="text/javascript" src="js/showFullContactInfo.js"></script>
+    <script type="text/javascript" src="js/deleting.js"></script>
     <style>
         @import "css/header.css";
         @import "css/footer.css";
-        @import "css/mainTable.css";
+        @import "css/mainForm.css";
+        @import "css/createForm.css";
+        body {
+            margin: 0;
+        }
     </style>
-    <script>window.onload = showAllContacts;</script>
+    <script type="text/javascript">window.onload = showAllContacts;</script>
 </head>
 <body>
     <div class="header">
         <a class="title" onclick="showAllContacts()">Contacts List</a>
     </div>
-    <p id="users"></p>
-    <div class="majorButtons">
-        <button type="button" onclick="showAllContacts()">Show all contacts</button>
-        <button type="button" onclick="deleteContacts()">Delete selected contacts</button>
-        <button type="button" onclick="createContact()">Create new contact</button>
+    <div id="mainForm">
+        <table id="mainTable" style="border:1px solid black"><tbody>
+        <script type="text/html-template" id="dynamicMainTable">
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Birth Date</th>
+                    <th>Address</th>
+                    <th>Current Workplace</th>
+                </tr>
+                {{#.}}
+                <tr>
+                    <td hidden>{{id}}</td>
+                    <td><input type="checkbox"></td>
+                    <td><a onclick="showFullContactInfoForm({{id}});">{{firstName}} {{surname}} {{patronymic}}</a></td>
+                    <td>{{birthDate}}</td>
+                    <td>{{address.country}}, {{address.locality}}, {{address.street}}, {{address.house}},
+                        {{address.apartment}}, {{address.postcode}}</td>
+                    <td>{{currentWorkplace}}</td>
+                </tr>
+                {{/.}}
+        </script>
+        </tbody></table>
+        <div class="majorButtons">
+            <button type="button" onclick="deleteContacts()">Delete selected contacts</button>
+            <button type="button" onclick="showCreateForm()">Create new contact</button>
+        </div>
+    </div>
+    <div id="createForm">
+        <ul class="creator">
+            <li>
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" placeholder="Enter first name here">
+            </li>
+            <li>
+                <label for="surname">Surname</label>
+                <input type="text" id="surname" placeholder="Enter last name here">
+            </li>
+            <li>
+                <label for="patronymic">Patronymic</label>
+                <input type="text" id="patronymic" placeholder="Enter patronymic here">
+            </li>
+            <li>
+                <label for="birthDate">Birth date</label>
+                <input type="date" id="birthDate" placeholder="Enter birth date here">
+            </li>
+            <li>
+                <label>Sex</label>
+                <p><input type="radio" id="male" onclick="radio('male');">Male</p>
+                <p><input type="radio" id="female" onclick="radio('female');">Female</p>
+            </li>
+            <li>
+                <label for="nationality">Nationality</label>
+                <input type="text" id="nationality" placeholder="Enter nationality here">
+            </li>
+            <li>
+                <label>Family status</label>
+                <p><input type="radio" id="single" onclick="familyStatus('single');">Single</p>
+                <p><input type="radio" id="divorced" onclick="familyStatus('divorced');">Divorced</p>
+                <p><input type="radio" id="married" onclick="familyStatus('married');">Married</p>
+            </li>
+            <li>
+                <label for="website">Website</label>
+                <input type="url" id="website" placeholder="Enter website here">
+            </li>
+            <li>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Enter email here">
+            </li>
+            <li>
+                <label for="currentWorkplace">Current workplace</label>
+                <input type="text" id="currentWorkplace" placeholder="Enter current workplace here">
+            </li>
+            <li>
+                <label for="country">Country</label>
+                <input type="text" id="country" placeholder="Enter country here">
+            </li>
+            <li>
+                <label for="locality">Locality</label>
+                <input type="text" id="locality" placeholder="Enter locality here">
+            </li>
+            <li>
+                <label for="street">Street</label>
+                <input type="text" id="street" placeholder="Enter street here">
+            </li>
+            <li>
+                <label for="house">House</label>
+                <input type="text" id="house" placeholder="Enter house here">
+            </li>
+            <li>
+                <label for="apartment">Apartment</label>
+                <input type="text" id="apartment" placeholder="Enter apartment here">
+            </li>
+            <li>
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" placeholder="Enter postcode here">
+            </li>
+            <li>
+                <button type="submit" onclick="createContact()">Submit</button>
+                <button type="reset">Reset</button>
+                <button onclick="showAllContacts()">Cancel</button>
+            </li>
+        </ul>
+    </div>
+    <div id="fullContactInfoForm">
+        <class id="contact">
+            <script type="text/html-template" id="dynamicContact">
+                <p>First Name: {{firstName}}</p>
+                <p>Surname: {{surname}}</p>
+                <p>Patronymic: {{patronymic}}</p>
+                <p>Birth date: {{birthDate}}</p>
+                <p>Sex: {{sex}}</p>
+                <p>Nationality: {{nationality}}</p>
+                <p>Family status: {{familyStatus}}</p>
+                <p>Website: {{website}}</p>
+                <p>E-mail: {{email}}</p>
+                <p>Current workplace: {{currentWorkplace}}</p>
+                <p>Country: {{address.country}}</p>
+                <p>Locality: {{address.locality}}</p>
+                <p>Street: {{address.street}}</p>
+                <p>House: {{address.house}}</p>
+                <p>Apartment: {{address.apartment}}</p>
+                <p>Postcode: {{address.postcode}}</p>
+                <button onclick="deleteContact({{id}});">Delete this contact</button>
+                <button onclick="showAllContacts()">Cancel</button>
+            </script>
+        </class>
     </div>
     <div class="footer">
         <a class="foot-text">created by Kirill Karpuk</a>
