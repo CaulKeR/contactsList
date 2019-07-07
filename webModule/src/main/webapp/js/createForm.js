@@ -1,6 +1,8 @@
 function showCreateForm() {
+    history.pushState(null, 'Create contact', '/contactsList/contact');
     hide("mainForm");
     hide("fullContactInfoForm");
+    hide("editForm");
     show("createForm");
 }
 function createContact() {
@@ -26,8 +28,9 @@ function createContact() {
         }};
     console.log(JSON.stringify(contact));
     console.log(contact);
-    fetch("/contactsList/api?command=createContact",
+    fetch("/contactsList/api/contact",
 {
+        method: "POST",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -35,22 +38,11 @@ function createContact() {
             "Access-Control-Allow-Origin" : "*",
             "Access-Control-Allow-Credentials" : true
         },
-        method: "POST",
         body: JSON.stringify(contact)
     })
-    .then(function(res){return res.text()})
-    // (async () => {
-    //     const rawResponse = await fetch('/contactsList/api?command=createContact', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(contact)
-    //     });
-    //     const content = await rawResponse.json();
-    //     console.log(content);
-    // })();
+    .then(function(res){return res.statusText;});
+    alert("Contact created!");
+    showAllContacts();
 }
 function radio(sex) {
     var man = document.getElementById('male');

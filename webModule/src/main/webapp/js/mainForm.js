@@ -1,8 +1,10 @@
 function showAllContacts() {
+    history.pushState(null, 'Contacts list', '/contactsList/contacts');
     hide("createForm");
     hide("fullContactInfoForm");
+    hide("editForm");
     show("mainForm");
-    fetch("/contactsList/api?command=getMainContactsInfo",{
+    fetch("/contactsList/api/contacts",{
         method: "GET",
         headers: {
             "Content-Type": "application/json"
