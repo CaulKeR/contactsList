@@ -2,7 +2,7 @@ package com.itechart.contactsList.dao.impl;
 
 import com.itechart.contactsList.dao.AddressDAO;
 import com.itechart.contactsList.dto.AddressDTO;
-import com.itechart.contactsList.service.Connector;
+import com.itechart.contactsList.utility.Connector;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

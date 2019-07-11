@@ -1,4 +1,4 @@
-package com.itechart.contactsList.service;
+package com.itechart.contactsList.utility;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

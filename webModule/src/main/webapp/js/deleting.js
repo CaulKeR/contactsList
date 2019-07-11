@@ -1,6 +1,5 @@
 function deleteContact(id) {
-    var desighfh = confirm("Delete this contact?");
-    if (desighfh) {
+    if (confirm("Delete this contact?")) {
         fetch("/contactsList/api/contact/" + id,{
             method: "DELETE",
         })
@@ -12,8 +11,8 @@ function deleteContact(id) {
 function deleteContacts() {
    var boxes = document.getElementById("mainTable").getElementsByTagName("input");
     for (i = 0; i < boxes.length; i++) {
-        if (boxes[i].type === "checkbox" && boxes[i].checked) {
-            fetch("/contactsList/api/contact/" + id,{
+        if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value != 'on') {
+            fetch("/contactsList/api/contact/" + boxes[i].value,{
                 method: "DELETE",
             })
                 .then(function(res){return res.statusText;})

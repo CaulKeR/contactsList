@@ -3,6 +3,7 @@ function showEditForm(id) {
     hide("mainForm");
     hide("fullContactInfoForm");
     hide("createForm");
+    hide("attachmentsForm");
     show("editForm");
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
@@ -99,12 +100,4 @@ function familyStatusEdit(status) {
             married.checked = true;
         }
     }
-}
-
-function showPopUp() {
-    document.getElementById("show228").show();
-}
-
-function closePopUp() {
-    document.getElementById("show228").hide();
 }

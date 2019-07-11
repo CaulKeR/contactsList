@@ -3,6 +3,7 @@ function showAllContacts() {
     hide("createForm");
     hide("fullContactInfoForm");
     hide("editForm");
+    hide("attachmentsForm");
     show("mainForm");
     fetch("/contactsList/api/contacts",{
         method: "GET",

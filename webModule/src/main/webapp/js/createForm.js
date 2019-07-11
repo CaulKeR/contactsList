@@ -3,6 +3,7 @@ function showCreateForm() {
     hide("mainForm");
     hide("fullContactInfoForm");
     hide("editForm");
+    hide("attachmentsForm");
     show("createForm");
 }
 function createContact() {

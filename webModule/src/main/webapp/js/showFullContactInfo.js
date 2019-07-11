@@ -3,6 +3,7 @@ function showFullContactInfoForm(id) {
     hide("mainForm");
     hide("createForm");
     hide("editForm");
+    hide("attachmentsForm");
     show("fullContactInfoForm");
     console.log(id);
     fetch("/contactsList/api/contact/" + id,{
