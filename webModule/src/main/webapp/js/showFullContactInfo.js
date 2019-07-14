@@ -1,11 +1,10 @@
 function showFullContactInfoForm(id) {
-    history.pushState(null, 'Full contact information', '/contactsList/contact/' + id);
+    history.pushState({ prevUrl: window.location.href }, 'Full contact information', '/contactsList/contact/' + id);
     hide("mainForm");
     hide("createForm");
     hide("editForm");
     hide("attachmentsForm");
     show("fullContactInfoForm");
-    console.log(id);
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
         headers: {
@@ -14,13 +13,12 @@ function showFullContactInfoForm(id) {
     })
         .then(
             function (response) {
-                if (response.status !== 200) {
+                if (response.status < 200 || response.status >= 400) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (data) {
                     var contact = data;
                     var template = document.getElementById("dynamicContact").innerHTML;
-                    console.log(contact);
                     document.getElementById("contact").innerHTML = Mustache.to_html(template, contact);
                 });
             }

@@ -1,5 +1,5 @@
 function showEditForm(id) {
-    history.pushState(null, 'Create contact', '/contactsList/contact/' + id);
+    history.pushState({ prevUrl: window.location.href }, 'Create contact', '/contactsList/contact/' + id);
     hide("mainForm");
     hide("fullContactInfoForm");
     hide("createForm");
@@ -13,16 +13,13 @@ function showEditForm(id) {
     })
         .then(
             function (response) {
-                if (response.status !== 200) {
+                if (response.status < 200 || response.status >= 400) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
-                response.json().then(function (data) {
-                    var contact = data;
+                response.json().then(function (contact) {
                     var template = document.getElementById("dynamicContactEditor").innerHTML;
                     console.log(contact);
                     document.getElementById("editor").innerHTML = Mustache.to_html(template, contact);
-                    radioEdit(contact.sex);
-                    familyStatusEdit(contact.familyStatus);
                 });
             }
         )
@@ -31,7 +28,6 @@ function showEditForm(id) {
         });
 }
 function editContact(id) {
-    alert("Contact edited!");
     var contact = {
         id: id,
         firstName: document.getElementById("editFirstName").value,
@@ -55,6 +51,26 @@ function editContact(id) {
         }};
     console.log(JSON.stringify(contact));
     console.log(contact);
+    fetch("/contactsList/api/contact/" + id,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+        .then(
+            function (response) {
+                if (response.status < 200 || response.status >= 400) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function (data) {
+                    contact = JSON.parse(data);
+                    console.log(contact);
+                });
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+        });
     fetch("/contactsList/api/contact/" + id,
         {
             method: "PUT",
@@ -67,37 +83,8 @@ function editContact(id) {
             },
             body: JSON.stringify(contact)
         })
-        .then(function(res){return res.statusText;})
-    showAllContacts();
-}
-function radioEdit(sex) {
-    var man = document.getElementById('editMale');
-    var woman = document.getElementById('editFemale');
-    if (sex === 'male') {
-        man.checked = true;
-        woman.checked = false;
-    } else {
-        woman.checked = true;
-        man.checked = false;
-    }
-}
-function familyStatusEdit(status) {
-    var single = document.getElementById('editSingle');
-    var divorced = document.getElementById('editDivorced');
-    var married = document.getElementById('editMarried');
-    if (status === 'single') {
-        single.checked = true;
-        divorced.checked = false;
-        married.checked = false;
-    } else {
-        if (status === 'divorced') {
-            single.checked = false;
-            divorced.checked = true;
-            married.checked = false;
-        } else {
-            single.checked = false;
-            divorced.checked = false;
-            married.checked = true;
-        }
-    }
+        .then(function(res){
+            alert("Contact edited!");
+            showAllContacts();
+            return res.statusText;})
 }

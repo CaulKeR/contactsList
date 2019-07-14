@@ -19,6 +19,8 @@ public class UrlMapper {
         executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+"), new EditContact());
         executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/attachments"), new Attachments());
         executors.put(Pattern.compile("POST/contactsList/api/contact/\\d+/attachments"), new AddAttachment());
+        executors.put(Pattern.compile("DELETE/contactsList/api/attachment/\\d+"), new DeleteAttachment());
+        executors.put(Pattern.compile("POST/contactsList/api/attachment/\\d+"), new DownloadAttachment());
     }
 
     public Executable processRequestByUri(String uri) {
@@ -30,7 +32,7 @@ public class UrlMapper {
             }
         }
         System.err.println("Incorrect URL " + uri);
-        return null;
+        return new ReferenceToIndex();
     }
 
 }

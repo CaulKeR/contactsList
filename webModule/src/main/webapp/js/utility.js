@@ -26,3 +26,19 @@ function selectCheckbox(mainCheckbox, table) {
         }
     }
 }
+
+function goBack() {
+    var prevUrl = window.history.state.prevUrl;
+    console.log(prevUrl);
+    switch (prevUrl) {
+        case '/contactsList/contacts' :
+            show(mainForm);
+            break;
+        case '/contactsList/contact/' :
+            show(fullContactInfoForm);
+            break;
+        default :
+            alert("GG");
+    }
+    window.history.back();
+}

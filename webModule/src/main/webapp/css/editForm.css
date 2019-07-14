@@ -2,3 +2,8 @@ dialog{
     border-radius: 20px;
     background: yellow;
 }
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}

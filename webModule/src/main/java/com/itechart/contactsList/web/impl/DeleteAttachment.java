@@ -1,15 +1,15 @@
 package com.itechart.contactsList.web.impl;
 
-import com.itechart.contactsList.service.DeleteContactProcessor;
+import com.itechart.contactsList.service.DeleteAttachmentProcessor;
 import com.itechart.contactsList.web.Executable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DeleteContact implements Executable {
+public class DeleteAttachment implements Executable {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        DeleteContactProcessor processor = new DeleteContactProcessor();
+        DeleteAttachmentProcessor processor = new DeleteAttachmentProcessor();
         processor.run(Long.valueOf(request.getRequestURI().replaceAll("\\D", "")));
     }
 }

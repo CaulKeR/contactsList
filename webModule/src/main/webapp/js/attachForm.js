@@ -1,5 +1,5 @@
 function showAllAttachments(id) {
-    history.pushState(null, 'Contacts list', '/contactsList/contact/' + id + '/attachments');
+    history.pushState({ prevUrl: window.location.href }, 'Contacts list', '/contactsList/contact/' + id + '/attachments');
     hide("createForm");
     hide("fullContactInfoForm");
     hide("editForm");
@@ -13,13 +13,15 @@ function showAllAttachments(id) {
     })
         .then(
             function (response) {
-                if (response.status !== 200) {
+                if (response.status < 200 || response.status >= 400) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (data) {
-                    var contacts = data;
+                    var attachments = data;
+                    console.log(data);
                     var template = document.getElementById("dynamicAttachTable").innerHTML;
-                    document.getElementById("attachTable").innerHTML = Mustache.to_html(template, contacts);
+                    document.getElementById("attachTable").innerHTML = Mustache.to_html(template, attachments);
+                    document.getElementById("attachCheckbox").value = id;
                 });
             }
         )
@@ -29,7 +31,6 @@ function showAllAttachments(id) {
 }
 
 function uploadAttach(id) {
-    console.log(id);
     var formData = new FormData();
     formData.append('file', document.getElementById("attachField").files[0]);
     fetch("/contactsList/api/contact/" + id + "/attachments",
@@ -37,6 +38,25 @@ function uploadAttach(id) {
             method: "POST",
             body: formData
         })
-        .then(function(res){return res.statusText;});
-    alert("Attachment added");
+        .then(function(res){
+            showAllAttachments(id);
+            alert("Attachment added");
+            return res.statusText;});
+}
+
+function downloadAttach(id) {
+    fetch("/contactsList/api/attachment/" + id,
+        {
+            method: "POST",
+        })
+        .then(
+            function (response) {
+                if (response.status < 200 || response.status >= 400) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+        });
 }

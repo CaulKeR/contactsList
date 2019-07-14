@@ -1,5 +1,5 @@
 function showAllContacts() {
-    history.pushState(null, 'Contacts list', '/contactsList/contacts');
+    history.pushState({ prevUrl: window.location.href }, 'Contacts list', '/contactsList/contacts');
     hide("createForm");
     hide("fullContactInfoForm");
     hide("editForm");
@@ -13,7 +13,7 @@ function showAllContacts() {
         })
         .then(
             function (response) {
-                if (response.status !== 200) {
+                if (response.status < 200 || response.status >= 400) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (data) {

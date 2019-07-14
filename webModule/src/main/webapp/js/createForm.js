@@ -1,5 +1,5 @@
 function showCreateForm() {
-    history.pushState(null, 'Create contact', '/contactsList/contact');
+    history.pushState({ prevUrl: window.location.href }, 'Create contact', '/contactsList/contact');
     hide("mainForm");
     hide("fullContactInfoForm");
     hide("editForm");
@@ -27,8 +27,6 @@ function createContact() {
             apartment: document.getElementById("apartment").value,
             postcode: document.getElementById("postcode").value
         }};
-    console.log(JSON.stringify(contact));
-    console.log(contact);
     fetch("/contactsList/api/contact",
 {
         method: "POST",
@@ -41,38 +39,8 @@ function createContact() {
         },
         body: JSON.stringify(contact)
     })
-    .then(function(res){return res.statusText;});
-    alert("Contact created!");
-    showAllContacts();
-}
-function radio(sex) {
-    var man = document.getElementById('male');
-    var woman = document.getElementById('female');
-    if (sex === 'male') {
-        man.checked = true;
-        woman.checked = false;
-    } else {
-        woman.checked = true;
-        man.checked = false;
-    }
-}
-function familyStatus(status) {
-    var single = document.getElementById('single');
-    var divorced = document.getElementById('divorced');
-    var married = document.getElementById('married');
-    if (status === 'single') {
-        single.checked = true;
-        divorced.checked = false;
-        married.checked = false;
-    } else {
-        if (status === 'divorced') {
-            single.checked = false;
-            divorced.checked = true;
-            married.checked = false;
-        } else {
-            single.checked = false;
-            divorced.checked = false;
-            married.checked = true;
-        }
-    }
+    .then(function(res){
+        alert("Contact created!");
+        showAllContacts();
+        return res.statusText;});
 }

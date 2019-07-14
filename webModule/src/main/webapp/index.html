@@ -31,32 +31,31 @@
         </div>
         <div class="content">
             <div id="mainForm">
-                <table id="mainTable" style="border:1px solid black"><tbody>
                 <script type="text/template" id="dynamicMainTable">
-                        <tr>
-                            <th><input id="mainCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainCheckbox',
+                    <tr>
+                        <th><input id="mainCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainCheckbox',
                                     'mainTable')">Name</th>
-                            <th>Birth Date</th>
-                            <th>Address</th>
-                            <th>Current Workplace</th>
-                            <th>Actions</th>
-                        </tr>
-                        {{#.}}
-                        <tr>
-                            <td><input type="checkbox" value={{id}} onclick="selectCheckbox('mainCheckbox', 'mainTable');">
-                                <a onclick="showFullContactInfoForm({{id}});">
+                        <th>Birth Date</th>
+                        <th>Address</th>
+                        <th>Current Workplace</th>
+                        <th>Actions</th>
+                    </tr>
+                    {{#.}}
+                    <tr>
+                        <td><input type="checkbox" value={{id}} onclick="selectCheckbox('mainCheckbox', 'mainTable');">
+                            <a onclick="showFullContactInfoForm({{id}});">
                                 {{firstName}} {{surname}} {{patronymic}}</a></td>
-                            <td>{{birthDate}}</td>
-                            <td>{{address.country}}, {{address.locality}}, {{address.street}}, {{address.house}},
-                                {{address.apartment}}, {{address.postcode}}</td>
-                            <td>{{currentWorkplace}}</td>
-                            <td><div id="images"><img src="images/edit.png" onclick="showEditForm({{id}});"/>
-                                    <img src="images/attachment.png" onclick="showAllAttachments({{id}});"/>
-                                    <img src="images/delete.png" onclick="deleteContact({{id}});"/></div></td>
-                        </tr>
-                        {{/.}}
+                        <td>{{birthDate}}</td>
+                        <td>{{address.country}}, {{address.locality}}, {{address.street}}, {{address.house}},
+                            {{address.apartment}}, {{address.postcode}}</td>
+                        <td>{{currentWorkplace}}</td>
+                        <td><div id="images"><img src="images/edit.png" onclick="showEditForm({{id}});"/>
+                            <img src="images/attachment.png" onclick="showAllAttachments({{id}});"/>
+                            <img src="images/delete.png" onclick="deleteContact({{id}});"/></div></td>
+                    </tr>
+                    {{/.}}
                 </script>
-                </tbody></table>
+                <table id="mainTable" style="border:1px solid black"><tbody></tbody></table>
                 <div class="majorButtons">
                     <button type="button" class="button" onclick="showCreateForm()">Create new contact</button>
                     <button type="button" class="button" onclick="deleteContacts()">Delete selected contacts</button>
@@ -82,8 +81,10 @@
                     </li>
                     <li>
                         <label>Sex</label>
-                        <p><input type="radio" id="male" onclick="radio('male');">Male</p>
-                        <p><input type="radio" id="female" onclick="radio('female');">Female</p>
+                        <fieldset id="sexGroup">
+                            <p><input type="radio" id="male" name="sexGroup">Male</p>
+                            <p><input type="radio" id="female" name="sexGroup">Female</p>
+                        </fieldset>
                     </li>
                     <li>
                         <label for="nationality">Nationality</label>
@@ -91,9 +92,11 @@
                     </li>
                     <li>
                         <label>Family status</label>
-                        <p><input type="radio" id="single" onclick="familyStatus('single');">Single</p>
-                        <p><input type="radio" id="divorced" onclick="familyStatus('divorced');">Divorced</p>
-                        <p><input type="radio" id="married" onclick="familyStatus('married');">Married</p>
+                        <fieldset id="fsGroup">
+                            <p><input type="radio" name="fsGroup" id="single">Single</p>
+                            <p><input type="radio" name="fsGroup" id="divorced">Divorced</p>
+                            <p><input type="radio" name="fsGroup" id="married">Married</p>
+                        </fieldset>
                     </li>
                     <li>
                         <label for="website">Website</label>
@@ -139,33 +142,31 @@
                 </ul>
             </div>
             <div id="fullContactInfoForm">
-                <div id="contact">
-                    <script type="text/template" id="dynamicContact">
-                        <p>First Name: {{firstName}}</p>
-                        <p>Surname: {{surname}}</p>
-                        <p>Patronymic: {{patronymic}}</p>
-                        <p>Birth date: {{birthDate}}</p>
-                        <p>Sex: {{sex}}</p>
-                        <p>Nationality: {{nationality}}</p>
-                        <p>Family status: {{familyStatus}}</p>
-                        <p>Website: {{website}}</p>
-                        <p>E-mail: {{email}}</p>
-                        <p>Current workplace: {{currentWorkplace}}</p>
-                        <p>Country: {{address.country}}</p>
-                        <p>Locality: {{address.locality}}</p>
-                        <p>Street: {{address.street}}</p>
-                        <p>House: {{address.house}}</p>
-                        <p>Apartment: {{address.apartment}}</p>
-                        <p>Postcode: {{address.postcode}}</p>
-                        <button class="button" onclick="showEditForm({{id}});">Edit this contact</button>
-                        <button class="button" onclick="deleteContact({{id}});">Delete this contact</button>
-                        <button class="button" onclick="showAllContacts()">Cancel</button>
-                    </script>
-                </div>
+                <script type="text/template" id="dynamicContact">
+                    <p>First Name: {{firstName}}</p>
+                    <p>Surname: {{surname}}</p>
+                    <p>Patronymic: {{patronymic}}</p>
+                    <p>Birth date: {{birthDate}}</p>
+                    <p>Sex: {{sex}}</p>
+                    <p>Nationality: {{nationality}}</p>
+                    <p>Family status: {{familyStatus}}</p>
+                    <p>Website: {{website}}</p>
+                    <p>E-mail: {{email}}</p>
+                    <p>Current workplace: {{currentWorkplace}}</p>
+                    <p>Country: {{address.country}}</p>
+                    <p>Locality: {{address.locality}}</p>
+                    <p>Street: {{address.street}}</p>
+                    <p>House: {{address.house}}</p>
+                    <p>Apartment: {{address.apartment}}</p>
+                    <p>Postcode: {{address.postcode}}</p>
+                    <button class="button" onclick="showEditForm({{id}});">Edit this contact</button>
+                    <button class="button" onclick="deleteContact({{id}});">Delete this contact</button>
+                    <button class="button" onclick="showAllContacts()">Cancel</button>
+                </script>
+                <div id="contact"></div>
             </div>
             <div id="editForm">
-                <div id="editor">
-                    <script type="text/template" id="dynamicContactEditor">
+                <script type="text/template" id="dynamicContactEditor">
                     <li>
                         <label for="firstName">First Name</label>
                         <input type="text" id="editFirstName"  value={{firstName}}>
@@ -184,8 +185,10 @@
                     </li>
                     <li>
                         <label>Sex</label>
-                        <p><input type="radio" id="editMale" onclick="radioEdit('male');">Male</p>
-                        <p><input type="radio" id="editFemale" onclick="radioEdit('female');">Female</p>
+                        <fieldset id="sexEditGroup">
+                            <p><input type="radio" name="sexEditGroup" id="editMale">Male</p>
+                            <p><input type="radio" name="sexEditGroup" id="editFemale">Female</p>
+                        </fieldset>
                     </li>
                     <li>
                         <label for="nationality">Nationality</label>
@@ -193,9 +196,11 @@
                     </li>
                     <li>
                         <label>Family status</label>
-                        <p><input type="radio" id="editSingle" onclick="familyStatusEdit('single');">Single</p>
-                        <p><input type="radio" id="editDivorced" onclick="familyStatusEdit('divorced');">Divorced</p>
-                        <p><input type="radio" id="editMarried" onclick="familyStatusEdit('married');">Married</p>
+                        <fieldset id="fsEditGroup">
+                            <p><input type="radio" name="fsEditGroup" id="editSingle">Single</p>
+                            <p><input type="radio" name="fsEditGroup" id="editDivorced">Divorced</p>
+                            <p><input type="radio" name="fsEditGroup" id="editMarried">Married</p>
+                        </fieldset>
                     </li>
                     <li>
                         <label for="website">Website</label>
@@ -238,15 +243,14 @@
                         <button class="button" type="reset">Reset</button>
                         <button class="button" onclick="showAllContacts()">Cancel</button>
                     </li>
-                    </script>
-                </div>
+                </script>
+                <div id="editor"></div>
             </div>
             <div id="attachmentsForm">
-                <table id="attachTable" style="border:1px solid black"><tbody>
                 <script type="text/template" id="dynamicAttachTable">
                     <tr>
                         <th><input id="attachCheckbox" type="checkbox" onclick="selectAllCheckboxes('attachCheckbox',
-                                'attachTable')" value={{0.userId}}>Title</th>
+                                'attachTable')">Title</th>
                         <th>Type</th>
                         <th>Size</th>
                         <th>Last update</th>
@@ -254,21 +258,24 @@
                     </tr>
                     {{#.}}
                     <tr>
-                        <td><input type="checkbox" onclick="selectCheckbox('attachCheckbox', 'attachTable');">{{title}}</td>
+                        <td><input type="checkbox" onclick="selectCheckbox('attachCheckbox', 'attachTable');"
+                                   value={{id}}>{{title}}</td>
                         <td>{{type}}</td>
                         <td>{{size}}</td>
                         <td>{{lastUpdate}}</td>
-                        <td><div id="atttachImages"><img src="/contactsList/images/download.png" onclick="alert('downloading!');"/>
-                            <img src="/contactsList/images/delete.png" onclick="alert('deleting!');"/></div></td>
+                        <td><div id="atttachImages"><img src="/contactsList/images/download.png"
+                                                         onclick="downloadAttach({{id}});"/>
+                            <img src="/contactsList/images/delete.png" onclick="deleteAttach({{id}});"/></div></td>
                     </tr>
                     {{/.}}
                 </script>
-                </tbody></table>
+                <table id="attachTable" style="border:1px solid black"><tbody></tbody></table>
                 <div class="majorAttachButtons">
                     <input id="attachField" type="file" class="button"/>
-                    <button type="button" class="button" onclick="uploadAttach(document.getElementById('attachCheckbox').value)">
-                                Upload attachment</button>
-                    <button type="button" class="button" onclick="deleteContacts()">Delete selected attachments</button>
+                    <button type="button" class="button" onclick="uploadAttach(document
+                            .getElementById('attachCheckbox').value)">Upload attachment</button>
+                    <button type="button" class="button" onclick="deleteAttachs(document.getElementById('attachCheckbox')
+                            .value)">Delete selected attachments</button>
                 </div>
             </div>
         </div>

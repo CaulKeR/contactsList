@@ -6,6 +6,7 @@ import java.sql.Date;
 
 public class AttachmentDTO {
 
+    private long id;
     private long userId;
     private String title;
     private String type;
@@ -14,17 +15,14 @@ public class AttachmentDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date lastUpdate;
 
-    public AttachmentDTO(String title, String type, long size, Date lastUpdate) {
-        this.title = title;
-        this.type = type;
-        this.size = size;
-        this.lastUpdate = lastUpdate;
-    }
-
-    public AttachmentDTO(long userId, String title, String type, long size, Date lastUpdate) {
+    public AttachmentDTO(long id, long userId, String file, long size, Date lastUpdate) {
+        this.id = id;
         this.userId = userId;
-        this.title = title;
-        this.type = type;
+        if (file.contains(".")) {
+            String[] nameParts = file.split("\\.");
+            this.title = nameParts[0];
+            this.type = nameParts[1];
+        }
         this.size = size;
         this.lastUpdate = lastUpdate;
     }
@@ -67,5 +65,13 @@ public class AttachmentDTO {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
