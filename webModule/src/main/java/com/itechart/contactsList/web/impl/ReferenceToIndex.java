@@ -12,7 +12,7 @@ public class ReferenceToIndex implements Executable {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            request.getRequestDispatcher("/contactsList/api/contacts").include(request, response);
+            request.getRequestDispatcher("/index.html").forward(request, response);
         } catch (IOException | ServletException e) {
             e.printStackTrace();
         }

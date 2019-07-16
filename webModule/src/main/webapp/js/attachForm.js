@@ -1,10 +1,7 @@
 function showAllAttachments(id) {
-    history.pushState({ prevUrl: window.location.href }, 'Contacts list', '/contactsList/contact/' + id + '/attachments');
-    hide("createForm");
-    hide("fullContactInfoForm");
-    hide("editForm");
-    hide("mainForm");
-    show("attachmentsForm");
+    history.pushState({ prevUrl: window.location.href }, 'Contacts list', '/contactsList/contact/' +
+            id + '/attachments');
+    hideAllExcept("attachmentsForm");
     fetch("/contactsList/api/contact/" + id + "/attachments",{
         method: "GET",
         headers: {
@@ -47,13 +44,30 @@ function uploadAttach(id) {
 function downloadAttach(id) {
     fetch("/contactsList/api/attachment/" + id,
         {
-            method: "POST",
+            method: "GET",
         })
         .then(
             function (response) {
                 if (response.status < 200 || response.status >= 400) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
+                response.blob().then(function (data) {
+                    var file = new Blob([data], { type: 'application/octet-stream' });
+                    var header = response.headers.get("Content-Disposition");
+                    var filename = header.substring(21, header.length);
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveOrOpenBlob(file, filename);
+                    } else { // for Non-IE (chrome, firefox etc.)
+                        var a = document.createElement("a");
+                        document.body.appendChild(a);
+                        a.style = "display: none";
+                        a.href =  URL.createObjectURL(file);
+                        a.download = filename;
+                        a.click();
+                        URL.revokeObjectURL(a.href);
+                        a.remove();
+                    }
+                });
             }
         )
         .catch(function (err) {

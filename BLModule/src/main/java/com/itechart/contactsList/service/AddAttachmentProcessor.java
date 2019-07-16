@@ -1,6 +1,5 @@
 package com.itechart.contactsList.service;
 
-import com.itechart.contactsList.dao.AttachmentDAO;
 import com.itechart.contactsList.dao.impl.AttachmentDAOImpl;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -23,7 +22,8 @@ public class AddAttachmentProcessor {
         ServletFileUpload upload = new ServletFileUpload(factory);
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
-        String uploadPath = UPLOAD_DIRECTORY + uri.replaceAll("\\D", "");
+        long userId =  Long.valueOf(uri.replaceAll("\\D", ""));
+        String uploadPath = UPLOAD_DIRECTORY + userId;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();
@@ -34,7 +34,7 @@ public class AddAttachmentProcessor {
                 for (FileItem item : formItems) {
                     if (!item.isFormField()) {
                         String fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + modifyFileName(fileName);
+                        String filePath = uploadPath + File.separator + modifyFileName(fileName, userId);
                         File storeFile = new File(filePath);
                         item.write(storeFile);
                         System.out.println("File added: " + filePath);
@@ -46,9 +46,9 @@ public class AddAttachmentProcessor {
         }
     }
 
-    private String modifyFileName(String fileName) {
+    private String modifyFileName(String fileName, long userId) {
         AttachmentDAOImpl attachmentDAO = new AttachmentDAOImpl();
-        String newName = String.valueOf(attachmentDAO.create(fileName));
+        String newName = String.valueOf(attachmentDAO.create(fileName, userId));
         System.out.println(newName);
         return newName;
     }

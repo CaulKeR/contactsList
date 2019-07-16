@@ -25,5 +25,7 @@ insert into contact(first_name, surname, patronymic, birth_date, sex, nationalit
 CREATE TABLE `contacts_list`.`attachment` (
   `id` INTEGER(19) UNSIGNED AUTO_INCREMENT NOT NULL UNIQUE,
   `file_name` varchar(259) NOT NULL,
+  `userId` integer(10) NOT NULL,
+  `deleteDate` date default null,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,10 +1,6 @@
 function showFullContactInfoForm(id) {
     history.pushState({ prevUrl: window.location.href }, 'Full contact information', '/contactsList/contact/' + id);
-    hide("mainForm");
-    hide("createForm");
-    hide("editForm");
-    hide("attachmentsForm");
-    show("fullContactInfoForm");
+    hideAllExcept("fullContactInfoForm");
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
         headers: {

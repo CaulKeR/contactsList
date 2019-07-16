@@ -1,10 +1,6 @@
 function showAllContacts() {
     history.pushState({ prevUrl: window.location.href }, 'Contacts list', '/contactsList/contacts');
-    hide("createForm");
-    hide("fullContactInfoForm");
-    hide("editForm");
-    hide("attachmentsForm");
-    show("mainForm");
+    hideAllExcept("mainForm");
     fetch("/contactsList/api/contacts",{
         method: "GET",
         headers: {

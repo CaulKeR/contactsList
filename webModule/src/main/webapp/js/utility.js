@@ -1,8 +1,15 @@
-function show(form) {
-    document.getElementById(form).style.display = 'block';
-}
-function hide(form) {
-    document.getElementById(form).style.display = 'none';
+function hideAllExcept(form) {
+    var forms = ["mainForm", "editForm", "fullContactInfoForm", "createForm", "attachmentsForm"];
+    if (document.getElementById(form).style.display === 'block') {
+        return;
+    }
+    for (var i = 0; i < forms.length; i++) {
+        if (forms[i] === form) {
+            document.getElementById(form).style.display = 'block';
+        } else {
+            document.getElementById(forms[i]).style.display = 'none';
+        }
+    }
 }
 
 function selectAllCheckboxes(mainCheckbox, table) {
@@ -25,20 +32,4 @@ function selectCheckbox(mainCheckbox, table) {
             document.getElementById(mainCheckbox).checked = false;
         }
     }
-}
-
-function goBack() {
-    var prevUrl = window.history.state.prevUrl;
-    console.log(prevUrl);
-    switch (prevUrl) {
-        case '/contactsList/contacts' :
-            show(mainForm);
-            break;
-        case '/contactsList/contact/' :
-            show(fullContactInfoForm);
-            break;
-        default :
-            alert("GG");
-    }
-    window.history.back();
 }

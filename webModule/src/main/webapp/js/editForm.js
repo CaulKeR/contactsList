@@ -1,10 +1,6 @@
 function showEditForm(id) {
     history.pushState({ prevUrl: window.location.href }, 'Create contact', '/contactsList/contact/' + id);
-    hide("mainForm");
-    hide("fullContactInfoForm");
-    hide("createForm");
-    hide("attachmentsForm");
-    show("editForm");
+    hideAllExcept("editForm");
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
         headers: {

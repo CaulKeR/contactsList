@@ -1,10 +1,6 @@
 function showCreateForm() {
     history.pushState({ prevUrl: window.location.href }, 'Create contact', '/contactsList/contact');
-    hide("mainForm");
-    hide("fullContactInfoForm");
-    hide("editForm");
-    hide("attachmentsForm");
-    show("createForm");
+    hideAllExcept("createForm");
 }
 function createContact() {
     var contact = {

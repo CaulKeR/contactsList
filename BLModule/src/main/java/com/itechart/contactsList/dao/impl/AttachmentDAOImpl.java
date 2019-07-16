@@ -9,22 +9,24 @@ import java.sql.SQLException;
 
 public class AttachmentDAOImpl implements AttachmentDAO {
 
-    PreparedStatement createPs = null;
-    PreparedStatement getLastIdPs = null;
-    PreparedStatement getFileNamePs = null;
-    PreparedStatement deletePs = null;
+    private PreparedStatement createPs = null;
+    private PreparedStatement getLastIdPs = null;
+    private PreparedStatement getFileNamePs = null;
+    private PreparedStatement deletePs = null;
+    private PreparedStatement getUserIdPs = null;
 
     @Override
-    public long create(String fileName) {
+    public long create(String fileName, long userId) {
         Connection connection = null;
         long lastId = 0L;
         try {
             Connector connector = new Connector();
             connection = connector.getConnection();
             if (createPs == null) {
-                createPs = connection.prepareStatement("insert into attachment (file_name) values (?);");
+                createPs = connection.prepareStatement("insert into attachment (file_name, userId) values (?,?);");
             }
             createPs.setString(1, fileName);
+            createPs.setLong(2, userId);
             createPs.executeUpdate();
             if (getLastIdPs == null) {
                 getLastIdPs = connection.prepareStatement("select last_insert_id();");
@@ -102,5 +104,36 @@ public class AttachmentDAOImpl implements AttachmentDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public long getUserId(long id) {
+        Connection connection = null;
+        long userId = 0L;
+        try {
+            Connector connector = new Connector();
+            connection = connector.getConnection();
+            if (getUserIdPs == null) {
+                getUserIdPs = connection.prepareStatement("select userId from attachment where id = ? and deleteDate" +
+                        " is null;");
+            }
+            getUserIdPs.setLong(1, id);
+            ResultSet rs = getUserIdPs.executeQuery();
+            if (rs.next()) {
+                userId = rs.getLong("userId");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in AttachmentDAO getUserId");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException e) {
+                System.err.println("Error in AttachmentDAO getUserId");
+                e.printStackTrace();
+            }
+        }
+        return userId;
     }
 }
