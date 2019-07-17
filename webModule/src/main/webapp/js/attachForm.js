@@ -52,12 +52,12 @@ function downloadAttach(id) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.blob().then(function (data) {
-                    var file = new Blob([data], { type: 'application/octet-stream' });
                     var header = response.headers.get("Content-Disposition");
                     var filename = header.substring(21, header.length);
+                    var file = new Blob([data], { type: 'application/octet-stream' });
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
                         window.navigator.msSaveOrOpenBlob(file, filename);
-                    } else { // for Non-IE (chrome, firefox etc.)
+                    } else {
                         var a = document.createElement("a");
                         document.body.appendChild(a);
                         a.style = "display: none";

@@ -2,6 +2,7 @@ package com.itechart.contactsList.dao;
 
 import com.itechart.contactsList.dto.ContactDTO;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 
 public interface ContactDAO {
@@ -11,5 +12,6 @@ public interface ContactDAO {
     ContactDTO getContactById(long id);
     void update(ContactDTO contact);
     void delete(long id);
+    List<ContactDTO> searchContacts(ContactDTO contact);
 
 }

@@ -17,11 +17,8 @@ public class AttachmentDAOImpl implements AttachmentDAO {
 
     @Override
     public long create(String fileName, long userId) {
-        Connection connection = null;
         long lastId = 0L;
-        try {
-            Connector connector = new Connector();
-            connection = connector.getConnection();
+        try (Connection connection = new Connector().getConnection()) {
             if (createPs == null) {
                 createPs = connection.prepareStatement("insert into attachment (file_name, userId) values (?,?);");
             }
@@ -38,25 +35,14 @@ public class AttachmentDAOImpl implements AttachmentDAO {
         } catch (SQLException e) {
             System.err.println("Error in AttachmentDAO create");
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                System.err.println("Error in AttachmentDAO create");
-                e.printStackTrace();
-            }
         }
         return lastId;
     }
 
     @Override
     public String getFileName(long id) {
-        Connection connection = null;
         String fileName = null;
-        try {
-            Connector connector = new Connector();
-            connection = connector.getConnection();
+        try (Connection connection = new Connector().getConnection()) {
             if (getFileNamePs == null) {
                 getFileNamePs = connection.prepareStatement("select file_name from attachment where id = ? and deleteDate" +
                         " is null;");
@@ -69,24 +55,13 @@ public class AttachmentDAOImpl implements AttachmentDAO {
         } catch (SQLException e) {
             System.err.println("Error in AttachmentDAO getFileName");
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                System.err.println("Error in AttachmentDAO getFileName");
-                e.printStackTrace();
-            }
         }
         return fileName;
     }
 
     @Override
     public void delete(long id) {
-        Connection connection = null;
-        try {
-            Connector connector = new Connector();
-            connection = connector.getConnection();
+        try (Connection connection = new Connector().getConnection()) {
             if (deletePs == null) {
                 deletePs = connection.prepareStatement("update attachment set deleteDate = curdate() where id = ?;");
             }
@@ -95,24 +70,13 @@ public class AttachmentDAOImpl implements AttachmentDAO {
         } catch (SQLException e) {
             System.err.println("Error in AttachmentDAO delete");
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                System.err.println("Error in AttachmentDAO delete");
-                e.printStackTrace();
-            }
         }
     }
 
     @Override
     public long getUserId(long id) {
-        Connection connection = null;
         long userId = 0L;
-        try {
-            Connector connector = new Connector();
-            connection = connector.getConnection();
+        try (Connection connection = new Connector().getConnection()) {
             if (getUserIdPs == null) {
                 getUserIdPs = connection.prepareStatement("select userId from attachment where id = ? and deleteDate" +
                         " is null;");
@@ -125,14 +89,6 @@ public class AttachmentDAOImpl implements AttachmentDAO {
         } catch (SQLException e) {
             System.err.println("Error in AttachmentDAO getUserId");
             e.printStackTrace();
-        } finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                System.err.println("Error in AttachmentDAO getUserId");
-                e.printStackTrace();
-            }
         }
         return userId;
     }

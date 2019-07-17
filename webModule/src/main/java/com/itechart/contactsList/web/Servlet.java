@@ -35,8 +35,6 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        response.setCharacterEncoding("UTF-8");
-        response.addHeader("Access-Control-Allow-Origin", "*");
         UrlMapper urlMapper = new UrlMapper();
         urlMapper.processRequestByUri(request.getMethod() + request.getRequestURI()).execute(request, response);
     }

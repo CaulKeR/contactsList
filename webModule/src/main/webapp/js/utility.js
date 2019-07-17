@@ -33,3 +33,8 @@ function selectCheckbox(mainCheckbox, table) {
         }
     }
 }
+
+window.addEventListener('popstate', function ()
+{
+    showAllContacts();
+});

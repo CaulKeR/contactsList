@@ -13,6 +13,7 @@ public class ContactById implements Executable {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
             ContactByIdProcessor processor = new ContactByIdProcessor();
             ObjectMapper mapper = new ObjectMapper();

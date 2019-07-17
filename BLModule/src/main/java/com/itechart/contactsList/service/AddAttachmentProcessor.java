@@ -1,6 +1,7 @@
 package com.itechart.contactsList.service;
 
 import com.itechart.contactsList.dao.impl.AttachmentDAOImpl;
+import com.itechart.contactsList.utility.Constants;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -10,7 +11,6 @@ import java.util.List;
 
 public class AddAttachmentProcessor {
 
-    private final String UPLOAD_DIRECTORY = "D:\\attachments\\";
     private final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
     private final int MAX_FILE_SIZE = 1024 * 1024 * 40; // 40MB
     private final int MAX_REQUEST_SIZE = 1024 * 1024 * 50; // 50MB
@@ -23,7 +23,7 @@ public class AddAttachmentProcessor {
         upload.setFileSizeMax(MAX_FILE_SIZE);
         upload.setSizeMax(MAX_REQUEST_SIZE);
         long userId =  Long.valueOf(uri.replaceAll("\\D", ""));
-        String uploadPath = UPLOAD_DIRECTORY + userId;
+        String uploadPath = Constants.attachDir + userId;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdir();

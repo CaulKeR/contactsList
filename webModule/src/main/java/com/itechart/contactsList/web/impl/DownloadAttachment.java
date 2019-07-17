@@ -14,8 +14,8 @@ public class DownloadAttachment implements Executable {
         try (PrintWriter out = response.getWriter()) {
             long fileId = Long.valueOf(request.getRequestURI().replaceAll("\\D", ""));
             DownloadAttachmentProcessor processor = new DownloadAttachmentProcessor();
-            String fileName = processor.run(fileId, out);
-            response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.addHeader("Content-Disposition", "attachment; filename=" + processor.getFileName(fileId));
+            out.write(processor.run(fileId));
         } catch (IOException e) {
             e.printStackTrace();
         }

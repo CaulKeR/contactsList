@@ -14,6 +14,7 @@ public class MainContactsInfo implements Executable {
     public void execute(HttpServletRequest request, HttpServletResponse response){
         try {
             response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             MainContactsInfoProcessor processor = new MainContactsInfoProcessor();
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

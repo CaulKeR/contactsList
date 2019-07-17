@@ -3,32 +3,27 @@ package com.itechart.contactsList.service;
 import com.itechart.contactsList.dao.impl.AttachmentDAOImpl;
 import com.itechart.contactsList.utility.Constants;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 public class DownloadAttachmentProcessor {
 
-    public String run(long fileId, PrintWriter out) {
-        BufferedReader reader = null;
+    public String run(long fileId) {
         AttachmentDAOImpl attachmentDAO = new AttachmentDAOImpl();
-        try {
-            long userId = attachmentDAO.getUserId(fileId);
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(Constants.attachDir + userId +
-                        File.separator + fileId), StandardCharsets.UTF_8));
+        StringBuilder result = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    Constants.attachDir + attachmentDAO.getUserId(fileId) + File.separator + fileId)))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                out.write(line + "\n");
+                result.append(line);
+                result.append('\n');
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+        return result.toString();
+    }
+
+    public String getFileName(long fileId){
+        AttachmentDAOImpl attachmentDAO = new AttachmentDAOImpl();
         return attachmentDAO.getFileName(fileId);
     }
 }
