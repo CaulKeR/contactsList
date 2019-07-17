@@ -6,20 +6,17 @@ import java.io.*;
 
 public class DownloadAttachmentProcessor {
 
-    public String run(long fileId) {
+    public void run(long fileId, PrintWriter out) {
         AttachmentDAOImpl attachmentDAO = new AttachmentDAOImpl();
-        StringBuilder result = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
-                    Constants.attachDir + attachmentDAO.getUserId(fileId) + File.separator + fileId)))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-                result.append('\n');
+        try (FileInputStream reader = new FileInputStream(Constants.attachDir + attachmentDAO.getUserId(fileId) +
+                    File.separator + fileId)) {
+            int temp;
+            while ((temp = reader.read()) != -1) {
+                out.write(temp);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result.toString();
     }
 
     public String getFileName(long fileId){
