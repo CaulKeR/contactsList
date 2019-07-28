@@ -4,7 +4,8 @@ function showEditForm(id) {
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'charset': 'utf-8',
         },
     })
         .then(
@@ -14,8 +15,13 @@ function showEditForm(id) {
                 }
                 response.json().then(function (contact) {
                     var template = document.getElementById("dynamicContactEditor").innerHTML;
-                    console.log(contact);
                     document.getElementById("editor").innerHTML = Mustache.to_html(template, contact);
+                    if (contact.customAvatar === true) {
+                        console.log(id);
+                        document.getElementById("editFormAvatar").src = "http://localhost:8080/contactsList/api/contact/" + id + "/photo";
+                    } else {
+                        document.getElementById("editFormAvatar").src = "/contactsList/images/defaultAvatar.png";
+                    }
                 });
             }
         )
@@ -24,6 +30,7 @@ function showEditForm(id) {
         });
 }
 function editContact(id) {
+    console.log(document.getElementById("editCurrentWorkplace").value);
     var contact = {
         id: id,
         firstName: document.getElementById("editFirstName").value,
@@ -45,32 +52,20 @@ function editContact(id) {
             apartment: document.getElementById("editApartment").value,
             postcode: document.getElementById("editPostcode").value
         }};
-    console.log(JSON.stringify(contact));
-    console.log(contact);
-    fetch("/contactsList/api/contact/" + id,{
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    })
-        .then(
-            function (response) {
-                if (response.status < 200 || response.status >= 400) {
-                    console.log('Looks like there was a problem. Status Code: ' + response.status);
-                }
-                response.json().then(function (data) {
-                    contact = JSON.parse(data);
-                    console.log(contact);
-                });
-            }
-        )
-        .catch(function (err) {
-            console.log('Fetch Error :-S', err);
-        });
+    var formData = new FormData();
+    formData.append('file', document.getElementById("avatar").files[0]);
+    fetch("/contactsList/api/contact/" + id + "/photo",
+        {
+            method: "POST",
+            body: formData
+        })
+        .then(function(res){
+            return res.statusText;});
     fetch("/contactsList/api/contact/" + id,
         {
             method: "PUT",
             headers: {
+                'charset': 'utf-8',
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'mode': 'cors',
@@ -81,6 +76,6 @@ function editContact(id) {
         })
         .then(function(res){
             alert("Contact edited!");
-            showAllContacts();
+            showFullContactInfoForm(id);
             return res.statusText;})
 }

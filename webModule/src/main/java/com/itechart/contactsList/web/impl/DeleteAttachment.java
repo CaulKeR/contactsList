@@ -9,7 +9,6 @@ public class DeleteAttachment implements Executable {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        DeleteAttachmentProcessor processor = new DeleteAttachmentProcessor();
-        processor.run(Long.valueOf(request.getRequestURI().replaceAll("\\D", "")));
+        new DeleteAttachmentProcessor().run(Long.parseLong(request.getRequestURI().replaceAll("\\D", "")));
     }
 }

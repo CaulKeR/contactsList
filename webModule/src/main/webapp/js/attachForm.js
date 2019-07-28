@@ -74,3 +74,7 @@ function downloadAttach(id) {
             console.log('Fetch Error :-S', err);
         });
 }
+
+function editAttach(id) {
+    console.log("Editing attach: " + id);
+}

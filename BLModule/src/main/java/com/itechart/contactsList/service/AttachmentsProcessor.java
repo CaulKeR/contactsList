@@ -2,6 +2,8 @@ package com.itechart.contactsList.service;
 
 import com.itechart.contactsList.dao.impl.AttachmentDAOImpl;
 import com.itechart.contactsList.dto.AttachmentDTO;
+import com.itechart.contactsList.utility.Constants;
+
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public class AttachmentsProcessor {
 
     public List<AttachmentDTO> run(long userId) {
         ArrayList<AttachmentDTO> list = new ArrayList<>();
-        File[] listOfFiles = new File("D:\\attachments\\" + userId).listFiles();
+        File[] listOfFiles = new File(Constants.attachDir + userId).listFiles();
         if (listOfFiles != null) {
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {

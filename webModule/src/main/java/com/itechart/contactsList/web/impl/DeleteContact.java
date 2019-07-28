@@ -9,7 +9,6 @@ public class DeleteContact implements Executable {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
-        DeleteContactProcessor processor = new DeleteContactProcessor();
-        processor.run(Long.valueOf(request.getRequestURI().replaceAll("\\D", "")));
+        new DeleteContactProcessor().run(Long.parseLong(request.getRequestURI().replaceAll("\\D", "")));
     }
 }

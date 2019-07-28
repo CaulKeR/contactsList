@@ -13,13 +13,12 @@ public class Attachments implements Executable {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response){
         try {
-            AttachmentsProcessor processor = new AttachmentsProcessor();
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            response.getWriter().write(mapper.writeValueAsString(processor.run(Long.valueOf(request.getRequestURI()
-                            .replaceAll("\\D", "")))));
+            response.getWriter().write(mapper.writeValueAsString(new AttachmentsProcessor().run(Long.parseLong(request
+                        .getRequestURI().replaceAll("\\D", "")))));
         } catch (IOException e) {
             e.printStackTrace();
         }

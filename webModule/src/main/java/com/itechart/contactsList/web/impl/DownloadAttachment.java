@@ -12,7 +12,7 @@ public class DownloadAttachment implements Executable {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try (PrintWriter out = response.getWriter()) {
-            long fileId = Long.valueOf(request.getRequestURI().replaceAll("\\D", ""));
+            long fileId = Long.parseLong(request.getRequestURI().replaceAll("\\D", ""));
             DownloadAttachmentProcessor processor = new DownloadAttachmentProcessor();
             response.addHeader("Content-Disposition", "attachment; filename=" + processor.getFileName(fileId));
             processor.run(fileId, out);

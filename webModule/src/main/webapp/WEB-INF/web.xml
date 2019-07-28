@@ -9,6 +9,10 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
+  <listener>
+    <listener-class>com.itechart.contactsList.service.QuartzListener</listener-class>
+  </listener>
+
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/Users</res-ref-name>

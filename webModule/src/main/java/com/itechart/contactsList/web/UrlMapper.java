@@ -21,10 +21,17 @@ public class UrlMapper {
         executors.put(Pattern.compile("POST/contactsList/api/contact/\\d+/attachments"), new AddAttachment());
         executors.put(Pattern.compile("DELETE/contactsList/api/attachment/\\d+"), new DeleteAttachment());
         executors.put(Pattern.compile("GET/contactsList/api/attachment/\\d+"), new DownloadAttachment());
+        executors.put(Pattern.compile("POST/contactsList/api/search"), new SearchContacts());
+        executors.put(Pattern.compile("POST/contactsList/api/contact/\\d+/photo"), new UploadAvatar());
+        executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/photo"), new GetAvatar());
+        executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/mail"), new GetEmails());
+        executors.put(Pattern.compile("POST/contactsList/api/mail"), new SendEmail());
+        executors.put(Pattern.compile("GET/contactsList/api/mail/templates"), new GetTemplates());
     }
 
     public Executable processRequestByUri(String uri) {
         Iterator iterator = executors.entrySet().iterator();
+        System.out.println(uri);
         while (iterator.hasNext()) {
             Map.Entry pair = (Map.Entry) iterator.next();
             if (((Pattern) pair.getKey()).matcher(uri).matches()){

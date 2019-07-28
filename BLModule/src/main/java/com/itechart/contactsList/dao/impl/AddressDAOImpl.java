@@ -3,6 +3,7 @@ package com.itechart.contactsList.dao.impl;
 import com.itechart.contactsList.dao.AddressDAO;
 import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.utility.Connector;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,25 +11,15 @@ import java.sql.SQLException;
 
 public class AddressDAOImpl implements AddressDAO {
 
-    private PreparedStatement create = null;
-    private PreparedStatement getLastId = null;
-    private PreparedStatement getAddressById = null;
-    private PreparedStatement update = null;
-    private PreparedStatement getAddressIdByContactId = null;
-
     @Override
     public long create(AddressDTO address) {
         long lastId = 0L;
         try (Connection connection = new Connector().getConnection()) {
-            if (create == null) {
-                create = connection.prepareStatement("insert into address (country, locality, street, house, apartment," +
-                        "postcode) values (?, ?, ?, ?, ?, ?);");
-            }
+            PreparedStatement create = connection.prepareStatement("insert into address (country, locality, street," +
+                    " house, apartment, postcode) values (?, ?, ?, ?, ?, ?);");
             psSetter(create, address);
             create.executeUpdate();
-            if (getLastId == null) {
-                getLastId = connection.prepareStatement("select last_insert_id();");
-            }
+            PreparedStatement getLastId = connection.prepareStatement("select last_insert_id();");
             ResultSet rs = getLastId.executeQuery();
             rs.next();
             lastId = rs.getLong("LAST_INSERT_ID()");
@@ -43,9 +34,8 @@ public class AddressDAOImpl implements AddressDAO {
     public AddressDTO getAddressById(long id) {
         AddressDTO address = null;
         try (Connection connection = new Connector().getConnection()) {
-            if (getAddressById == null) {
-                getAddressById = connection.prepareStatement("select * from address where id = ?;");
-            }
+            PreparedStatement getAddressById = connection.prepareStatement("select * from address where id = ?;");
+
             getAddressById.setLong(1, id);
             ResultSet rs = getAddressById.executeQuery();
             rs.next();
@@ -62,10 +52,8 @@ public class AddressDAOImpl implements AddressDAO {
     @Override
     public void update(AddressDTO address) {
         try (Connection connection = new Connector().getConnection()) {
-            if (update == null) {
-                update = connection.prepareStatement("update address set country = ?, locality = ?, street = ?, house = ?," +
-                        " apartment = ?, postcode = ? where id = ?;");
-            }
+            PreparedStatement update = connection.prepareStatement("update address set country = ?, locality = ?," +
+                    " street = ?, house = ?, apartment = ?, postcode = ? where id = ?;");
             psSetter(update, address);
             update.setLong(7, address.getId());
             update.executeUpdate();
@@ -78,10 +66,8 @@ public class AddressDAOImpl implements AddressDAO {
     @Override
     public long getAddressIdByContactId(long id) {
         try (Connection connection = new Connector().getConnection()) {
-            if (getAddressIdByContactId == null) {
-                getAddressIdByContactId = connection.prepareStatement("select address.id from contact, address where" +
-                        " contact.id = ? and contact.address_id = address.id;");
-            }
+            PreparedStatement getAddressIdByContactId = connection.prepareStatement("select address.id from contact," +
+                    " address where contact.id = ? and contact.address_id = address.id;");
             getAddressIdByContactId.setLong(1, id);
             ResultSet rs = getAddressIdByContactId.executeQuery();
             rs.next();

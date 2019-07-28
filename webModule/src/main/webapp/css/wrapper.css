@@ -2,6 +2,7 @@ html,
 body {
     height: 100%;
     margin: 0;
+    background-image: url(/contactsList/images/siteBackground.png);
 }
 .wrapper {
     display: flex;

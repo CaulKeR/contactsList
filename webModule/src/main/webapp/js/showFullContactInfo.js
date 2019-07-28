@@ -4,7 +4,8 @@ function showFullContactInfoForm(id) {
     fetch("/contactsList/api/contact/" + id,{
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Charset': 'UTF-8'
         },
     })
         .then(
@@ -16,6 +17,11 @@ function showFullContactInfoForm(id) {
                     var contact = data;
                     var template = document.getElementById("dynamicContact").innerHTML;
                     document.getElementById("contact").innerHTML = Mustache.to_html(template, contact);
+                    if (contact.customAvatar === true) {
+                        document.getElementById("fullContactInfoAvatar").src = "http://localhost:8080/contactsList/api/contact/" + id + "/photo";
+                    } else {
+                        document.getElementById("fullContactInfoAvatar").src = "/contactsList/images/defaultAvatar.png";
+                    }
                 });
             }
         )

@@ -1,6 +1,7 @@
 table {
     margin: 10px auto 10px;
     border-collapse: collapse;
+    background-color: white;
 }
 #mainForm input {
     cursor: pointer;
@@ -43,4 +44,18 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#searcher td {
+    text-align: center;
+    min-width: 110px;
+}
+#searcher input {
+    cursor: text;
+    width: 130px;
+}
+#searcher tr:hover {
+    background-color: #f1f1f4;
+}
+#searcher table {
+    margin: 0 0 0 0;
 }

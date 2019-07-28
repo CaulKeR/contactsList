@@ -14,7 +14,6 @@ public class EditContact implements Executable {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response){
         try {
-            EditContactProcessor processor = new EditContactProcessor();
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             String tempLine;
@@ -23,7 +22,7 @@ public class EditContact implements Executable {
                 sb.append(tempLine);
             }
             System.out.println(sb.toString());
-            processor.run(mapper.readValue(sb.toString(), ContactDTO.class));
+            new EditContactProcessor().run(mapper.readValue(sb.toString(), ContactDTO.class));
         } catch (IOException e) {
             e.printStackTrace();
         }

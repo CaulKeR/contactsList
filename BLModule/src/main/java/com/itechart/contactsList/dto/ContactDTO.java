@@ -1,7 +1,6 @@
 package com.itechart.contactsList.dto;
 
 import com.fasterxml.jackson.annotation.*;
-
 import java.sql.Date;
 
 public class ContactDTO {
@@ -24,6 +23,22 @@ public class ContactDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deleteDate;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date date1;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date date2;
+
+    private boolean isCustomAvatar;
+
+    public ContactDTO(long id, String firstName, String surname, String patronymic, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.email = email;
+    }
+
     public void print() {
         System.out.println("Id:" + id);
         System.out.println("First name:" + firstName);
@@ -40,6 +55,10 @@ public class ContactDTO {
     }
 
     public ContactDTO() {}
+
+    public ContactDTO(String email) {
+        this.email = email;
+    }
 
     public ContactDTO(long id, String firstName, String surname, String patronymic, Date birthDate, String sex,
                       String nationality, String familyStatus, String website, String email, String currentWorkplace,
@@ -74,6 +93,22 @@ public class ContactDTO {
         this.surname = surname;
         this.patronymic = patronymic;
         this.birthDate = birthDate;
+        this.sex = sex;
+        this.nationality = nationality;
+        this.familyStatus = familyStatus;
+        this.website = website;
+        this.email = email;
+        this.currentWorkplace = currentWorkplace;
+        this.address = address;
+    }
+
+    public ContactDTO(String firstName, String surname, String patronymic, Date date1, Date date2, String sex, String nationality,
+                      String familyStatus, String website, String email, String currentWorkplace, AddressDTO address) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.patronymic = patronymic;
+        this.date1 = date1;
+        this.date2 = date2;
         this.sex = sex;
         this.nationality = nationality;
         this.familyStatus = familyStatus;
@@ -185,5 +220,29 @@ public class ContactDTO {
 
     public void setDeleteDate(Date deleteDate) {
         this.deleteDate = deleteDate;
+    }
+
+    public Date getDate1() {
+        return date1;
+    }
+
+    public void setDate1(Date date1) {
+        this.date1 = date1;
+    }
+
+    public Date getDate2() {
+        return date2;
+    }
+
+    public void setDate2(Date date2) {
+        this.date2 = date2;
+    }
+
+    public boolean isCustomAvatar() {
+        return isCustomAvatar;
+    }
+
+    public void setCustomAvatar(boolean customAvatar) {
+        isCustomAvatar = customAvatar;
     }
 }

@@ -15,11 +15,10 @@ public class ContactById implements Executable {
         try {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json");
-            ContactByIdProcessor processor = new ContactByIdProcessor();
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            response.getWriter().write(mapper.writeValueAsString(processor.run(Long.valueOf(request.getRequestURI()
-                        .replaceAll("\\D", "")))));
+            response.getWriter().write(mapper.writeValueAsString(new ContactByIdProcessor().run(Long.parseLong(request
+                        .getRequestURI().replaceAll("\\D", "")))));
         } catch (IOException e) {
             e.printStackTrace();
         }
