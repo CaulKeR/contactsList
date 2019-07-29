@@ -27,5 +27,6 @@ CREATE TABLE `contacts_list`.`attachment` (
   `file_name` varchar(259) NOT NULL,
   `userId` integer(10) NOT NULL,
   `deleteDate` date default null,
+  `comment` varchar(300) default '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

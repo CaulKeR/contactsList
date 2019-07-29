@@ -1,8 +1,9 @@
 package com.itechart.contactsList.dao.impl;
 
 import com.itechart.contactsList.dao.AttachmentDAO;
+import com.itechart.contactsList.dto.AttachmentDTO;
+import com.itechart.contactsList.dto.ContactDTO;
 import com.itechart.contactsList.utility.Connector;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,5 +79,38 @@ public class AttachmentDAOImpl implements AttachmentDAO {
             e.printStackTrace();
         }
         return userId;
+    }
+
+    @Override
+    public AttachmentDTO getAttachmentById(long id) {
+        AttachmentDTO attachment = new AttachmentDTO();
+        try (Connection connection = new Connector().getConnection()) {
+            PreparedStatement getByIdPs = connection.prepareStatement("select * from attachment where id = ? and" +
+                    " deleteDate is null;");
+            getByIdPs.setLong(1, id);
+            ResultSet rs = getByIdPs.executeQuery();
+            rs.next();
+            attachment = new AttachmentDTO(rs.getLong("id"), rs.getString("file_name"),
+                    rs.getLong("userId"), rs.getString("comment"));
+        } catch (SQLException e) {
+            System.err.println("Error in DAO getAttachmentById");
+            e.printStackTrace();
+        }
+        return attachment;
+    }
+
+    @Override
+    public void update(AttachmentDTO attachment) {
+        try (Connection connection = new Connector().getConnection()) {
+            PreparedStatement updatePs = connection.prepareStatement("update attachment set file_name = ?, comment = ? " +
+                        "where id = ?;");
+            updatePs.setString(1, attachment.getTitle() + "." +attachment.getType());
+            updatePs.setString(2, attachment.getComment());
+            updatePs.setLong(3, attachment.getId());
+            updatePs.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error in DAO update");
+            e.printStackTrace();
+        }
     }
 }

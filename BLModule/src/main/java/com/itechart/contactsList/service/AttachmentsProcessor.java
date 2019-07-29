@@ -3,7 +3,6 @@ package com.itechart.contactsList.service;
 import com.itechart.contactsList.dao.impl.AttachmentDAOImpl;
 import com.itechart.contactsList.dto.AttachmentDTO;
 import com.itechart.contactsList.utility.Constants;
-
 import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class AttachmentsProcessor {
             for (int i = 0; i < listOfFiles.length; i++) {
                 if (listOfFiles[i].isFile()) {
                     AttachmentDAOImpl attachmentDAO = new AttachmentDAOImpl();
-                    long id = Long.valueOf(listOfFiles[i].getName());
+                    long id = Long.parseLong(listOfFiles[i].getName());
                     String fileName = attachmentDAO.getFileName(id);
                     if (fileName != null) {
                         AttachmentDTO attachment = new AttachmentDTO(id, userId, fileName,listOfFiles[i].length(),

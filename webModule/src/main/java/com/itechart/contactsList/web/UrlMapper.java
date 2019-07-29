@@ -27,6 +27,8 @@ public class UrlMapper {
         executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/mail"), new GetEmails());
         executors.put(Pattern.compile("POST/contactsList/api/mail"), new SendEmail());
         executors.put(Pattern.compile("GET/contactsList/api/mail/templates"), new GetTemplates());
+        executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/attachment/\\d+"), new GetAttachmentInfo());
+        executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+/attachment/\\d+"), new EditAttachment());
     }
 
     public Executable processRequestByUri(String uri) {
