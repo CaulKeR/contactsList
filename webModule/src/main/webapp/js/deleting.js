@@ -55,3 +55,33 @@ function deleteAttachs(id) {
         showAllAttachments(id);
     }
 }
+
+function deletePhone(id) {
+    if (confirm("Delete this phone?")) {
+        fetch("/contactsList/api/phone/" + id,{
+            method: "DELETE",
+        })
+            .then(function(res){
+                showFullContactInfoForm(document.getElementById("mainPhoneCheckbox").value);
+                return res.statusText;})
+    }
+}
+
+function deletePhones() {
+    if (confirm("Delete selected phones?")) {
+        let userId = document.getElementById("mainPhoneCheckbox").value;
+        let boxes = document.getElementById("mainPhoneTable").getElementsByTagName("input");
+        for (i = 0; i < boxes.length; i++) {
+            if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value != 'on') {
+                fetch("/contactsList/api/phone/" + boxes[i].value, {
+                    method: "DELETE",
+                })
+                    .then(function (res) {
+                        return res.statusText;
+                    })
+            }
+        }
+        alert("All selected phones are deleted!");
+        showFullContactInfoForm(userId);
+    }
+}

@@ -3,7 +3,7 @@ function showCreateForm() {
     hideAllExcept("createForm");
 }
 function createContact() {
-    var contact = {
+    let contact = {
         firstName: document.getElementById("firstName").value,
         surname: document.getElementById("surname").value,
         patronymic: document.getElementById("patronymic").value,

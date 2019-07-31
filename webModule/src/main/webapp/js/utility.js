@@ -1,6 +1,6 @@
 function hideAllExcept(form) {
     var forms = ["mainForm", "editForm", "fullContactInfoForm", "createForm", "attachmentsForm", "searcher", "emailForm",
-        "editAttachForm"];
+        "editAttachForm", "editPhoneForm", "createPhoneForm"];
     if (document.getElementById(form).style.display === 'block') {
         return;
     }

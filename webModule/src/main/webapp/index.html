@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/attachForm.js"></script>
     <script type="text/javascript" src="js/emailForm.js"></script>
     <script type="text/javascript" src="js/editAttachForm.js"></script>
+    <script type="text/javascript" src="js/phoneForm.js"></script>
     <style>
         @import "css/header.css";
         @import "css/footer.css";
@@ -23,9 +24,10 @@
         @import "css/wrapper.css";
         @import "css/attachments.css";
         @import "css/emailForm.css";
+        @import "css/fullContactInfoForm.css";
     </style>
-    <script type="text/javascript">window.onload = showAllContacts;</script>
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
+    <script type="text/javascript">window.onload = showAllContacts;</script>
 </head>
 <body>
 <div class="wrapper">
@@ -169,13 +171,14 @@
                 <input type="text" id="apartment" placeholder="Enter apartment here">
                 <label for="postcode">Postcode</label>
                 <input type="text" id="postcode" placeholder="Enter postcode here">
-                <button type="submit" class="button" onclick="createContact()">Submit</button>
+                <button type="submit" class="button" onclick="showCreateContactForm()">Submit</button>
                 <button type="reset" class="button">Reset</button>
                 <button class="button" onclick="showAllContacts()">Cancel</button>
             </div>
         </div>
         <div id="fullContactInfoForm">
             <script type="text/template" id="dynamicContact">
+                <p id="hiddenContactId" hidden>{{id}}</p>
                 <img id="fullContactInfoAvatar" src="" alt="avatar"/>
                 <p>First Name: {{firstName}}</p>
                 <p>Surname: {{surname}}</p>
@@ -198,6 +201,39 @@
                 <button class="button" onclick="showAllContacts()">Cancel</button>
             </script>
             <div id="contact"></div>
+            <script type="text/template" id="dynamicPhoneTable">
+                <tr>
+                    <th><input id="mainPhoneCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainPhoneCheckbox',
+                                    'mainPhoneTable')">Phone
+                    </th>
+                    <th>Description</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+                {{#.}}
+                <tr>
+                    <td><input type="checkbox" value={{id}}
+                               onclick="selectCheckbox('mainPhoneCheckbox', 'mainPhoneTable');">
+                        +{{countryCode}}({{operatorsCode}}){{phoneNumber}}
+                    </td>
+                    <td>{{type}}</td>
+                    <td>{{comment}}</td>
+                    <td>
+                        <div id=phoneImages">
+                            <img src="/contactsList/images/edit.png" alt="edit" onclick="showPhoneEditForm({{id}});"/>
+                            <img src="/contactsList/images/delete.png" alt="delete" onclick="deletePhone({{id}});"/>
+                        </div>
+                    </td>
+                </tr>
+                {{/.}}
+            </script>
+            <table id="mainPhoneTable" style="border:1px solid black">
+                <tbody></tbody>
+            </table>
+            <div class="majorPhoneButtons">
+                <button type="button" class="button" onclick="showCreatePhoneForm()">Create new phone</button>
+                <button type="button" class="button" onclick="deletePhones()">Delete selected phones</button>
+            </div>
         </div>
         <div id="editForm">
             <script type="text/template" id="dynamicContactEditor">
@@ -272,7 +308,8 @@
                     <td>
                         <div id="atttachImages">
                             <img src="/contactsList/images/edit.png" alt="edit" onclick="showEditAttachForm({{id}});"/>
-                            <img src="/contactsList/images/download.png" alt="download" onclick="downloadAttach({{id}});"/>
+                            <img src="/contactsList/images/download.png" alt="download"
+                                 onclick="downloadAttach({{id}});"/>
                             <img src="/contactsList/images/delete.png" alt="delete" onclick="deleteAttach({{id}});"/>
                         </div>
                     </td>
@@ -343,6 +380,52 @@
                 </p>
             </script>
             <div id="attachEditor"></div>
+        </div>
+        <div id="editPhoneForm">
+            <script type="text/template" id="dynamicPhoneEditor">
+                <p id="hiddenPhoneUserId" hidden>{{contactId}}</p>
+                <p><label for="editCountryCode">Country code</label>
+                    <input type="number" id="editCountryCode" value={{countryCode}}></p>
+                <p><label for="editOperatorsCode">Operator's code</label>
+                    <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
+                <p><label for="editPhoneNumber">Phone number</label>
+                    <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
+                <p><label>Type</label>
+                    <fieldset id="phoneTypeEditGroup">
+                <p><input type="radio" name="phoneTypeEditGroup" id="editHome">Home</p>
+                <p><input type="radio" name="phoneTypeEditGroup" id="editMobile">Mobile</p>
+                </fieldset></p>
+                <p><label for="phoneComment">Comment
+                    <textarea id="phoneComment">{{comment}}</textarea>
+                <p>
+                    <button class="button" onclick="editPhone({{id}});">Submit</button>
+                    <button class="button" type="reset">Reset</button>
+                    <button class="button" onclick="showFullContactInfoForm({{contactId}});">Cancel</button>
+                </p>
+            </script>
+            <div id="phoneEditor"></div>
+        </div>
+        <div id="createPhoneForm">
+            <div id="phoneCreator">
+                <p id="contactId" hidden></p>
+                <label for="countryCode">Country code</label>
+                <input type="number" id="countryCode" placeholder="Enter country here">
+                <label for="operatorsCode">Operator's code</label>
+                <input type="number" id="operatorsCode" placeholder="Enter operator's code here">
+                <label for="phoneNumber">Phone number</label>
+                <input type="number" id="phoneNumber" placeholder="Enter phone number here">
+                <label>Type</label>
+                <fieldset id="phoneTypeCreateGroup">
+                    <p><input type="radio" id="home" name="phoneTypeCreateGroup">Home</p>
+                    <p><input type="radio" id="mobile" name="phoneTypeCreateGroup">Mobile</p>
+                </fieldset>
+                <label for="phoneCreateComment">Comment
+                    <textarea id="phoneCreateComment"></textarea>
+                    <button type="submit" class="button" onclick="createPhone()">Submit</button>
+                    <button type="reset" class="button">Reset</button>
+                    <button class="button" onclick="showAllContacts()">Cancel</button>
+                </label>
+            </div>
         </div>
     </div>
     <div class="footer">

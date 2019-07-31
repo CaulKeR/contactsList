@@ -1,13 +1,10 @@
 package com.itechart.contactsList.web.impl;
 
 import com.itechart.contactsList.service.GetAvatarProcessor;
-import com.itechart.contactsList.utility.Constants;
 import com.itechart.contactsList.web.Executable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class GetAvatar implements Executable {
     @Override

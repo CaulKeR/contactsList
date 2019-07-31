@@ -7,11 +7,6 @@ fieldset {
     margin: 0;
     padding: 0;
 }
-#fullContactInfoForm img {
-    width: 200px;
-    height: 200px;
-    cursor: default;
-}
 #editForm img {
     width: 200px;
     height: 200px;

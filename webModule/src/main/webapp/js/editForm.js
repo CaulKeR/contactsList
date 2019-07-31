@@ -30,7 +30,6 @@ function showEditForm(id) {
         });
 }
 function editContact(id) {
-    console.log(document.getElementById("editCurrentWorkplace").value);
     var contact = {
         id: id,
         firstName: document.getElementById("editFirstName").value,

@@ -1,0 +1,52 @@
+#fullContactInfoForm p {
+    cursor: default;
+}
+#fullContactInfoAvatar{
+    width: 200px;
+    height: 200px;
+    cursor: default;
+}
+table {
+    margin: 10px auto 10px;
+    border-collapse: collapse;
+    background-color: white;
+    cursor: default;
+}
+#mainPhoneCheckbox {
+    float: left;
+}
+#mainPhoneTable input {
+    cursor: pointer;
+}
+th {
+    padding: 3px;
+    border: 1px solid black;
+    text-align: center;
+    background: #b0e0e6;
+    height: 32px;
+}
+td {
+    text-align: left;
+    padding: 3px;
+    border: 1px solid black;
+}
+tr:nth-child(2n + 1) {
+    background: #f1f1f4;
+}
+tr:hover {
+    background-color: #d5e6a2;
+}
+.images img {
+    display: block;
+}
+#phoneImages img {
+    padding: 4px;
+    width: 20px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+.majorPhoneButtons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

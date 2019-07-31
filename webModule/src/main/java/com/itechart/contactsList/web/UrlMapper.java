@@ -29,6 +29,11 @@ public class UrlMapper {
         executors.put(Pattern.compile("GET/contactsList/api/mail/templates"), new GetTemplates());
         executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/attachment/\\d+"), new GetAttachmentInfo());
         executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+/attachment/\\d+"), new EditAttachment());
+        executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/phones"), new GetPhones());
+        executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+/phone/\\d+"), new GetPhone());
+        executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+/phone/\\d+"), new EditPhone());
+        executors.put(Pattern.compile("POST/contactsList/api/contact/\\d+/phone"), new CreatePhone());
+        executors.put(Pattern.compile("DELETE/contactsList/api/phone/\\d+"), new DeletePhone());
     }
 
     public Executable processRequestByUri(String uri) {

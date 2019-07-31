@@ -102,8 +102,9 @@ public class ContactDTO {
         this.address = address;
     }
 
-    public ContactDTO(String firstName, String surname, String patronymic, Date date1, Date date2, String sex, String nationality,
-                      String familyStatus, String website, String email, String currentWorkplace, AddressDTO address) {
+    public ContactDTO(String firstName, String surname, String patronymic, Date date1, Date date2, String sex,
+                      String nationality, String familyStatus, String website, String email, String currentWorkplace,
+                      AddressDTO address) {
         this.firstName = firstName;
         this.surname = surname;
         this.patronymic = patronymic;

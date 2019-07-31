@@ -28,4 +28,26 @@ function showFullContactInfoForm(id) {
         .catch(function (err) {
             console.log('Fetch Error :-S', err);
         });
+    fetch("/contactsList/api/contact/" + id + "/phones",{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            'charset': 'utf-8'
+        },
+    })
+        .then(
+            function (response) {
+                if (response.status < 200 || response.status >= 400) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                }
+                response.json().then(function (phones) {
+                    let template = document.getElementById("dynamicPhoneTable").innerHTML;
+                    document.getElementById("mainPhoneTable").innerHTML = Mustache.to_html(template, phones);
+                    document.getElementById("mainPhoneCheckbox").value = id;
+                });
+            }
+        )
+        .catch(function (err) {
+            console.log('Fetch Error :-S', err);
+        });
 }
