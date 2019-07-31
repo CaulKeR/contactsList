@@ -1,0 +1,12 @@
+#emailText input{
+    width: 200px;
+    height: 200px;
+}
+#emailForm {
+    display: block;
+    margin: 10px 20px;
+    text-align: -webkit-left;
+    color: black;
+    font-size: larger;
+    font-style: italic;
+}

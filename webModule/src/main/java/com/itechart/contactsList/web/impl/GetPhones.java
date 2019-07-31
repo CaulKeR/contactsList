@@ -1,7 +1,7 @@
 package com.itechart.contactsList.web.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itechart.contactsList.service.GetPhonesProcessor;
+import com.itechart.contactsList.service.PhoneService;
 import com.itechart.contactsList.web.Executable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ public class GetPhones implements Executable {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             ObjectMapper mapper = new ObjectMapper();
-            response.getWriter().write(mapper.writeValueAsString(new GetPhonesProcessor().run(Long.parseLong(request
+            response.getWriter().write(mapper.writeValueAsString(new PhoneService().getAll(Long.parseLong(request
                     .getRequestURI().replaceAll("\\D", "")))));
         } catch (IOException e) {
             e.printStackTrace();

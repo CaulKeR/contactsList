@@ -2,7 +2,7 @@ package com.itechart.contactsList.web.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itechart.contactsList.dto.EmailDTO;
-import com.itechart.contactsList.service.SendEmailProcessor;
+import com.itechart.contactsList.service.EmailService;
 import com.itechart.contactsList.web.Executable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ public class SendEmail implements Executable {
                 sb.append(tempLine);
             }
             System.out.println(sb.toString());
-            new SendEmailProcessor().run(new ObjectMapper().readValue(sb.toString(), EmailDTO.class));
+            new EmailService().sendEmail(new ObjectMapper().readValue(sb.toString(), EmailDTO.class));
         } catch (IOException e) {
             e.printStackTrace();
         }

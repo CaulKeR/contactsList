@@ -4,7 +4,6 @@ import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.dto.ContactDTO;
 import com.itechart.contactsList.dao.ContactDAO;
 import com.itechart.contactsList.utility.Connector;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +11,16 @@ import java.util.List;
 public class ContactDAOImpl implements ContactDAO {
 
     @Override
-    public List<ContactDTO> getMainContactsInfo() {
+    public List<ContactDTO> getMainContactsInfo(int count, int page) {
         List<ContactDTO> contactsList = new ArrayList<>();
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getMainContactsInfoPs = connection.prepareStatement("select c.id, c.first_name," +
                     " c.surname, c.patronymic, c.birth_date, a.country, a.locality, a.street, a.house, a.apartment," +
                     " a.postcode, c.сurrent_workplace from contact c, address a where c.address_id = a.id and" +
-                    " c.deleteDate is null;");
-            contactsList = rsGetter(getMainContactsInfoPs.executeQuery());
+                    " c.deleteDate is null limit ?, ?;");
+            getMainContactsInfoPs.setInt(1, (page - 1) * count);
+            getMainContactsInfoPs.setInt(2, count);
+            contactsList = getRs(getMainContactsInfoPs.executeQuery());
         } catch (SQLException e) {
             System.err.println("Error in DAO getMainContactsInfo");
             e.printStackTrace();
@@ -35,7 +36,7 @@ public class ContactDAOImpl implements ContactDAO {
             PreparedStatement createPs = connection.prepareStatement("insert into contact (first_name, surname," +
                     " patronymic,birth_date, sex, nationality, family_status, website, email, сurrent_workplace," +
                     " address_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-            createPs = psSetter(createPs, contact, addressId);
+            createPs = setPs(createPs, contact, addressId);
             createPs.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error in DAO create");
@@ -77,7 +78,7 @@ public class ContactDAOImpl implements ContactDAO {
             PreparedStatement updatePs = connection.prepareStatement("update contact set first_name = ?, surname = ?," +
                     " patronymic = ?, birth_date = ?, sex = ?, nationality = ?, family_status = ?, website = ?, " +
                     "email = ?, сurrent_workplace = ?, address_id = ? where id = ?;");
-            updatePs = psSetter(updatePs, contact, address.getId());
+            updatePs = setPs(updatePs, contact, address.getId());
             updatePs.setLong(12, contact.getId());
             updatePs.executeUpdate();
         } catch (SQLException e) {
@@ -135,7 +136,7 @@ public class ContactDAOImpl implements ContactDAO {
         System.out.println(searchRequest);
         List<ContactDTO> contactsList = new ArrayList<>();
         try (Connection connection = new Connector().getConnection()) {
-            contactsList = rsGetter(connection.prepareStatement(searchRequest).executeQuery());
+            contactsList = getRs(connection.prepareStatement(searchRequest).executeQuery());
         } catch (SQLException e) {
             System.err.println("Error in DAO searchContacts");
             e.printStackTrace();
@@ -200,7 +201,24 @@ public class ContactDAOImpl implements ContactDAO {
         return contacts;
     }
 
-    private PreparedStatement psSetter(PreparedStatement ps, ContactDTO contact, long addressId) {
+    @Override
+    public int getCountOfContacts() {
+        int count = 0;
+        try (Connection connection = new Connector().getConnection()) {
+            PreparedStatement getCountOfContactsPs = connection.prepareStatement("select count(*) from contact where" +
+                    " deleteDate is null;");
+            ResultSet rs = getCountOfContactsPs.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("count(*)");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error in DAO getCountOfContacts");
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    private PreparedStatement setPs(PreparedStatement ps, ContactDTO contact, long addressId) {
         try {
             ps.setString(1, contact.getFirstName());
             ps.setString(2, contact.getSurname());
@@ -219,7 +237,7 @@ public class ContactDAOImpl implements ContactDAO {
         return ps;
     }
 
-    private List<ContactDTO> rsGetter(ResultSet rs) {
+    private List<ContactDTO> getRs(ResultSet rs) {
         List<ContactDTO> list = new ArrayList<>();
         try {
             while (rs.next()) {

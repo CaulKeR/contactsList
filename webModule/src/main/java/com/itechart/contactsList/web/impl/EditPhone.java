@@ -2,7 +2,7 @@ package com.itechart.contactsList.web.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itechart.contactsList.dto.PhoneDTO;
-import com.itechart.contactsList.service.EditPhoneProcessor;
+import com.itechart.contactsList.service.PhoneService;
 import com.itechart.contactsList.web.Executable;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ public class EditPhone implements Executable {
                 sb.append(tempLine);
             }
             System.out.println(sb.toString());
-            new EditPhoneProcessor().run(mapper.readValue(sb.toString(), PhoneDTO.class));
+            new PhoneService().edit(mapper.readValue(sb.toString(), PhoneDTO.class));
         } catch (IOException e) {
             e.printStackTrace();
         }

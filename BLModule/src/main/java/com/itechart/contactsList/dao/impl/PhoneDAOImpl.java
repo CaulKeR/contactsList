@@ -3,7 +3,6 @@ package com.itechart.contactsList.dao.impl;
 import com.itechart.contactsList.dao.PhoneDAO;
 import com.itechart.contactsList.dto.PhoneDTO;
 import com.itechart.contactsList.utility.Connector;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

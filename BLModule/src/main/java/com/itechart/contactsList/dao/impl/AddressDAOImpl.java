@@ -3,7 +3,6 @@ package com.itechart.contactsList.dao.impl;
 import com.itechart.contactsList.dao.AddressDAO;
 import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.utility.Connector;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +16,7 @@ public class AddressDAOImpl implements AddressDAO {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement create = connection.prepareStatement("insert into address (country, locality, street," +
                     " house, apartment, postcode) values (?, ?, ?, ?, ?, ?);");
-            psSetter(create, address);
+            setPs(create, address);
             create.executeUpdate();
             PreparedStatement getLastId = connection.prepareStatement("select last_insert_id();");
             ResultSet rs = getLastId.executeQuery();
@@ -54,7 +53,7 @@ public class AddressDAOImpl implements AddressDAO {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement update = connection.prepareStatement("update address set country = ?, locality = ?," +
                     " street = ?, house = ?, apartment = ?, postcode = ? where id = ?;");
-            psSetter(update, address);
+            setPs(update, address);
             update.setLong(7, address.getId());
             update.executeUpdate();
         } catch (SQLException e) {
@@ -79,7 +78,7 @@ public class AddressDAOImpl implements AddressDAO {
         return 0L;
     }
 
-    private void psSetter(PreparedStatement ps, AddressDTO address) {
+    private void setPs(PreparedStatement ps, AddressDTO address) {
         try {
             ps.setString(1, address.getCountry());
             ps.setString(2, address.getLocality());

@@ -1,7 +1,6 @@
 package com.itechart.contactsList.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.sql.Date;
 
 public class PhoneDTO {

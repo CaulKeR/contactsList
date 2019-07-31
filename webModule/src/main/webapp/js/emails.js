@@ -1,13 +1,13 @@
 function showEmailForm(id) {
-    history.pushState({ prevUrl: window.location.href }, 'Send e-mail', '/contactsList/email');
+    history.pushState({prevUrl: window.location.href}, null, '/contactsList/email');
     hideAllExcept("emailForm");
     document.getElementById("sendTo").innerHTML = "Send e-mail to: ";
-    var boxes = document.getElementById("mainTable").getElementsByTagName("input");
-    var ids = [];
+    let boxes = document.getElementById("mainTable").getElementsByTagName("input");
+    let ids = [];
     if (id !== null && id !== "" && id !== undefined) {
         ids.push(id);
     }
-    for (i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
         if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
             ids.push(boxes[i].value);
         }
@@ -24,8 +24,8 @@ function showEmailForm(id) {
                     if (response.status < 200 || response.status >= 400) {
                         console.log('Looks like there was a problem. Status Code: ' + response.status);
                     }
-                    response.json().then(function (data) {
-                        document.getElementById("sendTo").innerHTML += data.email + ", ";
+                    response.text().then(function (email) {
+                        document.getElementById("sendTo").innerHTML += email + ", ";
                     });
                 }
             )
@@ -46,18 +46,19 @@ function showEmailForm(id) {
             }
             response.json().then(function (data) {
                 console.log(data);
-                let template = document.getElementById("dynamicTemplateSelect").innerHTML;
-                document.getElementById("templateSelect").innerHTML = Mustache.to_html(template, data);
+                document.getElementById("templateSelect").innerHTML = Mustache.to_html(document
+                    .getElementById("dynamicTemplateSelect").innerHTML, data);
             });
         });
 }
 
 function sendEmail() {
-    var email = {
-        emails: document.getElementById("sendTo").innerText.replace("Send e-mail to: ", '').replace(/\s+/g, '').split(','),
+    let email = {
+        emails: document.getElementById("sendTo").innerText.replace("Send e-mail to: ", '')
+            .replace(/\s+/g, '').split(','),
         subject: document.getElementById("emailSubject").value,
         text: document.getElementById("emailText").value
-        };
+    };
     console.log(email.emails);
     console.log(email.subject);
     console.log(email.text);
@@ -69,15 +70,16 @@ function sendEmail() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'mode': 'cors',
-                "Access-Control-Allow-Origin" : "*",
-                "Access-Control-Allow-Credentials" : true
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Credentials": true
             },
             body: JSON.stringify(email)
         })
-        .then(function(res){
+        .then(function (res) {
             alert("E-mail sent!");
             showAllContacts();
-            return res.statusText;})
+            return res.statusText;
+        })
 }
 
 function changeOption(value) {

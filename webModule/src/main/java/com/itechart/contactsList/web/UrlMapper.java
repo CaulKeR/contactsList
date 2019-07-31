@@ -34,6 +34,7 @@ public class UrlMapper {
         executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+/phone/\\d+"), new EditPhone());
         executors.put(Pattern.compile("POST/contactsList/api/contact/\\d+/phone"), new CreatePhone());
         executors.put(Pattern.compile("DELETE/contactsList/api/phone/\\d+"), new DeletePhone());
+        executors.put(Pattern.compile("GET/contactsList/api/countOfContacts"), new GetCountOfContacts());
     }
 
     public Executable processRequestByUri(String uri) {

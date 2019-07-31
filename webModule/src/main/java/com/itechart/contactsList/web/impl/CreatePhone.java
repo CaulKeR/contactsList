@@ -2,7 +2,7 @@ package com.itechart.contactsList.web.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itechart.contactsList.dto.PhoneDTO;
-import com.itechart.contactsList.service.CreatePhoneProcessor;
+import com.itechart.contactsList.service.PhoneService;
 import com.itechart.contactsList.web.Executable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +16,12 @@ public class CreatePhone implements Executable {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String tempLine;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((tempLine = request.getReader().readLine()) != null) {
                 sb.append(tempLine);
             }
             System.out.println(sb.toString());
-            new CreatePhoneProcessor().run(mapper.readValue(sb.toString(), PhoneDTO.class));
+            new PhoneService().create(mapper.readValue(sb.toString(), PhoneDTO.class));
         } catch (IOException e) {
             e.printStackTrace();
         }

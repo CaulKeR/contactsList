@@ -60,3 +60,11 @@ img {
     background-color: #d5e6a2;
     color: black;
 }
+#editAttachForm {
+    display: block;
+    margin: 10px 20px;
+    text-align: -webkit-left;
+    color: black;
+    font-size: larger;
+    font-style: italic;
+}

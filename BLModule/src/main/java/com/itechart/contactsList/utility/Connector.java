@@ -22,5 +22,4 @@ public class Connector {
         }
         return connection;
     }
-
 }

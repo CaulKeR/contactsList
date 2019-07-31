@@ -6,34 +6,29 @@
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=fetch,Promise"></script>
     <script type="text/javascript" src="js/mustache.js"></script>
     <script type="text/javascript" src="js/utility.js"></script>
-    <script type="text/javascript" src="js/mainForm.js"></script>
-    <script type="text/javascript" src="js/createForm.js"></script>
-    <script type="text/javascript" src="js/showFullContactInfo.js"></script>
-    <script type="text/javascript" src="js/deleting.js"></script>
-    <script type="text/javascript" src="js/editForm.js"></script>
-    <script type="text/javascript" src="js/attachForm.js"></script>
-    <script type="text/javascript" src="js/emailForm.js"></script>
-    <script type="text/javascript" src="js/editAttachForm.js"></script>
-    <script type="text/javascript" src="js/phoneForm.js"></script>
+    <script type="text/javascript" src="js/contacts.js"></script>
+    <script type="text/javascript" src="js/attachments.js"></script>
+    <script type="text/javascript" src="js/emails.js"></script>
+    <script type="text/javascript" src="js/phones.js"></script>
     <style>
         @import "css/header.css";
         @import "css/footer.css";
-        @import "css/mainForm.css";
-        @import "css/createForm.css";
-        @import "css/editForm.css";
+        @import "css/contacts.css";
         @import "css/wrapper.css";
         @import "css/attachments.css";
-        @import "css/emailForm.css";
-        @import "css/fullContactInfoForm.css";
+        @import "css/emails.css";
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
-    <script type="text/javascript">window.onload = showAllContacts;</script>
+    <script type="text/javascript">window.onload = function () {
+        hideAllExcept("mainForm");
+        changeContactsPerPage(10);
+    };</script>
 </head>
 <body>
 <div class="wrapper">
     <div class="header">
         <a class="title" onclick="showAllContacts()">Contacts List</a>
-        <img src="images/search.png" alt="search icon" onclick="switchSearchFormVisibility();">
+        <img id="searchIcon" src="images/search.png" alt="search icon" onclick="switchSearchFormVisibility();">
     </div>
     <div class="content">
         <div id="mainForm">
@@ -124,6 +119,20 @@
             <table id="mainTable" style="border:1px solid black">
                 <tbody></tbody>
             </table>
+            <div id="pagination">
+                <div id="countOfContactsSelector">
+                    <label>Contacts per page:
+                        <select id="ContactsPerPage" onchange="changeContactsPerPage(value);">
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </label>
+                </div>
+                <a id="hiddenCurrentPageNumber" hidden>1</a>
+                <a id="hiddenMaxPageNumber" hidden></a>
+                <div id="pageController"></div>
+            </div>
             <div class="majorButtons">
                 <button type="button" class="button" onclick="showCreateForm()">Create new contact</button>
                 <button type="button" class="button" onclick="showEmailForm()">Send email to selected contacts</button>
@@ -179,23 +188,25 @@
         <div id="fullContactInfoForm">
             <script type="text/template" id="dynamicContact">
                 <p id="hiddenContactId" hidden>{{id}}</p>
-                <img id="fullContactInfoAvatar" src="" alt="avatar"/>
-                <p>First Name: {{firstName}}</p>
-                <p>Surname: {{surname}}</p>
-                <p>Patronymic: {{patronymic}}</p>
-                <p>Birth date: {{birthDate}}</p>
-                <p>Sex: {{sex}}</p>
-                <p>Nationality: {{nationality}}</p>
-                <p>Family status: {{familyStatus}}</p>
-                <p>Website: {{website}}</p>
-                <p>E-mail: {{email}}</p>
-                <p>Current workplace: {{currentWorkplace}}</p>
-                <p>Country: {{address.country}}</p>
-                <p>Locality: {{address.locality}}</p>
-                <p>Street: {{address.street}}</p>
-                <p>House: {{address.house}}</p>
-                <p>Apartment: {{address.apartment}}</p>
-                <p>Postcode: {{address.postcode}}</p>
+                <div id="fullContactInfoHead">
+                    <img id="fullContactInfoAvatar" src="" alt="avatar"/>
+                    <h1>{{firstName}} {{surname}} {{patronymic}}</h1>
+                </div>
+                <div id="fullContactInfoBody">
+                    <p>Birth date: {{birthDate}}</p>
+                    <p>Sex: {{sex}}</p>
+                    <p>Nationality: {{nationality}}</p>
+                    <p>Family status: {{familyStatus}}</p>
+                    <p>Website: {{website}}</p>
+                    <p>E-mail: {{email}}</p>
+                    <p>Current workplace: {{currentWorkplace}}</p>
+                    <p>Country: {{address.country}}</p>
+                    <p>Locality: {{address.locality}}</p>
+                    <p>Street: {{address.street}}</p>
+                    <p>House: {{address.house}}</p>
+                    <p>Apartment: {{address.apartment}}</p>
+                    <p>Postcode: {{address.postcode}}</p>
+                </div>
                 <button class="button" onclick="showEditForm({{id}});">Edit this contact</button>
                 <button class="button" onclick="deleteContact({{id}});">Delete this contact</button>
                 <button class="button" onclick="showAllContacts()">Cancel</button>
@@ -306,11 +317,11 @@
                     <td>{{size}}</td>
                     <td>{{lastUpdate}}</td>
                     <td>
-                        <div id="atttachImages">
+                        <div id="attachImages">
                             <img src="/contactsList/images/edit.png" alt="edit" onclick="showEditAttachForm({{id}});"/>
                             <img src="/contactsList/images/download.png" alt="download"
                                  onclick="downloadAttach({{id}});"/>
-                            <img src="/contactsList/images/delete.png" alt="delete" onclick="deleteAttach({{id}});"/>
+                            <img src="/contactsList/images/delete.png" alt="delete" onclick="deleteAttachment({{id}});"/>
                         </div>
                     </td>
                 </tr>
@@ -324,7 +335,7 @@
                 <button type="button" class="button" onclick="uploadAttach(document
                             .getElementById('attachCheckbox').value)">Upload attachment
                 </button>
-                <button type="button" class="button" onclick="deleteAttachs(document.getElementById('attachCheckbox')
+                <button type="button" class="button" onclick="deleteAttachments(document.getElementById('attachCheckbox')
                             .value)">Delete selected attachments
                 </button>
             </div>
@@ -429,7 +440,7 @@
         </div>
     </div>
     <div class="footer">
-        <a class="foot-text">created by Kirill Karpuk</a>
+        <a class="foot-text" href="https://github.com/CaulKeR" target="_blank">created by Kirill Karpuk</a>
     </div>
 </div>
 </body>

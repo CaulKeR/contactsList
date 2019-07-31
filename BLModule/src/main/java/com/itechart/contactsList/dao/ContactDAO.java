@@ -1,14 +1,12 @@
 package com.itechart.contactsList.dao;
 
 import com.itechart.contactsList.dto.ContactDTO;
-
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.util.List;
 
 public interface ContactDAO {
 
-    List<ContactDTO> getMainContactsInfo();
+    List<ContactDTO> getMainContactsInfo(int count, int page);
     void create(ContactDTO contact);
     ContactDTO getContactById(long id);
     void update(ContactDTO contact);
@@ -17,5 +15,5 @@ public interface ContactDAO {
     String getEmailById(long id);
     String getFirstNameByEmail(String email);
     List<ContactDTO> getContactsByBirthDate(Date birthDate);
-
+    int getCountOfContacts();
 }
