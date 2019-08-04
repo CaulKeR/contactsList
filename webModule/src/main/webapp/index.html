@@ -19,10 +19,6 @@
         @import "css/emails.css";
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
-    <script type="text/javascript">window.onload = function () {
-        hideAllExcept("mainForm");
-        changeContactsPerPage(10);
-    };</script>
 </head>
 <body>
 <div class="wrapper">
@@ -33,59 +29,61 @@
     <div class="content">
         <div id="mainForm">
             <div id="searcher">
-                <table>
-                    <tr>
-                        <td>
-                            <label for="searchFirstName">First Name</label>
-                            <input type="text" id="searchFirstName">
-                        </td>
-                        <td>
-                            <label for="searchSurname">Surname</label>
-                            <input type="text" id="searchSurname">
-                        </td>
-                        <td>
-                            <label for="searchPatronymic">Patronymic</label>
-                            <input type="text" id="searchPatronymic">
-                        </td>
-                        <td>
-                            <label for="searchBirthDate1">Birth date (from)</label>
-                            <input type="date" id="searchBirthDate1">
-                        </td>
-                        <td>
-                            <label for="searchBirthDate2">Birth date (until)</label>
-                            <input type="date" id="searchBirthDate2">
-                        </td>
-                        <td>
-                            <label>Sex</label>
-                            <fieldset id="sexSearchGroup">
-                                <input type="radio" name="sexEditGroup" id="searchMale"/>
-                                <label for="searchMale">Male</label><br>
-                                <input type="radio" name="sexEditGroup" id="searchFemale"/>
-                                <label for="searchFemale">Female</label>
-                            </fieldset>
-                        </td>
-                        <td>
-                            <label for="searchNationality">Nationality</label>
-                            <input type="text" id="searchNationality">
-                        </td>
-                        <td>
-                            <label>Family status</label>
-                            <fieldset id="fsSearchGroup">
-                                <p><input type="radio" name="fsEditGroup" id="searchSingle">Single</p>
-                                <p><input type="radio" name="fsEditGroup" id="searchDivorced">Divorced</p>
-                                <p><input type="radio" name="fsEditGroup" id="searchMarried">Married</p>
-                            </fieldset>
-                        </td>
-                        <td>
-                            <label for="searchCurrentWorkplace">Current workplace</label>
-                            <input type="text" id="searchCurrentWorkplace">
-                        </td>
-                        <td>
-                            <button class="button" onclick="searchContacts()">Search</button>
-                            <button class="button" type="reset">Reset</button>
-                        </td>
-                    </tr>
-                </table>
+                <form>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="searchFirstName">First Name</label>
+                                <input type="text" id="searchFirstName">
+                            </td>
+                            <td>
+                                <label for="searchSurname">Surname</label>
+                                <input type="text" id="searchSurname">
+                            </td>
+                            <td>
+                                <label for="searchPatronymic">Patronymic</label>
+                                <input type="text" id="searchPatronymic">
+                            </td>
+                            <td>
+                                <label for="searchBirthDate1">Birth date (from)</label>
+                                <input type="date" id="searchBirthDate1">
+                            </td>
+                            <td>
+                                <label for="searchBirthDate2">Birth date (until)</label>
+                                <input type="date" id="searchBirthDate2">
+                            </td>
+                            <td>
+                                <label>Sex</label>
+                                <fieldset id="sexSearchGroup">
+                                    <input type="radio" name="sexEditGroup" id="searchMale"/>
+                                    <label for="searchMale">Male</label><br>
+                                    <input type="radio" name="sexEditGroup" id="searchFemale"/>
+                                    <label for="searchFemale">Female</label>
+                                </fieldset>
+                            </td>
+                            <td>
+                                <label for="searchNationality">Nationality</label>
+                                <input type="text" id="searchNationality">
+                            </td>
+                            <td>
+                                <label>Family status</label>
+                                <fieldset id="fsSearchGroup">
+                                    <p><input type="radio" name="fsEditGroup" id="searchSingle">Single</p>
+                                    <p><input type="radio" name="fsEditGroup" id="searchDivorced">Divorced</p>
+                                    <p><input type="radio" name="fsEditGroup" id="searchMarried">Married</p>
+                                </fieldset>
+                            </td>
+                            <td>
+                                <label for="searchCurrentWorkplace">Current workplace</label>
+                                <input type="text" id="searchCurrentWorkplace">
+                            </td>
+                            <td>
+                                <button type="button" class="button" onclick="searchContacts()">Search</button>
+                                <button class="button" type="reset">Reset</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
             <script type="text/template" id="dynamicMainTable">
                 <tr>
@@ -134,56 +132,60 @@
                 <div id="pageController"></div>
             </div>
             <div class="majorButtons">
-                <button type="button" class="button" onclick="showCreateForm()">Create new contact</button>
+                <button type="button" class="button" onclick="showCreateContactForm()">Create new contact</button>
                 <button type="button" class="button" onclick="showEmailForm()">Send email to selected contacts</button>
                 <button type="button" class="button" onclick="deleteContacts()">Delete selected contacts</button>
             </div>
         </div>
         <div id="createForm">
-            <div id="creator">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" placeholder="Enter first name here">
-                <label for="surname">Surname</label>
-                <input type="text" id="surname" placeholder="Enter last name here">
-                <label for="patronymic">Patronymic</label>
-                <input type="text" id="patronymic" placeholder="Enter patronymic here">
-                <label for="birthDate">Birth date</label>
-                <input type="date" id="birthDate" placeholder="Enter birth date here">
-                <label>Sex</label>
-                <fieldset id="sexGroup">
-                    <p><input type="radio" id="male" name="sexGroup">Male</p>
-                    <p><input type="radio" id="female" name="sexGroup">Female</p>
-                </fieldset>
-                <label for="nationality">Nationality</label>
-                <input type="text" id="nationality" placeholder="Enter nationality here">
-                <label>Family status</label>
-                <fieldset id="fsGroup">
-                    <p><input type="radio" name="fsGroup" id="single">Single</p>
-                    <p><input type="radio" name="fsGroup" id="divorced">Divorced</p>
-                    <p><input type="radio" name="fsGroup" id="married">Married</p>
-                </fieldset>
-                <label for="website">Website</label>
-                <input type="url" id="website" placeholder="Enter website here">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="Enter email here">
-                <label for="currentWorkplace">Current workplace</label>
-                <input type="text" id="currentWorkplace" placeholder="Enter current workplace here">
-                <label for="country">Country</label>
-                <input type="text" id="country" placeholder="Enter country here">
-                <label for="locality">Locality</label>
-                <input type="text" id="locality" placeholder="Enter locality here">
-                <label for="street">Street</label>
-                <input type="text" id="street" placeholder="Enter street here">
-                <label for="house">House</label>
-                <input type="text" id="house" placeholder="Enter house here">
-                <label for="apartment">Apartment</label>
-                <input type="text" id="apartment" placeholder="Enter apartment here">
-                <label for="postcode">Postcode</label>
-                <input type="text" id="postcode" placeholder="Enter postcode here">
-                <button type="submit" class="button" onclick="showCreateContactForm()">Submit</button>
-                <button type="reset" class="button">Reset</button>
-                <button class="button" onclick="showAllContacts()">Cancel</button>
-            </div>
+            <form>
+                <div id="creator">
+                    <p><label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="Enter first name here"></p>
+                    <p><label for="surname">Surname</label>
+                        <input type="text" id="surname" placeholder="Enter last name here"></p>
+                    <p><label for="patronymic">Patronymic</label>
+                        <input type="text" id="patronymic" placeholder="Enter patronymic here"></p>
+                    <p><label for="birthDate">Birth date</label>
+                        <input type="date" id="birthDate" placeholder="Enter birth date here"></p>
+                    <label>Sex</label>
+                    <fieldset id="sexGroup">
+                        <p><input type="radio" id="male" name="sexGroup">Male</p>
+                        <p><input type="radio" id="female" name="sexGroup">Female</p>
+                    </fieldset>
+                    <p><label for="nationality">Nationality</label>
+                        <input type="text" id="nationality" placeholder="Enter nationality here"></p>
+                    <label>Family status</label>
+                    <fieldset id="fsGroup">
+                        <p><input type="radio" name="fsGroup" id="single">Single</p>
+                        <p><input type="radio" name="fsGroup" id="divorced">Divorced</p>
+                        <p><input type="radio" name="fsGroup" id="married">Married</p>
+                    </fieldset>
+                    <p><label for="website">Website</label>
+                        <input type="url" id="website" placeholder="Enter website here"></p>
+                    <p><label for="email">E-mail</label>
+                        <input type="email" id="email" placeholder="Enter email here"></p>
+                    <p><label for="currentWorkplace">Current workplace</label>
+                        <input type="text" id="currentWorkplace" placeholder="Enter current workplace here"></p>
+                    <p><label for="country">Country</label>
+                        <input type="text" id="country" placeholder="Enter country here"></p>
+                    <p><label for="locality">Locality</label>
+                        <input type="text" id="locality" placeholder="Enter locality here"></p>
+                    <p><label for="street">Street</label>
+                        <input type="text" id="street" placeholder="Enter street here"></p>
+                    <p><label for="house">House</label>
+                        <input type="text" id="house" placeholder="Enter house here"></p>
+                    <p><label for="apartment">Apartment</label>
+                        <input type="number" id="apartment" placeholder="Enter apartment here"></p>
+                    <p><label for="postcode">Postcode</label>
+                        <input type="text" id="postcode" placeholder="Enter postcode here"></p>
+                    <p>
+                        <button type="button" class="button" onclick="createContact()">Submit</button>
+                        <button type="reset" class="button">Reset</button>
+                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
+                    </p>
+                </div>
+            </form>
         </div>
         <div id="fullContactInfoForm">
             <script type="text/template" id="dynamicContact">
@@ -247,55 +249,57 @@
             </div>
         </div>
         <div id="editForm">
-            <script type="text/template" id="dynamicContactEditor">
-                <img id="editFormAvatar" src="" alt="avatarEditForm"/>
-                <input id="avatar" type="file" class="button"/>
-                <p><label for="editFirstName">First Name</label>
-                    <input type="text" id="editFirstName" value={{firstName}}></p>
-                <p><label for="editSurname">Surname</label>
-                    <input type="text" id="editSurname" value={{surname}}></p>
-                <p><label for="editPatronymic">Patronymic</label>
-                    <input type="text" id="editPatronymic" value={{patronymic}}></p>
-                <p><label for="editBirthDate">Birth date</label>
-                    <input type="date" id="editBirthDate" value={{birthDate}}></p>
-                <p><label>Sex</label>
-                    <fieldset id="sexEditGroup">
-                <p><input type="radio" name="sexEditGroup" id="editMale">Male</p>
-                <p><input type="radio" name="sexEditGroup" id="editFemale">Female</p>
-                </fieldset></p>
-                <p><label for="editNationality">Nationality</label>
-                    <input type="text" id="editNationality" value={{nationality}}></p>
-                <p><label>Family status</label>
-                    <fieldset id="fsEditGroup">
-                <p><input type="radio" name="fsEditGroup" id="editSingle">Single</p>
-                <p><input type="radio" name="fsEditGroup" id="editDivorced">Divorced</p>
-                <p><input type="radio" name="fsEditGroup" id="editMarried">Married</p>
-                </fieldset></p>
-                <p><label for="editWebsite">Website</label>
-                    <input type="url" id="editWebsite" value={{website}}></p>
-                <p><label for="editEmail">E-mail</label>
-                    <input type="email" id="editEmail" value={{email}}></p>
-                <p><label for="editCurrentWorkplace">Current workplace</label>
-                    <input type="text" id="editCurrentWorkplace" value={{currentWorkplace}}></p>
-                <p><label for="editCountry">Country</label>
-                    <input type="text" id="editCountry" value={{address.country}}></p>
-                <p><label for="editLocality">Locality</label>
-                    <input type="text" id="editLocality" value={{address.locality}}></p>
-                <p><label for="editStreet">Street</label>
-                    <input type="text" id="editStreet" value={{address.street}}></p>
-                <p><label for="editHouse">House</label>
-                    <input type="text" id="editHouse" value={{address.house}}></p>
-                <p><label for="editApartment">Apartment</label>
-                    <input type="text" id="editApartment" value={{address.apartment}}></p>
-                <p><label for="editPostcode">Postcode</label>
-                    <input type="text" id="editPostcode" value={{address.postcode}}></p>
-                <p>
-                    <button class="button" onclick="editContact({{id}});">Submit</button>
-                    <button class="button" type="reset">Reset</button>
-                    <button class="button" onclick="showAllContacts()">Cancel</button>
-                </p>
-            </script>
-            <div id="editor"></div>
+            <form>
+                <script type="text/template" id="dynamicContactEditor">
+                    <img id="editFormAvatar" src="" alt="avatarEditForm"/>
+                    <input id="avatar" type="file" class="button"/>
+                    <p><label for="editFirstName">First Name</label>
+                        <input type="text" id="editFirstName" value={{firstName}}></p>
+                    <p><label for="editSurname">Surname</label>
+                        <input type="text" id="editSurname" value={{surname}}></p>
+                    <p><label for="editPatronymic">Patronymic</label>
+                        <input type="text" id="editPatronymic" value={{patronymic}}></p>
+                    <p><label for="editBirthDate">Birth date</label>
+                        <input type="date" id="editBirthDate" value={{birthDate}}></p>
+                    <p><label>Sex</label>
+                        <fieldset id="sexEditGroup">
+                    <p><input type="radio" name="sexEditGroup" id="editMale">Male</p>
+                    <p><input type="radio" name="sexEditGroup" id="editFemale">Female</p>
+                    </fieldset></p>
+                    <p><label for="editNationality">Nationality</label>
+                        <input type="text" id="editNationality" value={{nationality}}></p>
+                    <p><label>Family status</label>
+                        <fieldset id="fsEditGroup">
+                    <p><input type="radio" name="fsEditGroup" id="editSingle">Single</p>
+                    <p><input type="radio" name="fsEditGroup" id="editDivorced">Divorced</p>
+                    <p><input type="radio" name="fsEditGroup" id="editMarried">Married</p>
+                    </fieldset></p>
+                    <p><label for="editWebsite">Website</label>
+                        <input type="url" id="editWebsite" value={{website}}></p>
+                    <p><label for="editEmail">E-mail</label>
+                        <input type="email" id="editEmail" value={{email}}></p>
+                    <p><label for="editCurrentWorkplace">Current workplace</label>
+                        <input type="text" id="editCurrentWorkplace" value={{currentWorkplace}}></p>
+                    <p><label for="editCountry">Country</label>
+                        <input type="text" id="editCountry" value={{address.country}}></p>
+                    <p><label for="editLocality">Locality</label>
+                        <input type="text" id="editLocality" value={{address.locality}}></p>
+                    <p><label for="editStreet">Street</label>
+                        <input type="text" id="editStreet" value={{address.street}}></p>
+                    <p><label for="editHouse">House</label>
+                        <input type="text" id="editHouse" value={{address.house}}></p>
+                    <p><label for="editApartment">Apartment</label>
+                        <input type="text" id="editApartment" value={{address.apartment}}></p>
+                    <p><label for="editPostcode">Postcode</label>
+                        <input type="text" id="editPostcode" value={{address.postcode}}></p>
+                    <p>
+                        <button type="button" class="button" onclick="editContact({{id}});">Submit</button>
+                        <button class="button" type="reset">Reset</button>
+                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
+                    </p>
+                </script>
+                <div id="editor"></div>
+            </form>
         </div>
         <div id="attachmentsForm">
             <script type="text/template" id="dynamicAttachTable">
@@ -321,7 +325,8 @@
                             <img src="/contactsList/images/edit.png" alt="edit" onclick="showEditAttachForm({{id}});"/>
                             <img src="/contactsList/images/download.png" alt="download"
                                  onclick="downloadAttach({{id}});"/>
-                            <img src="/contactsList/images/delete.png" alt="delete" onclick="deleteAttachment({{id}});"/>
+                            <img src="/contactsList/images/delete.png" alt="delete"
+                                 onclick="deleteAttachment({{id}});"/>
                         </div>
                     </td>
                 </tr>
@@ -341,101 +346,110 @@
             </div>
         </div>
         <div id="emailForm">
-            <script type="text/template" id="dynamicSendList">
-                {{#.}}
-                {{email}}
-                {{/.}}
-            </script>
-            <p id="sendTo">
-            </p>
-            <p><label for="emailSubject">Subject</label>
-                <input type="text" id="emailSubject"></p>
-            <p>
-                <label>Select template text:
-                    <script type="text/template" id="dynamicTemplateSelect">
-                        <option selected></option>
-                        {{#.}}
-                        <option value="{{text}}">{{title}}</option>
-                        {{/.}}
-                    </script>
-                    <select id="templateSelect" onchange="changeOption(value);">
-                    </select>
-                </label>
-            </p>
-            <p>
-                <label for="emailText">E-mail text
-                    <textarea id="emailText"></textarea>
-                </label>
-            </p>
-            <p>
-                <button class="button" onclick="sendEmail()">Send e-mail</button>
-                <button class="button" type="reset">Reset</button>
-                <button class="button" type="reset" onclick="showAllContacts()">Cancel</button>
-            </p>
+            <form>
+                <script type="text/template" id="dynamicSendList">
+                    {{#.}}
+                    {{email}}
+                    {{/.}}
+                </script>
+                <p id="sendTo">
+                </p>
+                <p><label for="emailSubject">Subject</label>
+                    <input type="text" id="emailSubject"></p>
+                <p>
+                    <label>Select template text:
+                        <script type="text/template" id="dynamicTemplateSelect">
+                            <option selected></option>
+                            {{#.}}
+                            <option value="{{text}}">{{title}}</option>
+                            {{/.}}
+                        </script>
+                        <select id="templateSelect" onchange="changeOption(value);">
+                        </select>
+                    </label>
+                </p>
+                <p>
+                    <label for="emailText">E-mail text
+                        <textarea id="emailText"></textarea>
+                    </label>
+                </p>
+                <p>
+                    <button class="button" onclick="sendEmail()">Send e-mail</button>
+                    <button class="button" type="reset">Reset</button>
+                    <button class="button" type="reset" onclick="showAllContacts()">Cancel</button>
+                </p>
+            </form>
         </div>
         <div id="editAttachForm">
-            <script type="text/template" id="dynamicAttachEditor">
-                <p id="hiddenId" hidden>{{id}}</p>
-                <p id="hiddenUserId" hidden>{{userId}}</p>
-                <p id="hiddenFileType" hidden>{{type}}</p>
-                <p><label for="editAttachTitle">File title</label>
-                    <input type="text" id="editAttachTitle" value={{title}}></p>
-                <p><label for="attachComment">Comment
-                    <textarea id="attachComment">{{comment}}</textarea>
-                </label>
-                </p>
-                <p>
-                    <button class="button" onclick="editAttach({{id}});">Submit</button>
-                    <button class="button" type="reset">Reset</button>
-                    <button class="button" onclick="showAllAttachments({{userId}});">Cancel</button>
-                </p>
-            </script>
-            <div id="attachEditor"></div>
+            <form>
+                <script type="text/template" id="dynamicAttachEditor">
+                    <p id="hiddenId" hidden>{{id}}</p>
+                    <p id="hiddenUserId" hidden>{{userId}}</p>
+                    <p id="hiddenFileType" hidden>{{type}}</p>
+                    <p><label for="editAttachTitle">File title</label>
+                        <input type="text" id="editAttachTitle" value={{title}}></p>
+                    <p><label for="attachComment">Comment
+                        <textarea id="attachComment">{{comment}}</textarea>
+                    </label>
+                    </p>
+                    <p>
+                        <button type="button" class="button" onclick="editAttach({{id}});">Submit</button>
+                        <button class="button" type="reset">Reset</button>
+                        <button type="button" class="button" onclick="showAllAttachments({{userId}});">Cancel</button>
+                    </p>
+                </script>
+                <div id="attachEditor"></div>
+            </form>
         </div>
         <div id="editPhoneForm">
-            <script type="text/template" id="dynamicPhoneEditor">
-                <p id="hiddenPhoneUserId" hidden>{{contactId}}</p>
-                <p><label for="editCountryCode">Country code</label>
-                    <input type="number" id="editCountryCode" value={{countryCode}}></p>
-                <p><label for="editOperatorsCode">Operator's code</label>
-                    <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
-                <p><label for="editPhoneNumber">Phone number</label>
-                    <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
-                <p><label>Type</label>
-                    <fieldset id="phoneTypeEditGroup">
-                <p><input type="radio" name="phoneTypeEditGroup" id="editHome">Home</p>
-                <p><input type="radio" name="phoneTypeEditGroup" id="editMobile">Mobile</p>
-                </fieldset></p>
-                <p><label for="phoneComment">Comment
-                    <textarea id="phoneComment">{{comment}}</textarea>
-                <p>
-                    <button class="button" onclick="editPhone({{id}});">Submit</button>
-                    <button class="button" type="reset">Reset</button>
-                    <button class="button" onclick="showFullContactInfoForm({{contactId}});">Cancel</button>
-                </p>
-            </script>
-            <div id="phoneEditor"></div>
+            <form>
+                <script type="text/template" id="dynamicPhoneEditor">
+                    <p id="hiddenPhoneUserId" hidden>{{contactId}}</p>
+                    <p><label for="editCountryCode">Country code</label>
+                        <input type="number" id="editCountryCode" value={{countryCode}}></p>
+                    <p><label for="editOperatorsCode">Operator's code</label>
+                        <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
+                    <p><label for="editPhoneNumber">Phone number</label>
+                        <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
+                    <p><label>Type</label>
+                        <fieldset id="phoneTypeEditGroup">
+                    <p><input type="radio" name="phoneTypeEditGroup" id="editHome">Home</p>
+                    <p><input type="radio" name="phoneTypeEditGroup" id="editMobile">Mobile</p>
+                    </fieldset></p>
+                    <p><label for="phoneComment">Comment
+                        <textarea id="phoneComment">{{comment}}</textarea>
+                    <p>
+                        <button type="button" class="button" onclick="editPhone({{id}});">Submit</button>
+                        <button class="button" type="reset">Reset</button>
+                        <button type="button" class="button" onclick="showFullContactInfoForm({{contactId}});">Cancel
+                        </button>
+                    </p>
+                </script>
+                <div id="phoneEditor"></div>
+            </form>
         </div>
         <div id="createPhoneForm">
             <div id="phoneCreator">
-                <p id="contactId" hidden></p>
-                <label for="countryCode">Country code</label>
-                <input type="number" id="countryCode" placeholder="Enter country here">
-                <label for="operatorsCode">Operator's code</label>
-                <input type="number" id="operatorsCode" placeholder="Enter operator's code here">
-                <label for="phoneNumber">Phone number</label>
-                <input type="number" id="phoneNumber" placeholder="Enter phone number here">
-                <label>Type</label>
-                <fieldset id="phoneTypeCreateGroup">
-                    <p><input type="radio" id="home" name="phoneTypeCreateGroup">Home</p>
-                    <p><input type="radio" id="mobile" name="phoneTypeCreateGroup">Mobile</p>
-                </fieldset>
-                <label for="phoneCreateComment">Comment
-                    <textarea id="phoneCreateComment"></textarea>
-                    <button type="submit" class="button" onclick="createPhone()">Submit</button>
-                    <button type="reset" class="button">Reset</button>
-                    <button class="button" onclick="showAllContacts()">Cancel</button>
-                </label>
+                <form>
+                    <p id="contactId" hidden></p>
+                    <p><label for="countryCode">Country code</label>
+                        <input type="number" id="countryCode" placeholder="Enter country here"></p>
+                    <p><label for="operatorsCode">Operator's code</label>
+                        <input type="number" id="operatorsCode" placeholder="Enter operator's code here"></p>
+                    <p><label for="phoneNumber">Phone number</label>
+                        <input type="number" id="phoneNumber" placeholder="Enter phone number here"></p>
+                    <label>Type</label>
+                    <fieldset id="phoneTypeCreateGroup">
+                        <p><input type="radio" id="home" name="phoneTypeCreateGroup">Home</p>
+                        <p><input type="radio" id="mobile" name="phoneTypeCreateGroup">Mobile</p>
+                    </fieldset>
+                    <label for="phoneCreateComment">Comment
+                        <textarea id="phoneCreateComment"></textarea>
+                        <p><button type="button" class="button" onclick="createPhone()">Submit</button>
+                        <button type="reset" class="button">Reset</button>
+                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button></p>
+                    </label>
+                </form>
             </div>
         </div>
     </div>

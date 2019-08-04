@@ -5,18 +5,18 @@ import java.sql.Date;
 
 public class PhoneDTO {
 
-    private long id;
-    private long contactId;
-    private short countryCode;
-    private int operatorsCode;
-    private int phoneNumber;
+    private Long id;
+    private Long contactId;
+    private Short countryCode;
+    private Integer operatorsCode;
+    private Integer phoneNumber;
     private String type;
     private String comment;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date deleteDate;
 
-    public PhoneDTO(long id, long contactId, short countryCode, int operatorsCode, int phoneNumber, String type, String comment) {
+    public PhoneDTO(Long id, Long contactId, Short countryCode, Integer operatorsCode, Integer phoneNumber, String type, String comment) {
         this.id = id;
         this.contactId = contactId;
         this.countryCode = countryCode;
@@ -29,43 +29,52 @@ public class PhoneDTO {
     public PhoneDTO() {
     }
 
-    public long getId() {
+    public String print() {
+        return "Contact id: " + this.contactId + '\n' +
+                "Country code: " + this.countryCode + '\n' +
+                "Operator's code: " + this.operatorsCode + '\n' +
+                "Phone number: " + this.phoneNumber + '\n' +
+                "Type: " + this.type + '\n' +
+                "Comment: " + this.comment;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getContactId() {
+    public Long getContactId() {
         return contactId;
     }
 
-    public void setContactId(long contactId) {
+    public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
 
-    public short getCountryCode() {
+    public Short getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(short countryCode) {
+    public void setCountryCode(Short countryCode) {
         this.countryCode = countryCode;
     }
 
-    public int getOperatorsCode() {
+    public Integer getOperatorsCode() {
         return operatorsCode;
     }
 
-    public void setOperatorsCode(int operatorsCode) {
+    public void setOperatorsCode(Integer operatorsCode) {
         this.operatorsCode = operatorsCode;
     }
 
-    public int getPhoneNumber() {
+    public Integer getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

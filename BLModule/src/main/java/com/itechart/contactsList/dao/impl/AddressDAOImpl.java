@@ -3,6 +3,8 @@ package com.itechart.contactsList.dao.impl;
 import com.itechart.contactsList.dao.AddressDAO;
 import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.utility.Connector;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +12,10 @@ import java.sql.SQLException;
 
 public class AddressDAOImpl implements AddressDAO {
 
+    private static final Logger log = Logger.getLogger(AddressDAOImpl.class);
+
     @Override
-    public long create(AddressDTO address) {
+    public Long create(AddressDTO address) {
         long lastId = 0L;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement create = connection.prepareStatement("insert into address (country, locality, street," +
@@ -23,14 +27,14 @@ public class AddressDAOImpl implements AddressDAO {
             rs.next();
             lastId = rs.getLong("LAST_INSERT_ID()");
         } catch (SQLException e) {
-            System.err.println("Error in AddressDAO create");
-            e.printStackTrace();
+            log.error("Error in AddressDAO create for" + address.print());
+            log.error(e);
         }
         return lastId;
     }
 
     @Override
-    public AddressDTO getAddressById(long id) {
+    public AddressDTO getAddressById(Long id) {
         AddressDTO address = null;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getAddressById = connection.prepareStatement("select * from address where id = ?;");
@@ -42,8 +46,8 @@ public class AddressDAOImpl implements AddressDAO {
                     rs.getString("street"), rs.getString("house"),
                     rs.getShort("apartment"), rs.getString("postcode"));
         } catch (SQLException e) {
-            System.err.println("Error in DAO getAddressById");
-            e.printStackTrace();
+            log.error("Error in DAO getAddressById for id=" + id);
+            log.error(e);
         }
         return address;
     }
@@ -57,13 +61,13 @@ public class AddressDAOImpl implements AddressDAO {
             update.setLong(7, address.getId());
             update.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in AddressDAO update");
-            e.printStackTrace();
+            log.error("Error in AddressDAO update for " + address.print());
+            log.error(e);
         }
     }
 
     @Override
-    public long getAddressIdByContactId(long id) {
+    public Long getAddressIdByContactId(Long id) {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getAddressIdByContactId = connection.prepareStatement("select address.id from contact," +
                     " address where contact.id = ? and contact.address_id = address.id;");
@@ -72,8 +76,8 @@ public class AddressDAOImpl implements AddressDAO {
             rs.next();
             return rs.getLong("id");
         } catch (SQLException e) {
-            System.err.println("Error in DAO getAddressIdByContactId");
-            e.printStackTrace();
+            log.error("Error in DAO getAddressIdByContactId for id=" + id);
+            log.error(e);
         }
         return 0L;
     }
@@ -87,8 +91,7 @@ public class AddressDAOImpl implements AddressDAO {
             ps.setShort(5, address.getApartment());
             ps.setString(6, address.getPostcode());
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
-
 }

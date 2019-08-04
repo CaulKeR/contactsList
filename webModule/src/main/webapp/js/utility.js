@@ -16,11 +16,11 @@ function hideAllExcept(form) {
 function selectAllCheckboxes(mainCheckbox, table) {
     let boxes = document.getElementById(table).getElementsByTagName("input");
     if (document.getElementById(mainCheckbox).checked) {
-        for (i = 0; i < boxes.length; i++) {
+        for (let i = 0; i < boxes.length; i++) {
             boxes[i].checked = true;
         }
     } else {
-        for (i = 0; i < boxes.length; i++) {
+        for (let i = 0; i < boxes.length; i++) {
             boxes[i].checked = false;
         }
     }
@@ -28,7 +28,7 @@ function selectAllCheckboxes(mainCheckbox, table) {
 
 function selectCheckbox(mainCheckbox, table) {
     let boxes = document.getElementById(table).getElementsByTagName("input");
-    for (i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
         if (document.getElementById(mainCheckbox).checked && boxes[i].checked === false) {
             document.getElementById(mainCheckbox).checked = false;
         }
@@ -36,5 +36,10 @@ function selectCheckbox(mainCheckbox, table) {
 }
 
 window.addEventListener('popstate', function () {
-    showAllContacts();
+    showAllContacts(10, 1);
 });
+
+window.onload = function () {
+    hideAllExcept("mainForm");
+    changeContactsPerPage(10);
+};

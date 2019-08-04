@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class ContactDTO {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String surname;
     private String patronymic;
@@ -31,7 +31,7 @@ public class ContactDTO {
 
     private boolean isCustomAvatar;
 
-    public ContactDTO(long id, String firstName, String surname, String patronymic, String email) {
+    public ContactDTO(Long id, String firstName, String surname, String patronymic, String email) {
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -39,19 +39,19 @@ public class ContactDTO {
         this.email = email;
     }
 
-    public void print() {
-        System.out.println("Id:" + id);
-        System.out.println("First name:" + firstName);
-        System.out.println("Surname:" + surname);
-        System.out.println("Patronymic:" + patronymic);
-        System.out.println("Birth date:" + birthDate);
-        System.out.println("Sex:" + sex);
-        System.out.println("Nationality:" + nationality);
-        System.out.println("Family status:" + familyStatus);
-        System.out.println("Website:" + website);
-        System.out.println("E-mail:" + email);
-        System.out.println("Current workplace:" + currentWorkplace);
-        System.out.println("Address:" + address);
+    public String print() {
+        return "Id:" + this.id + '\n' +
+                "First name:" + this.firstName + '\n' +
+                "Surname:" + this.surname + '\n' +
+                "Patronymic:" + this.patronymic + '\n' +
+                "Birth date:" + this.birthDate + '\n' +
+                "Sex:" + this.sex + '\n' +
+                "Nationality:" + this.nationality + '\n' +
+                "Family status:" + this.familyStatus + '\n' +
+                "Website:" + this.website + '\n' +
+                "E-mail:" + this.email + '\n' +
+                "Current workplace:" + this.currentWorkplace + '\n' +
+                "Address:" + this.address;
     }
 
     public ContactDTO() {}
@@ -60,7 +60,7 @@ public class ContactDTO {
         this.email = email;
     }
 
-    public ContactDTO(long id, String firstName, String surname, String patronymic, Date birthDate, String sex,
+    public ContactDTO(Long id, String firstName, String surname, String patronymic, Date birthDate, String sex,
                       String nationality, String familyStatus, String website, String email, String currentWorkplace,
                       Date deleteDate) {
         this.id = id;
@@ -77,7 +77,7 @@ public class ContactDTO {
         this.deleteDate = deleteDate;
     }
 
-    public ContactDTO(long id, String firstName, String surname, String patronymic, Date birthDate,
+    public ContactDTO(Long id, String firstName, String surname, String patronymic, Date birthDate,
                       String currentWorkplace) {
         this.id = id;
         this.firstName = firstName;
@@ -119,11 +119,11 @@ public class ContactDTO {
         this.address = address;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

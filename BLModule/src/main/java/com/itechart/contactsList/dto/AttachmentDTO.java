@@ -5,17 +5,17 @@ import java.sql.Date;
 
 public class AttachmentDTO {
 
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private String title;
     private String type;
-    private long size;
+    private Long size;
     private String comment;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdate;
 
-    public AttachmentDTO(long id, long userId, String file, long size, Date lastUpdate, String comment) {
+    public AttachmentDTO(Long id, Long userId, String file, Long size, Date lastUpdate, String comment) {
         this.id = id;
         this.userId = userId;
         if (file.contains(".")) {
@@ -31,14 +31,14 @@ public class AttachmentDTO {
     public AttachmentDTO() {
     }
 
-    public AttachmentDTO(long id, String title, String type, String comment) {
+    public AttachmentDTO(Long id, String title, String type, String comment) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.comment = comment;
     }
 
-    public AttachmentDTO(long id, long userId, String file, long size, Date lastUpdate) {
+    public AttachmentDTO(Long id, Long userId, String file, Long size, Date lastUpdate) {
         this.id = id;
         this.userId = userId;
         if (file.contains(".")) {
@@ -50,7 +50,7 @@ public class AttachmentDTO {
         this.lastUpdate = lastUpdate;
     }
 
-    public AttachmentDTO(long id, String file, long userId, String comment) {
+    public AttachmentDTO(Long id, String file, Long userId, String comment) {
         this.id = id;
         this.userId = userId;
         if (file.contains(".")) {
@@ -59,6 +59,12 @@ public class AttachmentDTO {
             this.type = nameParts[1];
         }
         this.comment = comment;
+    }
+
+    public String print() {
+        return "Title: " + this.title + '\n' +
+                "Type: " + this.type + '\n' +
+                "Comment" + this.comment;
     }
 
     public String getTitle() {
@@ -77,11 +83,11 @@ public class AttachmentDTO {
         this.type = type;
     }
 
-    public long getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -93,19 +99,19 @@ public class AttachmentDTO {
         this.lastUpdate = lastUpdate;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

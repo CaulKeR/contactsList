@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface ContactDAO {
 
-    List<ContactDTO> getMainContactsInfo(int count, int page);
+    List<ContactDTO> getMainContactsInfo(Integer count, Integer page);
     void create(ContactDTO contact);
-    ContactDTO getContactById(long id);
+    ContactDTO getContactById(Long id);
     void update(ContactDTO contact);
-    void delete(long id);
+    void delete(Long id);
     List<ContactDTO> searchContacts(ContactDTO contact);
-    String getEmailById(long id);
+    String getEmailById(Long id);
     String getFirstNameByEmail(String email);
     List<ContactDTO> getContactsByBirthDate(Date birthDate);
-    int getCountOfContacts();
+    Integer getCountOfContacts();
 }

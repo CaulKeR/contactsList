@@ -5,6 +5,7 @@ import com.itechart.contactsList.dto.ContactDTO;
 import com.itechart.contactsList.dto.EmailDTO;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,6 @@ public class EverydayJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        System.out.println();
         ContactDAOImpl contactDAO = new ContactDAOImpl();
         List<ContactDTO> contacts = contactDAO.getContactsByBirthDate(Date.valueOf(LocalDate.now()));
         EmailDTO email = new EmailDTO();

@@ -4,14 +4,18 @@ import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.dto.ContactDTO;
 import com.itechart.contactsList.dao.ContactDAO;
 import com.itechart.contactsList.utility.Connector;
+import org.apache.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactDAOImpl implements ContactDAO {
 
+    private static final Logger log = Logger.getLogger(ContactDAOImpl.class);
+
     @Override
-    public List<ContactDTO> getMainContactsInfo(int count, int page) {
+    public List<ContactDTO> getMainContactsInfo(Integer count, Integer page) {
         List<ContactDTO> contactsList = new ArrayList<>();
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getMainContactsInfoPs = connection.prepareStatement("select c.id, c.first_name," +
@@ -22,8 +26,8 @@ public class ContactDAOImpl implements ContactDAO {
             getMainContactsInfoPs.setInt(2, count);
             contactsList = getRs(getMainContactsInfoPs.executeQuery());
         } catch (SQLException e) {
-            System.err.println("Error in DAO getMainContactsInfo");
-            e.printStackTrace();
+            log.error("Error in DAO getMainContactsInfo for count=" + count + " page=" + page);
+            log.error(e);
         }
         return contactsList;
     }
@@ -39,13 +43,13 @@ public class ContactDAOImpl implements ContactDAO {
             createPs = setPs(createPs, contact, addressId);
             createPs.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in DAO create");
-            e.printStackTrace();
+            log.error("Error in DAO create for " + contact.print());
+            log.error(e);
         }
     }
 
     @Override
-    public ContactDTO getContactById(long id) {
+    public ContactDTO getContactById(Long id) {
         ContactDTO contact = new ContactDTO();
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getContactById = connection.prepareStatement("select * from contact where id = ? and" +
@@ -62,8 +66,8 @@ public class ContactDAOImpl implements ContactDAO {
             AddressDAOImpl addressDAO = new AddressDAOImpl();
             contact.setAddress(addressDAO.getAddressById(rs.getLong("address_id")));
         } catch (SQLException e) {
-            System.err.println("Error in DAO getContactById");
-            e.printStackTrace();
+            log.error("Error in DAO getContactById for id=" + id);
+            log.error(e);
         }
         return contact;
     }
@@ -82,21 +86,21 @@ public class ContactDAOImpl implements ContactDAO {
             updatePs.setLong(12, contact.getId());
             updatePs.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in DAO update");
-            e.printStackTrace();
+            log.error("Error in DAO update for " + contact.print());
+            log.error(e);
         }
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement deletePs = connection.prepareStatement("update contact set deleteDate = curdate() " +
                     "where id = ?;");
             deletePs.setLong(1, id);
             deletePs.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in DAO delete");
-            e.printStackTrace();
+            log.error("Error in DAO delete for id=" + id);
+            log.error(e);
         }
     }
 
@@ -138,14 +142,14 @@ public class ContactDAOImpl implements ContactDAO {
         try (Connection connection = new Connector().getConnection()) {
             contactsList = getRs(connection.prepareStatement(searchRequest).executeQuery());
         } catch (SQLException e) {
-            System.err.println("Error in DAO searchContacts");
-            e.printStackTrace();
+           log.error("Error in DAO searchContacts for " + contact.print());
+            log.error(e);
         }
         return contactsList;
     }
 
     @Override
-    public String getEmailById(long id) {
+    public String getEmailById(Long id) {
         String email = null;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getEmailByIdPs = connection.prepareStatement("select email from contact where id = ? and" +
@@ -156,8 +160,8 @@ public class ContactDAOImpl implements ContactDAO {
                 email = rs.getString("email");
             }
         } catch (SQLException e) {
-            System.err.println("Error in DAO getEmailById");
-            e.printStackTrace();
+            log.error("Error in DAO getEmailById for id=" + id);
+            log.error(e);
         }
         return email;
     }
@@ -174,8 +178,8 @@ public class ContactDAOImpl implements ContactDAO {
                 firstName = rs.getString("first_name");
             }
         } catch (SQLException e) {
-            System.err.println("Error in DAO getFirstNameByEmail");
-            e.printStackTrace();
+            log.error("Error in DAO getFirstNameByEmail for email=" + email);
+            log.error(e);
         }
         return firstName;
     }
@@ -195,14 +199,14 @@ public class ContactDAOImpl implements ContactDAO {
                 contacts.add(contactDTO);
             }
         } catch (SQLException e) {
-            System.err.println("Error in DAO getContactsByBirthDate");
-            e.printStackTrace();
+            log.error("Error in DAO getContactsByBirthDate for date=" + birthDate);
+            log.error(e);
         }
         return contacts;
     }
 
     @Override
-    public int getCountOfContacts() {
+    public Integer getCountOfContacts() {
         int count = 0;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getCountOfContactsPs = connection.prepareStatement("select count(*) from contact where" +
@@ -212,8 +216,8 @@ public class ContactDAOImpl implements ContactDAO {
                 count = rs.getInt("count(*)");
             }
         } catch (SQLException e) {
-            System.err.println("Error in DAO getCountOfContacts");
-            e.printStackTrace();
+            log.error("Error in DAO getCountOfContacts");
+            log.error(e);
         }
         return count;
     }
@@ -232,7 +236,7 @@ public class ContactDAOImpl implements ContactDAO {
             ps.setString(10, contact.getCurrentWorkplace());
             ps.setLong(11, addressId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return ps;
     }
@@ -252,7 +256,7 @@ public class ContactDAOImpl implements ContactDAO {
                 list.add(contactDTO);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return list;
     }

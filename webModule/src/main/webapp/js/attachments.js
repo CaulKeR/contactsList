@@ -53,7 +53,6 @@ function showEditAttachForm(id) {
 }
 
 function editAttach(id) {
-    console.log(document.getElementById("hiddenFileType").innerText);
     let userId = document.getElementById("hiddenUserId").innerText;
     let attach = {
         id: id,
@@ -61,24 +60,26 @@ function editAttach(id) {
         type: document.getElementById("hiddenFileType").innerText,
         comment: document.getElementById("attachComment").value,
     };
-    fetch("/contactsList/api/contact/" + userId + "/attachment/" + id,
-        {
-            method: "PUT",
-            headers: {
-                'charset': 'utf-8',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'mode': 'cors',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(attach)
-        })
-        .then(function (res) {
-            alert("Attachment edited!");
-            showAllAttachments(userId);
-            return res.statusText;
-        })
+    if (validateAttachInputFields(attach)) {
+        fetch("/contactsList/api/contact/" + userId + "/attachment/" + id,
+            {
+                method: "PUT",
+                headers: {
+                    'charset': 'utf-8',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'mode': 'cors',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify(attach)
+            })
+            .then(function (res) {
+                alert("Attachment edited!");
+                showAllAttachments(userId);
+                return res.statusText;
+            })
+    }
 }
 
 function uploadAttach(id) {
@@ -158,4 +159,21 @@ function deleteAttachments(id) {
         alert("All selected attachments are deleted!");
         showAllAttachments(id);
     }
+}
+
+function validateAttachInputFields(attach) {
+    let isValid = true;
+    if (attach.title.length > 256) {
+        isValid = false;
+        alert("Title is too long!");
+    }
+    if (attach.title === "") {
+        isValid = false;
+        alert("Title cannot be empty!");
+    }
+    if (attach.comment.length > 300) {
+        isValid = false;
+        alert("Comment is too long!");
+    }
+    return isValid;
 }

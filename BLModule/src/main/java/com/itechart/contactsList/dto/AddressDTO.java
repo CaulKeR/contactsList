@@ -2,17 +2,17 @@ package com.itechart.contactsList.dto;
 
 public class AddressDTO {
 
-    private long id;
+    private Long id;
     private String country;
     private String locality;
     private String street;
     private String house;
-    private short apartment;
+    private Short apartment;
     private String postcode;
 
     public AddressDTO(){}
 
-    public AddressDTO(long id, String country, String locality, String street, String house, short apartment, String postcode) {
+    public AddressDTO(Long id, String country, String locality, String street, String house, Short apartment, String postcode) {
         this.id = id;
         this.country = country;
         this.locality = locality;
@@ -31,11 +31,20 @@ public class AddressDTO {
         this.postcode = postcode;
     }
 
-    public long getId() {
+    public String print() {
+        return "Country: " + this.country + '\n' +
+                "Locality: " + this.locality + '\n' +
+                "Street: " + this.street + '\n' +
+                "House: " + this.house + '\n' +
+                "Apartment: " + this.apartment + '\n' +
+                "Postcode: " + this.postcode;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -71,11 +80,11 @@ public class AddressDTO {
         this.house = house;
     }
 
-    public short getApartment() {
+    public Short getApartment() {
         return apartment;
     }
 
-    public void setApartment(short apartment) {
+    public void setApartment(Short apartment) {
         this.apartment = apartment;
     }
 

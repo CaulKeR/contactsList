@@ -4,9 +4,9 @@ import com.itechart.contactsList.dto.AddressDTO;
 
 public interface AddressDAO {
 
-    long create(AddressDTO address);
+    Long create(AddressDTO address);
     void update(AddressDTO address);
-    AddressDTO getAddressById(long id);
-    long getAddressIdByContactId(long id);
+    AddressDTO getAddressById(Long id);
+    Long getAddressIdByContactId(Long id);
 
 }

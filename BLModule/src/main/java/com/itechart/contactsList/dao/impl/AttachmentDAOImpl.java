@@ -3,6 +3,8 @@ package com.itechart.contactsList.dao.impl;
 import com.itechart.contactsList.dao.AttachmentDAO;
 import com.itechart.contactsList.dto.AttachmentDTO;
 import com.itechart.contactsList.utility.Connector;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +12,10 @@ import java.sql.SQLException;
 
 public class AttachmentDAOImpl implements AttachmentDAO {
 
+    private static final Logger log = Logger.getLogger(AttachmentDAOImpl.class);
+
     @Override
-    public long create(String fileName, long userId) {
+    public Long create(String fileName, Long userId) {
         long lastId = 0L;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement createPs = connection.prepareStatement("insert into attachment (file_name, userId)" +
@@ -25,14 +29,14 @@ public class AttachmentDAOImpl implements AttachmentDAO {
                 lastId = rs.getLong("LAST_INSERT_ID()");
             }
         } catch (SQLException e) {
-            System.err.println("Error in AttachmentDAO create");
-            e.printStackTrace();
+            log.error("Error in AttachmentDAO create for userId=" + userId + " and fileName=" + fileName);
+            log.error(e);
         }
         return lastId;
     }
 
     @Override
-    public String getFileName(long id) {
+    public String getFileName(Long id) {
         String fileName = null;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getFileNamePs = connection.prepareStatement("select file_name from attachment where " +
@@ -43,27 +47,27 @@ public class AttachmentDAOImpl implements AttachmentDAO {
                 fileName = rs.getString("file_name");
             }
         } catch (SQLException e) {
-            System.err.println("Error in AttachmentDAO getFileName");
-            e.printStackTrace();
+            log.error("Error in AttachmentDAO getFileName for id=" + id);
+            log.error(e);
         }
         return fileName;
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement deletePs = connection.prepareStatement("update attachment set deleteDate = curdate()" +
                     " where id = ?;");
             deletePs.setLong(1, id);
             deletePs.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in AttachmentDAO delete");
-            e.printStackTrace();
+            log.error("Error in AttachmentDAO delete for id=" + id);
+            log.error(e);
         }
     }
 
     @Override
-    public long getUserId(long id) {
+    public Long getUserId(Long id) {
         long userId = 0L;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getUserIdPs = connection.prepareStatement("select userId from attachment where id = ?" +
@@ -74,14 +78,14 @@ public class AttachmentDAOImpl implements AttachmentDAO {
                 userId = rs.getLong("userId");
             }
         } catch (SQLException e) {
-            System.err.println("Error in AttachmentDAO getUserId");
-            e.printStackTrace();
+            log.error("Error in AttachmentDAO getUserId for id=" + id);
+            log.error(e);
         }
         return userId;
     }
 
     @Override
-    public AttachmentDTO getAttachmentById(long id) {
+    public AttachmentDTO getAttachmentById(Long id) {
         AttachmentDTO attachment = new AttachmentDTO();
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getByIdPs = connection.prepareStatement("select * from attachment where id = ? and" +
@@ -92,8 +96,8 @@ public class AttachmentDAOImpl implements AttachmentDAO {
             attachment = new AttachmentDTO(rs.getLong("id"), rs.getString("file_name"),
                     rs.getLong("userId"), rs.getString("comment"));
         } catch (SQLException e) {
-            System.err.println("Error in DAO getAttachmentById");
-            e.printStackTrace();
+            log.error("Error in DAO getAttachmentById for id=" + id);
+            log.error(e);
         }
         return attachment;
     }
@@ -102,14 +106,14 @@ public class AttachmentDAOImpl implements AttachmentDAO {
     public void update(AttachmentDTO attachment) {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement updatePs = connection.prepareStatement("update attachment set file_name = ?, comment = ? " +
-                        "where id = ?;");
-            updatePs.setString(1, attachment.getTitle() + "." +attachment.getType());
+                    "where id = ?;");
+            updatePs.setString(1, attachment.getTitle() + "." + attachment.getType());
             updatePs.setString(2, attachment.getComment());
             updatePs.setLong(3, attachment.getId());
             updatePs.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error in DAO update");
-            e.printStackTrace();
+            log.error("Error in DAO update for " + attachment.print());
+            log.error(e);
         }
     }
 }

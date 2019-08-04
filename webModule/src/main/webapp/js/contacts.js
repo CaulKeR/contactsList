@@ -1,10 +1,12 @@
 function showAllContacts(contactsPerPage, pageNumber) {
+    document.getElementById("pagination").style.visibility = 'visible';
     history.pushState({prevUrl: window.location.href}, null, '/contactsList/contacts');
     hideAllExcept("mainForm");
     document.getElementById("searchIcon").style.display = 'block';
     if (contactsPerPage === undefined || pageNumber === undefined) {
         contactsPerPage = 10;
         pageNumber = 1;
+        changeContactsPerPage(contactsPerPage);
     }
     fetch("/contactsList/api/contacts?count=" + contactsPerPage + "&page=" + pageNumber, {
         method: "GET",
@@ -29,7 +31,7 @@ function showAllContacts(contactsPerPage, pageNumber) {
         });
 }
 
-function showCreateForm() {
+function showCreateContactForm() {
     history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact');
     hideAllExcept("createForm");
 }
@@ -40,10 +42,12 @@ function createContact() {
         surname: document.getElementById("surname").value,
         patronymic: document.getElementById("patronymic").value,
         birthDate: document.getElementById("birthDate").value,
-        sex: document.getElementById("male").checked ? "male" : "female",
+        sex: document.getElementById("male").checked ? "male" :
+            (document.getElementById("female").checked ? "female" : ""),
         nationality: document.getElementById("nationality").value,
         familyStatus: document.getElementById("single").checked ? "single" :
-            (document.getElementById("divorced").checked ? "divorced" : "married"),
+            (document.getElementById("divorced").checked ? "divorced" :
+                (document.getElementById("married").checked ? "married" : "")),
         website: document.getElementById("website").value,
         email: document.getElementById("email").value,
         currentWorkplace: document.getElementById("currentWorkplace").value,
@@ -56,24 +60,25 @@ function createContact() {
             postcode: document.getElementById("postcode").value
         }
     };
-    fetch("/contactsList/api/contact",
-        {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'charset': 'utf-8',
-                'mode': 'cors',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(contact)
-        })
-        .then(function (res) {
-            alert("Contact created!");
-            showAllContacts();
-            return res.statusText;
-        });
+    if (validateContactInputFields(contact)) {
+        fetch("/contactsList/api/contact",
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'mode': 'cors',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify(contact)
+            })
+            .then(function (res) {
+                alert("Contact created!");
+                showAllContacts();
+                return res.statusText;
+            });
+    }
 }
 
 function deleteContact(id) {
@@ -106,10 +111,25 @@ function showEditForm(id) {
                 response.json().then(function (contact) {
                     document.getElementById("editor").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicContactEditor").innerHTML, contact);
-                    if (contact.customAvatar === true) {
-                        document.getElementById("editFormAvatar").src = "http://localhost:8080/contactsList/api/contact/" + id + "/photo";
-                    } else {
-                        document.getElementById("editFormAvatar").src = "/contactsList/images/defaultAvatar.png";
+                    document.getElementById("editFormAvatar").src = getAvatarUrl(contact.customAvatar, id);
+                    switch (contact.sex) {
+                        case 'male' :
+                            document.getElementById("editMale").checked = true;
+                            break;
+                        case 'female' :
+                            document.getElementById("editFemale").checked = true;
+                            break;
+                    }
+                    switch (contact.familyStatus) {
+                        case 'male' :
+                            document.getElementById("editSingle").checked = true;
+                            break;
+                        case 'divorced' :
+                            document.getElementById("editDivorced").checked = true;
+                            break;
+                        case 'married' :
+                            document.getElementById("editMarried").checked = true;
+                            break;
                     }
                 });
             }
@@ -126,10 +146,12 @@ function editContact(id) {
         surname: document.getElementById("editSurname").value,
         patronymic: document.getElementById("editPatronymic").value,
         birthDate: document.getElementById("editBirthDate").value,
-        sex: document.getElementById("editMale").checked ? "male" : "female",
+        sex: document.getElementById("editMale").checked ? "male" :
+            (document.getElementById("editFemale").checked ? "female" : ""),
         nationality: document.getElementById("editNationality").value,
         familyStatus: document.getElementById("editSingle").checked ? "single" :
-            (document.getElementById("editDivorced").checked ? "divorced" : "married"),
+            (document.getElementById("editDivorced").checked ? "divorced" :
+                (document.getElementById("editMarried").checked ? "married" : "")),
         website: document.getElementById("editWebsite").value,
         email: document.getElementById("editEmail").value,
         currentWorkplace: document.getElementById("editCurrentWorkplace").value,
@@ -142,34 +164,37 @@ function editContact(id) {
             postcode: document.getElementById("editPostcode").value
         }
     };
-    let formData = new FormData();
-    formData.append('file', document.getElementById("avatar").files[0]);
-    fetch("/contactsList/api/contact/" + id + "/photo",
-        {
-            method: "POST",
-            body: formData
-        })
-        .then(function (res) {
-            return res.statusText;
-        });
-    fetch("/contactsList/api/contact/" + id,
-        {
-            method: "PUT",
-            headers: {
-                'charset': 'utf-8',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'mode': 'cors',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(contact)
-        })
-        .then(function (res) {
-            alert("Contact edited!");
-            showFullContactInfoForm(id);
-            return res.statusText;
-        })
+    if (validateContactInputFields(contact)) {
+        ``
+        let formData = new FormData();
+        formData.append('file', document.getElementById("avatar").files[0]);
+        fetch("/contactsList/api/contact/" + id + "/photo",
+            {
+                method: "POST",
+                body: formData
+            })
+            .then(function (res) {
+                return res.statusText;
+            });
+        fetch("/contactsList/api/contact/" + id,
+            {
+                method: "PUT",
+                headers: {
+                    'charset': 'utf-8',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'mode': 'cors',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify(contact)
+            })
+            .then(function (res) {
+                alert("Contact edited!");
+                showFullContactInfoForm(id);
+                return res.statusText;
+            })
+    }
 }
 
 function deleteContacts() {
@@ -208,11 +233,7 @@ function showFullContactInfoForm(id) {
                 response.json().then(function (contact) {
                     document.getElementById("contact").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicContact").innerHTML, contact);
-                    if (contact.customAvatar === true) {
-                        document.getElementById("fullContactInfoAvatar").src = "http://localhost:8080/contactsList/api/contact/" + id + "/photo";
-                    } else {
-                        document.getElementById("fullContactInfoAvatar").src = "/contactsList/images/defaultAvatar.png";
-                    }
+                    document.getElementById("fullContactInfoAvatar").src = getAvatarUrl(contact.customAvatar, id);
                 });
             }
         )
@@ -244,7 +265,6 @@ function showFullContactInfoForm(id) {
 }
 
 function switchSearchFormVisibility() {
-    console.log(document.getElementById("searcher").style.display);
     if (document.getElementById("searcher").style.display === 'none') {
         document.getElementById("searcher").style.display = 'block';
     } else {
@@ -253,6 +273,7 @@ function switchSearchFormVisibility() {
 }
 
 function searchContacts() {
+    document.getElementById("pagination").style.visibility = 'hidden';
     let contact = {
         firstName: document.getElementById("searchFirstName").value,
         surname: document.getElementById("searchSurname").value,
@@ -300,6 +321,7 @@ function searchContacts() {
 }
 
 function changeContactsPerPage(contactsPerPage) {
+    document.getElementById("ContactsPerPage").value = contactsPerPage;
     fetch("/contactsList/api/countOfContacts", {
         method: "GET",
         headers: {
@@ -313,8 +335,8 @@ function changeContactsPerPage(contactsPerPage) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.text().then(function (countOfContacts) {
-                    let countOfPages = Math.trunc(countOfContacts / contactsPerPage) + 1;
-                    document.getElementById("hiddenMaxPageNumber").innerText = countOfPages;
+                    let countOfPages = Math.ceil(countOfContacts / contactsPerPage);
+                    document.getElementById("hiddenMaxPageNumber").innerText = countOfPages.toString();
                     document.getElementById("pageController").innerHTML = '<a onclick=\"changePage(\'prev\')\">&laquo;</a>';
                     for (let i = 1; i < countOfPages + 1; i++) {
                         document.getElementById("pageController").innerHTML += '<a id=\"page' + i + '\" onclick=\"changePage(' + i + ')\">' + i + '</a>';
@@ -336,8 +358,10 @@ function changePage(param) {
             if (parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) > 1) {
                 showAllContacts(document.getElementById("ContactsPerPage").value,
                     parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) - 1);
+                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '';
                 document.getElementById("hiddenCurrentPageNumber").innerText = (parseInt(document
                     .getElementById("hiddenCurrentPageNumber").innerText) - 1).toString();
+                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '#b0e0e6';
             }
             break;
         case 'next' :
@@ -345,8 +369,10 @@ function changePage(param) {
                 .getElementById("hiddenMaxPageNumber").innerText)) {
                 showAllContacts(document.getElementById("ContactsPerPage").value,
                     parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) + 1);
+                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '';
                 document.getElementById("hiddenCurrentPageNumber").innerText = (parseInt(document
                     .getElementById("hiddenCurrentPageNumber").innerText) + 1).toString();
+                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '#b0e0e6';
             }
             break;
         default:
@@ -361,4 +387,86 @@ function changePage(param) {
                 }
             }
     }
+}
+
+function getAvatarUrl(isAvatarCustom, id) {
+    return isAvatarCustom ? "http://localhost:8080/contactsList/api/contact/" + id + "/photo" :
+        "/contactsList/images/defaultAvatar.png";
+}
+
+function validateContactInputFields(contact) {
+    let isValid = true;
+    if (contact.firstName.length > 30) {
+        isValid = false;
+        alert("First name is too long!");
+    }
+    if (contact.firstName === "") {
+        isValid = false;
+        alert("First name cannot be empty!");
+    }
+    if (contact.surname.length > 30) {
+        isValid = false;
+        alert("Surname is too long!");
+    }
+    if (contact.surname === "") {
+        isValid = false;
+        alert("Surname cannot be empty!");
+    }
+    if (contact.patronymic.length > 30) {
+        isValid = false;
+        alert("Patronymic is too long!");
+    }
+    if (contact.birthDate === undefined || contact.birthDate === "") {
+        isValid = false;
+        alert("Birth date cannot be empty!");
+    }
+    if (contact.nationality.length > 30) {
+        isValid = false;
+        alert("Nationality is too long!");
+    }
+    if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm.test(contact.website)) {
+        isValid = false;
+        alert("Website is not URL!");
+    }
+    if (contact.website.length > 512) {
+        isValid = false;
+        alert("Website is too long!");
+    }
+    if (contact.email.length > 512) {
+        isValid = false;
+        alert("E-mail is too long!");
+    }
+    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(contact.email)) {
+        isValid = false;
+        alert("E-mail is not correct!");
+    }
+    if (contact.currentWorkplace.length > 100) {
+        isValid = false;
+        alert("Current workplace is too long!");
+    }
+    if (contact.address.country.length > 60) {
+        isValid = false;
+        alert("Country is too long!");
+    }
+    if (contact.address.locality.length > 150) {
+        isValid = false;
+        alert("Locality is too long!");
+    }
+    if (contact.address.street.length > 100) {
+        isValid = false;
+        alert("Street is too long!");
+    }
+    if (contact.address.house.length > 10) {
+        isValid = false;
+        alert("House is too long!");
+    }
+    if (contact.address.apartment > 32767) {
+        isValid = false;
+        alert("Apartment is too long!");
+    }
+    if (contact.address.postcode.length > 25) {
+        isValid = false;
+        alert("Postcode is too long!");
+    }
+    return isValid;
 }

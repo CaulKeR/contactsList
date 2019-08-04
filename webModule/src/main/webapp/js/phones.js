@@ -12,27 +12,30 @@ function createPhone() {
         countryCode: document.getElementById("countryCode").value,
         operatorsCode: document.getElementById("operatorsCode").value,
         phoneNumber: document.getElementById("phoneNumber").value,
-        type: document.getElementById("home").checked ? "home" : "mobile",
+        type: document.getElementById("home").checked ? "home" :
+            document.getElementById("mobile").checked ? "mobile" : "",
         comment: document.getElementById("phoneCreateComment").value
     };
-    fetch("/contactsList/api/contact/" + userId + "/phone",
-        {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'charset': 'utf-8',
-                'mode': 'cors',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(phone)
-        })
-        .then(function (res) {
-            alert("Phone created!");
-            showFullContactInfoForm(userId);
-            return res.statusText;
-        });
+    if (validatePhoneInputFields(phone)) {
+        fetch("/contactsList/api/contact/" + userId + "/phone",
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'charset': 'utf-8',
+                    'mode': 'cors',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify(phone)
+            })
+            .then(function (res) {
+                alert("Phone created!");
+                showFullContactInfoForm(userId);
+                return res.statusText;
+            });
+    }
 }
 
 function showPhoneEditForm(id) {
@@ -55,6 +58,14 @@ function showPhoneEditForm(id) {
                 response.json().then(function (phone) {
                     document.getElementById("phoneEditor").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicPhoneEditor").innerHTML, phone);
+                    switch (phone.type) {
+                        case 'home' :
+                            document.getElementById("editHome").checked = true;
+                            break;
+                        case 'mobile' :
+                            document.getElementById("editMobile").checked = true;
+                            break;
+                    }
                 });
             }
         )
@@ -71,27 +82,30 @@ function editPhone(id) {
         countryCode: document.getElementById("editCountryCode").value,
         operatorsCode: document.getElementById("editOperatorsCode").value,
         phoneNumber: document.getElementById("editPhoneNumber").value,
-        type: document.getElementById("editHome").checked ? "home" : "mobile",
+        type: document.getElementById("editHome").checked ? "home" :
+            document.getElementById("editMobile").checked ? "mobile" : "",
         comment: document.getElementById("phoneComment").value
     };
-    fetch("/contactsList/api/contact/" + userId + "/phone/" + id,
-        {
-            method: "PUT",
-            headers: {
-                'charset': 'utf-8',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'mode': 'cors',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Credentials": true
-            },
-            body: JSON.stringify(phone)
-        })
-        .then(function (res) {
-            alert("Phone edited!");
-            showFullContactInfoForm(userId);
-            return res.statusText;
-        })
+    if (validatePhoneInputFields(phone)) {
+        fetch("/contactsList/api/contact/" + userId + "/phone/" + id,
+            {
+                method: "PUT",
+                headers: {
+                    'charset': 'utf-8',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'mode': 'cors',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                },
+                body: JSON.stringify(phone)
+            })
+            .then(function (res) {
+                alert("Phone edited!");
+                showFullContactInfoForm(userId);
+                return res.statusText;
+            })
+    }
 }
 
 function deletePhone(id) {
@@ -111,7 +125,7 @@ function deletePhones() {
         let userId = document.getElementById("mainPhoneCheckbox").value;
         let boxes = document.getElementById("mainPhoneTable").getElementsByTagName("input");
         for (let i = 0; i < boxes.length; i++) {
-            if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value != 'on') {
+            if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
                 fetch("/contactsList/api/phone/" + boxes[i].value, {
                     method: "DELETE",
                 })
@@ -123,4 +137,29 @@ function deletePhones() {
         alert("All selected phones are deleted!");
         showFullContactInfoForm(userId);
     }
+}
+
+function validatePhoneInputFields(phone) {
+    let isValid = true;
+    if (phone.countryCode > 9999) {
+        isValid = false;
+        alert("Country code is not valid!");
+    }
+    if (phone.operatorsCode > 99999999999) {
+        isValid = false;
+        alert("Operators code is too long");
+    }
+    if (phone.phoneNumber > 9999999999) {
+        isValid = false;
+        alert("Phone number is too long!");
+    }
+    if (phone.phoneNumber === "") {
+        isValid = false;
+        alert("Phone number cannot be empty!");
+    }
+    if (phone.comment.length > 300) {
+        isValid = false;
+        alert("Comment is too long!");
+    }
+    return isValid;
 }

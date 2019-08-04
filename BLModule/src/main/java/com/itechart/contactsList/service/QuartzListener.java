@@ -1,5 +1,6 @@
 package com.itechart.contactsList.service;
 
+import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import javax.servlet.ServletContextEvent;
@@ -8,6 +9,8 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 public class QuartzListener implements ServletContextListener {
+
+    private static final Logger log = Logger.getLogger(QuartzListener.class);
     private Scheduler scheduler = null;
 
     @Override
@@ -22,7 +25,7 @@ public class QuartzListener implements ServletContextListener {
             scheduler.scheduleJob(job, trigger);
         }
         catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 
@@ -32,7 +35,7 @@ public class QuartzListener implements ServletContextListener {
         try {
             scheduler.shutdown();
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 }

@@ -4,24 +4,27 @@ import com.itechart.contactsList.dao.impl.ContactDAOImpl;
 import com.itechart.contactsList.dto.ContactDTO;
 import com.itechart.contactsList.dto.EmailDTO;
 import com.itechart.contactsList.dto.MessageTemplateDTO;
+import org.apache.log4j.Logger;
 import org.stringtemplate.v4.ST;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class EmailService {
 
+    private static final Logger log = Logger.getLogger(EmailService.class);
     private static final String SERVICE_EMAIL = "contactslistservice@gmail.com";
     private static final String SERVICE_PASS = "GUQkedhX4QakhhW";
 
-    public ContactDTO getByContactId(long id) {
+    public ContactDTO getByContactId(Long id) {
         return new ContactDTO(new ContactDAOImpl().getEmailById(id));
     }
 
@@ -44,9 +47,9 @@ public class EmailService {
 
     public void sendEmail(EmailDTO emailDTO) {
         Transport transport = null;
-        try (FileReader reader = new FileReader("email.properties")) {
+        try (InputStream in = EmailService.class.getResourceAsStream("/email.properties")) {
             Properties emailProperties = new Properties();
-            emailProperties.load(reader);
+            emailProperties.load(in);
             for (int i = 0; i < emailDTO.getEmails().length; i++) {
                 if (!emailDTO.getEmails()[i].equals("") && emailDTO.getEmails()[i] != null) {
                     Session mailSession = Session.getDefaultInstance(emailProperties, null);
@@ -54,26 +57,25 @@ public class EmailService {
                     emailMessage.setFrom(new InternetAddress(SERVICE_EMAIL));
                     emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailDTO.getEmails()[i]));
                     emailMessage.setSubject(emailDTO.getSubject());
-                    ST text = new ST(emailDTO.getText());
+                    ST text = new ST(emailDTO.getText().trim());
                     text.add("name", new ContactDAOImpl().getFirstNameByEmail(emailDTO.getEmails()[i]));
-                    emailMessage.setContent(text.render(), "text/html");
+                    emailMessage.setText(text.render());
                     transport = mailSession.getTransport("smtp");
                     if (transport != null) {
                         transport.connect("smtp.gmail.com", SERVICE_EMAIL, SERVICE_PASS);
                         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
-                        System.out.println("E-mail was sent successfully to " + emailDTO.getEmails()[i]);
+                        log.info("E-mail was sent successfully to " + emailDTO.getEmails()[i]);
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
         } finally {
             if (transport != null) {
                 try {
                     transport.close();
                 } catch (MessagingException e) {
-                    System.err.println(e);
-                    e.getCause();
+                    log.error(e);
                 }
             }
         }

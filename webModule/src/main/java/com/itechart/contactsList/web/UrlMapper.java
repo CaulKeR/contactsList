@@ -1,19 +1,20 @@
 package com.itechart.contactsList.web;
 
 import com.itechart.contactsList.web.impl.*;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class UrlMapper {
 
+    private static final Logger log = Logger.getLogger(UrlMapper.class);
     private HashMap<Pattern, Executable> executors = new HashMap<>();
 
     public UrlMapper() {
         executors.put(Pattern.compile("GET/contactsList/api/contacts"), new MainContactsInfo());
-        executors.put(Pattern.compile("POST/contactsList/api/contact"), new  CreateContact());
+        executors.put(Pattern.compile("POST/contactsList/api/contact"), new CreateContact());
         executors.put(Pattern.compile("GET/contactsList/api/contact/\\d+"), new ContactById());
         executors.put(Pattern.compile("DELETE/contactsList/api/contact/\\d+"), new DeleteContact());
         executors.put(Pattern.compile("PUT/contactsList/api/contact/\\d+"), new EditContact());
@@ -38,15 +39,12 @@ public class UrlMapper {
     }
 
     public Executable processRequestByUri(String uri) {
-        Iterator iterator = executors.entrySet().iterator();
-        System.out.println(uri);
-        while (iterator.hasNext()) {
-            Map.Entry pair = (Map.Entry) iterator.next();
-            if (((Pattern) pair.getKey()).matcher(uri).matches()){
-                return (Executable) pair.getValue();
+        for (Map.Entry<Pattern, Executable> patternExecutableEntry : executors.entrySet()) {
+            if (((Pattern) ((Map.Entry) patternExecutableEntry).getKey()).matcher(uri).matches()) {
+                return (Executable) ((Map.Entry) patternExecutableEntry).getValue();
             }
         }
-        System.err.println("Incorrect URL " + uri);
+        log.error("Incorrect URL " + uri);
         return new ReferenceToIndex();
     }
 

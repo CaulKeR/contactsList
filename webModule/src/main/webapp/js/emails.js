@@ -24,8 +24,8 @@ function showEmailForm(id) {
                     if (response.status < 200 || response.status >= 400) {
                         console.log('Looks like there was a problem. Status Code: ' + response.status);
                     }
-                    response.text().then(function (email) {
-                        document.getElementById("sendTo").innerHTML += email + ", ";
+                    response.json().then(function (contact) {
+                        document.getElementById("sendTo").innerHTML += contact.email + " ";
                     });
                 }
             )
@@ -55,7 +55,7 @@ function showEmailForm(id) {
 function sendEmail() {
     let email = {
         emails: document.getElementById("sendTo").innerText.replace("Send e-mail to: ", '')
-            .replace(/\s+/g, '').split(','),
+            .split(' '),
         subject: document.getElementById("emailSubject").value,
         text: document.getElementById("emailText").value
     };
@@ -77,7 +77,7 @@ function sendEmail() {
         })
         .then(function (res) {
             alert("E-mail sent!");
-            showAllContacts();
+            showAllContacts(10, 1);
             return res.statusText;
         })
 }
