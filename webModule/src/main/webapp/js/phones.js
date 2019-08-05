@@ -1,6 +1,6 @@
 function showCreatePhoneForm() {
     let userId = document.getElementById("hiddenContactId").innerText;
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + userId + '/phone');
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + userId + '/phone');
     hideAllExcept("createPhoneForm");
     document.getElementById("contactId").innerText = userId;
 }
@@ -17,7 +17,7 @@ function createPhone() {
         comment: document.getElementById("phoneCreateComment").value
     };
     if (validatePhoneInputFields(phone)) {
-        fetch("/contactsList/api/contact/" + userId + "/phone",
+        fetch("/api/contact/" + userId + "/phone",
             {
                 method: "POST",
                 headers: {
@@ -41,9 +41,9 @@ function createPhone() {
 function showPhoneEditForm(id) {
     let userId = document.getElementById("mainPhoneCheckbox").value;
     console.log("userId " + userId);
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + userId + '/phone/' + id);
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + userId + '/phone/' + id);
     hideAllExcept("editPhoneForm");
-    fetch("/contactsList/api/contact/" + userId + "/phone/" + id, {
+    fetch("/api/contact/" + userId + "/phone/" + id, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ function editPhone(id) {
         comment: document.getElementById("phoneComment").value
     };
     if (validatePhoneInputFields(phone)) {
-        fetch("/contactsList/api/contact/" + userId + "/phone/" + id,
+        fetch("/api/contact/" + userId + "/phone/" + id,
             {
                 method: "PUT",
                 headers: {
@@ -110,7 +110,7 @@ function editPhone(id) {
 
 function deletePhone(id) {
     if (confirm("Delete this phone?")) {
-        fetch("/contactsList/api/phone/" + id, {
+        fetch("/api/phone/" + id, {
             method: "DELETE",
         })
             .then(function (res) {
@@ -126,7 +126,7 @@ function deletePhones() {
         let boxes = document.getElementById("mainPhoneTable").getElementsByTagName("input");
         for (let i = 0; i < boxes.length; i++) {
             if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
-                fetch("/contactsList/api/phone/" + boxes[i].value, {
+                fetch("/api/phone/" + boxes[i].value, {
                     method: "DELETE",
                 })
                     .then(function (res) {

@@ -1,7 +1,7 @@
 function showAllAttachments(id) {
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + id + '/attachments');
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + id + '/attachments');
     hideAllExcept("attachmentsForm");
-    fetch("/contactsList/api/contact/" + id + "/attachments", {
+    fetch("/api/contact/" + id + "/attachments", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -27,9 +27,9 @@ function showAllAttachments(id) {
 function showEditAttachForm(id) {
     let userId = document.getElementById("attachCheckbox").value;
     console.log('userId ' + userId);
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + userId + '/attachment/' + id);
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + userId + '/attachment/' + id);
     hideAllExcept("editAttachForm");
-    fetch("/contactsList/api/contact/" + userId + '/attachment/' + id, {
+    fetch("/api/contact/" + userId + '/attachment/' + id, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ function editAttach(id) {
         comment: document.getElementById("attachComment").value,
     };
     if (validateAttachInputFields(attach)) {
-        fetch("/contactsList/api/contact/" + userId + "/attachment/" + id,
+        fetch("/api/contact/" + userId + "/attachment/" + id,
             {
                 method: "PUT",
                 headers: {
@@ -85,7 +85,7 @@ function editAttach(id) {
 function uploadAttach(id) {
     let formData = new FormData();
     formData.append('file', document.getElementById("attachField").files[0]);
-    fetch("/contactsList/api/contact/" + id + "/attachments",
+    fetch("/api/contact/" + id + "/attachments",
         {
             method: "POST",
             body: formData
@@ -98,7 +98,7 @@ function uploadAttach(id) {
 }
 
 function downloadAttach(id) {
-    fetch("/contactsList/api/attachment/" + id,
+    fetch("/api/attachment/" + id,
         {
             method: "GET",
         })
@@ -133,7 +133,7 @@ function downloadAttach(id) {
 
 function deleteAttachment(id) {
     if (confirm("Delete this attachment?")) {
-        fetch("/contactsList/api/attachment/" + id, {
+        fetch("/api/attachment/" + id, {
             method: "DELETE",
         })
             .then(function (res) {
@@ -148,7 +148,7 @@ function deleteAttachments(id) {
         let boxes = document.getElementById("attachTable").getElementsByTagName("input");
         for (let i = 0; i < boxes.length; i++) {
             if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
-                fetch("/contactsList/api/attachment/" + boxes[i].value, {
+                fetch("/api/attachment/" + boxes[i].value, {
                     method: "DELETE",
                 })
                     .then(function (res) {

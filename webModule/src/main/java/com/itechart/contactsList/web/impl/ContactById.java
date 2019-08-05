@@ -21,7 +21,7 @@ public class ContactById implements Executable {
             response.getWriter().write(new ObjectMapper().writeValueAsString(new ContactService().getById(Long
                     .parseLong(request.getRequestURI().replaceAll("\\D", "")))));
         } catch (IOException e) {
-           log.error(e);
+            log.error(e);
         }
     }
 }

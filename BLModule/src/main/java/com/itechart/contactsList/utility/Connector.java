@@ -9,7 +9,7 @@ public class Connector {
 
     private Connection connection = null;
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         if (connection == null) {
             try {
                 Context initContext = new InitialContext();

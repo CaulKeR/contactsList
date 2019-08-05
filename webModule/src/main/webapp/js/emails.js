@@ -1,5 +1,5 @@
 function showEmailForm(id) {
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/email');
+    history.pushState({prevUrl: window.location.href}, null, '/email');
     hideAllExcept("emailForm");
     document.getElementById("sendTo").innerHTML = "Send e-mail to: ";
     let boxes = document.getElementById("mainTable").getElementsByTagName("input");
@@ -13,7 +13,7 @@ function showEmailForm(id) {
         }
     }
     for (let i = 0; i < ids.length; i++) {
-        fetch("/contactsList/api/contact/" + ids[i] + "/mail", {
+        fetch("/api/contact/" + ids[i] + "/mail", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ function showEmailForm(id) {
                 console.log('Fetch Error :-S', err);
             });
     }
-    fetch("/contactsList/api/mail/templates", {
+    fetch("/api/mail/templates", {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ function sendEmail() {
     console.log(email.emails);
     console.log(email.subject);
     console.log(email.text);
-    fetch("/contactsList/api/mail",
+    fetch("/api/mail",
         {
             method: "POST",
             headers: {

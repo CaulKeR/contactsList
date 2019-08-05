@@ -2,12 +2,15 @@ table {
     margin: 10px auto 10px;
     border-collapse: collapse;
 }
+
 #attachmentsForm input {
     cursor: pointer;
 }
+
 #attachCheckbox {
     float: left;
 }
+
 th {
     padding: 3px;
     border: 1px solid black;
@@ -15,34 +18,42 @@ th {
     background: #b0e0e6;
     height: 32px;
 }
+
 td {
     text-align: left;
     padding: 3px;
     border: 1px solid black;
 }
+
 td a {
     cursor: pointer;
 }
+
 tr:nth-child(2n + 1) {
     background: #f1f1f4;
 }
+
 tr:hover {
     background-color: #d5e6a2;
 }
+
 .images img {
     display: block;
 }
+
 img {
     padding: 4px;
     width: 20px;
     margin: 0 auto;
     cursor: pointer;
 }
-.majorAttachButtons{
+
+.majorAttachButtons {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .attachmentsForm input {
     cursor: pointer;
     border-radius: 8px;
@@ -56,10 +67,12 @@ img {
     margin: 0 5px 0 5px;
     width: 200px;
 }
+
 .attachmentsForm input:hover {
     background-color: #d5e6a2;
     color: black;
 }
+
 #editAttachForm {
     display: block;
     margin: 10px 20px;

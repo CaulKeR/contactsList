@@ -68,9 +68,12 @@
                             <td>
                                 <label>Family status</label>
                                 <fieldset id="fsSearchGroup">
-                                    <p><input type="radio" name="fsEditGroup" id="searchSingle">Single</p>
-                                    <p><input type="radio" name="fsEditGroup" id="searchDivorced">Divorced</p>
-                                    <p><input type="radio" name="fsEditGroup" id="searchMarried">Married</p>
+                                    <p><label for="searchSingle">Single</label>
+                                        <input type="radio" name="fsEditGroup" id="searchSingle"></p>
+                                    <p><label for="searchDivorced">Divorced</label>
+                                        <input type="radio" name="fsEditGroup" id="searchDivorced"></p>
+                                    <p><label for="searchMarried">Married</label>
+                                        <input type="radio" name="fsEditGroup" id="searchMarried"></p>
                                 </fieldset>
                             </td>
                             <td>
@@ -87,7 +90,8 @@
             </div>
             <script type="text/template" id="dynamicMainTable">
                 <tr>
-                    <th><input id="mainCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainCheckbox',
+                    <th><label for="mainCheckbox"></label>
+                        <input id="mainCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainCheckbox',
                                     'mainTable')">Name
                     </th>
                     <th>Birth Date</th>
@@ -97,7 +101,9 @@
                 </tr>
                 {{#.}}
                 <tr>
-                    <td><input type="checkbox" value={{id}} onclick="selectCheckbox('mainCheckbox', 'mainTable');">
+                    <td><label>
+                        <input type="checkbox" value={{id}} onclick="selectCheckbox('mainCheckbox', 'mainTable');">
+                    </label>
                         <a onclick="showFullContactInfoForm({{id}});">
                             {{firstName}} {{surname}} {{patronymic}}</a></td>
                     <td>{{birthDate}}</td>
@@ -150,16 +156,21 @@
                         <input type="date" id="birthDate" placeholder="Enter birth date here"></p>
                     <label>Sex</label>
                     <fieldset id="sexGroup">
-                        <p><input type="radio" id="male" name="sexGroup">Male</p>
-                        <p><input type="radio" id="female" name="sexGroup">Female</p>
+                        <p><label for="male">Male</label>
+                            <input type="radio" id="male" name="sexGroup"></p>
+                        <p><label for="female">Female</label>
+                            <input type="radio" id="female" name="sexGroup"></p>
                     </fieldset>
                     <p><label for="nationality">Nationality</label>
                         <input type="text" id="nationality" placeholder="Enter nationality here"></p>
                     <label>Family status</label>
                     <fieldset id="fsGroup">
-                        <p><input type="radio" name="fsGroup" id="single">Single</p>
-                        <p><input type="radio" name="fsGroup" id="divorced">Divorced</p>
-                        <p><input type="radio" name="fsGroup" id="married">Married</p>
+                        <p><label for="single">Single</label>
+                            <input type="radio" name="fsGroup" id="single"></p>
+                        <p><label for="divorced">Divorced</label>
+                            <input type="radio" name="fsGroup" id="divorced"></p>
+                        <p><label for="married">Married</label>
+                            <input type="radio" name="fsGroup" id="married"></p>
                     </fieldset>
                     <p><label for="website">Website</label>
                         <input type="url" id="website" placeholder="Enter website here"></p>
@@ -216,7 +227,8 @@
             <div id="contact"></div>
             <script type="text/template" id="dynamicPhoneTable">
                 <tr>
-                    <th><input id="mainPhoneCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainPhoneCheckbox',
+                    <th><label for="mainPhoneCheckbox"></label>
+                        <input id="mainPhoneCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainPhoneCheckbox',
                                     'mainPhoneTable')">Phone
                     </th>
                     <th>Description</th>
@@ -225,16 +237,18 @@
                 </tr>
                 {{#.}}
                 <tr>
-                    <td><input type="checkbox" value={{id}}
+                    <td><label>
+                        <input type="checkbox" value={{id}}
                                onclick="selectCheckbox('mainPhoneCheckbox', 'mainPhoneTable');">
+                    </label>
                         +{{countryCode}}({{operatorsCode}}){{phoneNumber}}
                     </td>
                     <td>{{type}}</td>
                     <td>{{comment}}</td>
                     <td>
                         <div id=phoneImages">
-                            <img src="/contactsList/images/edit.png" alt="edit" onclick="showPhoneEditForm({{id}});"/>
-                            <img src="/contactsList/images/delete.png" alt="delete" onclick="deletePhone({{id}});"/>
+                            <img src="/images/edit.png" alt="edit" onclick="showPhoneEditForm({{id}});"/>
+                            <img src="/images/delete.png" alt="delete" onclick="deletePhone({{id}});"/>
                         </div>
                     </td>
                 </tr>
@@ -261,19 +275,24 @@
                         <input type="text" id="editPatronymic" value={{patronymic}}></p>
                     <p><label for="editBirthDate">Birth date</label>
                         <input type="date" id="editBirthDate" value={{birthDate}}></p>
-                    <p><label>Sex</label>
-                        <fieldset id="sexEditGroup">
-                    <p><input type="radio" name="sexEditGroup" id="editMale">Male</p>
-                    <p><input type="radio" name="sexEditGroup" id="editFemale">Female</p>
-                    </fieldset></p>
+                    <p><label>Sex</label></p>
+                    <fieldset id="sexEditGroup">
+                        <p><label for="editMale">Male</label>
+                            <input type="radio" name="sexEditGroup" id="editMale"></p>
+                        <p><label for="editFemale">Female</label>
+                            <input type="radio" name="sexEditGroup" id="editFemale"></p>
+                    </fieldset>
                     <p><label for="editNationality">Nationality</label>
                         <input type="text" id="editNationality" value={{nationality}}></p>
-                    <p><label>Family status</label>
-                        <fieldset id="fsEditGroup">
-                    <p><input type="radio" name="fsEditGroup" id="editSingle">Single</p>
-                    <p><input type="radio" name="fsEditGroup" id="editDivorced">Divorced</p>
-                    <p><input type="radio" name="fsEditGroup" id="editMarried">Married</p>
-                    </fieldset></p>
+                    <p><label>Family status</label></p>
+                    <fieldset id="fsEditGroup">
+                        <p><label for="editSingle">Single</label>
+                            <input type="radio" name="fsEditGroup" id="editSingle"></p>
+                        <p><label for="editDivorced">Divorced</label>
+                            <input type="radio" name="fsEditGroup" id="editDivorced"></p>
+                        <p><label for="editMarried">Married</label>
+                            <input type="radio" name="fsEditGroup" id="editMarried"></p>
+                    </fieldset>
                     <p><label for="editWebsite">Website</label>
                         <input type="url" id="editWebsite" value={{website}}></p>
                     <p><label for="editEmail">E-mail</label>
@@ -304,7 +323,8 @@
         <div id="attachmentsForm">
             <script type="text/template" id="dynamicAttachTable">
                 <tr>
-                    <th><input id="attachCheckbox" type="checkbox" onclick="selectAllCheckboxes('attachCheckbox',
+                    <th><label for="attachCheckbox"></label>
+                        <input id="attachCheckbox" type="checkbox" onclick="selectAllCheckboxes('attachCheckbox',
                                 'attachTable')">Title
                     </th>
                     <th>Type</th>
@@ -314,18 +334,20 @@
                 </tr>
                 {{#.}}
                 <tr>
-                    <td><input type="checkbox" onclick="selectCheckbox('attachCheckbox', 'attachTable');"
-                               value={{id}}>{{title}}
+                    <td><label>
+                        <input type="checkbox" onclick="selectCheckbox('attachCheckbox', 'attachTable');"
+                               value={{id}}>
+                    </label>{{title}}
                     </td>
                     <td>{{type}}</td>
                     <td>{{size}}</td>
                     <td>{{lastUpdate}}</td>
                     <td>
                         <div id="attachImages">
-                            <img src="/contactsList/images/edit.png" alt="edit" onclick="showEditAttachForm({{id}});"/>
-                            <img src="/contactsList/images/download.png" alt="download"
+                            <img src="/images/edit.png" alt="edit" onclick="showEditAttachForm({{id}});"/>
+                            <img src="/images/download.png" alt="download"
                                  onclick="downloadAttach({{id}});"/>
-                            <img src="/contactsList/images/delete.png" alt="delete"
+                            <img src="/images/delete.png" alt="delete"
                                  onclick="deleteAttachment({{id}});"/>
                         </div>
                     </td>
@@ -411,11 +433,13 @@
                         <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
                     <p><label for="editPhoneNumber">Phone number</label>
                         <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
-                    <p><label>Type</label>
-                        <fieldset id="phoneTypeEditGroup">
-                    <p><input type="radio" name="phoneTypeEditGroup" id="editHome">Home</p>
-                    <p><input type="radio" name="phoneTypeEditGroup" id="editMobile">Mobile</p>
-                    </fieldset></p>
+                    <p><label>Type</label></p>
+                    <fieldset id="phoneTypeEditGroup">
+                        <p><label for="editHome">Home</label>
+                            <input type="radio" name="phoneTypeEditGroup" id="editHome"></p>
+                        <p><label for="editMobile">Mobile</label>
+                            <input type="radio" name="phoneTypeEditGroup" id="editMobile"></p>
+                    </fieldset>
                     <p><label for="phoneComment">Comment
                         <textarea id="phoneComment">{{comment}}</textarea>
                     <p>
@@ -438,16 +462,20 @@
                         <input type="number" id="operatorsCode" placeholder="Enter operator's code here"></p>
                     <p><label for="phoneNumber">Phone number</label>
                         <input type="number" id="phoneNumber" placeholder="Enter phone number here"></p>
-                    <label>Type</label>
+                    <p><label>Type</label></p>
                     <fieldset id="phoneTypeCreateGroup">
-                        <p><input type="radio" id="home" name="phoneTypeCreateGroup">Home</p>
-                        <p><input type="radio" id="mobile" name="phoneTypeCreateGroup">Mobile</p>
+                        <p><label for="home">Home</label>
+                            <input type="radio" id="home" name="phoneTypeCreateGroup"></p>
+                        <p><label for="mobile">Mobile</label>
+                            <input type="radio" id="mobile" name="phoneTypeCreateGroup"></p>
                     </fieldset>
                     <label for="phoneCreateComment">Comment
                         <textarea id="phoneCreateComment"></textarea>
-                        <p><button type="button" class="button" onclick="createPhone()">Submit</button>
-                        <button type="reset" class="button">Reset</button>
-                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button></p>
+                        <p>
+                            <button type="button" class="button" onclick="createPhone()">Submit</button>
+                            <button type="reset" class="button">Reset</button>
+                            <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
+                        </p>
                     </label>
                 </form>
             </div>

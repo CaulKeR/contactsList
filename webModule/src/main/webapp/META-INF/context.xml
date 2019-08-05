@@ -1,15 +1,15 @@
 <Context>
     <Resource
-        name="jdbc/Users"
-        auth="Container"
-        type="javax.sql.DataSource"
-        maxActive="10"
-        maxIdle="30"
-        maxWait="10000"
-        driverClassName="com.mysql.cj.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/contacts_list?autoReconnect=true&amp;useSSL=false&amp;useUnicode=true&amp;
+            name="jdbc/Users"
+            auth="Container"
+            type="javax.sql.DataSource"
+            maxActive="10"
+            maxIdle="30"
+            maxWait="10000"
+            driverClassName="com.mysql.cj.jdbc.Driver"
+            url="jdbc:mysql://localhost:3306/contacts_list?autoReconnect=true&amp;useSSL=false&amp;useUnicode=true&amp;
                 useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;
                 allowPublicKeyRetrieval=true"
-        username="root"
-        password="dota21kmmr"/>
+            username="root"
+            password="dota21kmmr"/>
 </Context>

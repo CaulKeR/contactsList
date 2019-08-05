@@ -3,12 +3,15 @@ table {
     border-collapse: collapse;
     background-color: white;
 }
+
 #mainForm input {
     cursor: pointer;
 }
+
 #mainCheckbox {
     float: left;
 }
+
 th {
     padding: 3px;
     border: 1px solid black;
@@ -16,49 +19,61 @@ th {
     background: #b0e0e6;
     height: 32px;
 }
+
 td {
     text-align: left;
     padding: 3px;
     border: 1px solid black;
 }
+
 td a {
     cursor: pointer;
 }
+
 tr:nth-child(2n + 1) {
     background: #f1f1f4;
 }
+
 tr:hover {
     background-color: #d5e6a2;
 }
+
 .images img {
     display: block;
 
 }
+
 img {
     padding: 4px;
     width: 20px;
     margin: 0 auto;
     cursor: pointer;
 }
-.majorButtons{
+
+.majorButtons {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 #searcher td {
     text-align: center;
     min-width: 110px;
 }
+
 #searcher input {
     cursor: text;
     width: 130px;
 }
+
 #searcher tr:hover {
     background-color: #f1f1f4;
 }
+
 #searcher table {
     margin: 0 0 0 0;
 }
+
 #pageController a {
     cursor: pointer;
     display: inline-block;
@@ -67,30 +82,36 @@ img {
     text-decoration: none;
     border-radius: 7px;
 }
+
 #pageController a:hover {
     border-radius: 7px;
     background-color: #e7e7ea;
 }
+
 #pagination {
     display: flex;
     align-items: center;
     justify-content: center;
     visibility: visible;
 }
-dialog{
+
+dialog {
     border-radius: 20px;
     background: yellow;
 }
+
 fieldset {
     border: 0;
     margin: 0;
     padding: 0;
 }
+
 #editForm img {
     width: 200px;
     height: 200px;
     cursor: default;
 }
+
 #editor {
     display: block;
     margin: 10px 20px;
@@ -99,26 +120,32 @@ fieldset {
     font-size: larger;
     font-style: italic;
 }
+
 #fullContactInfoForm p {
     cursor: default;
 }
-#fullContactInfoAvatar{
+
+#fullContactInfoAvatar {
     width: 200px;
     height: 200px;
     cursor: default;
 }
+
 table {
     margin: 10px auto 10px;
     border-collapse: collapse;
     background-color: white;
     cursor: default;
 }
+
 #mainPhoneCheckbox {
     float: left;
 }
+
 #mainPhoneTable input {
     cursor: pointer;
 }
+
 th {
     padding: 3px;
     border: 1px solid black;
@@ -126,34 +153,42 @@ th {
     background: #b0e0e6;
     height: 32px;
 }
+
 td {
     text-align: left;
     padding: 3px;
     border: 1px solid black;
 }
+
 tr:nth-child(2n + 1) {
     background: #f1f1f4;
 }
+
 tr:hover {
     background-color: #d5e6a2;
 }
+
 .images img {
     display: block;
 }
+
 #phoneImages img {
     padding: 4px;
     width: 20px;
     margin: 0 auto;
     cursor: pointer;
 }
-.majorPhoneButtons{
+
+.majorPhoneButtons {
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 #fullContactInfoHead {
-    display:inline-flex;
+    display: inline-flex;
 }
+
 #fullContactInfoBody {
     display: block;
     margin: 10px 20px;
@@ -162,6 +197,7 @@ tr:hover {
     font-size: larger;
     font-style: italic;
 }
+
 #creator {
     display: block;
     margin: 10px 20px;

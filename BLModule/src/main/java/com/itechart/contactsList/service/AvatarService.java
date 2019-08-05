@@ -20,7 +20,7 @@ public class AvatarService {
             while ((temp = reader.read()) != -1) {
                 out.write(temp);
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             log.error(e);
         }
     }

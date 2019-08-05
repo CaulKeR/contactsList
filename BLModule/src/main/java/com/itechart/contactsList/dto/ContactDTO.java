@@ -1,6 +1,7 @@
 package com.itechart.contactsList.dto;
 
 import com.fasterxml.jackson.annotation.*;
+
 import java.sql.Date;
 
 public class ContactDTO {
@@ -54,7 +55,8 @@ public class ContactDTO {
                 "Address:" + this.address;
     }
 
-    public ContactDTO() {}
+    public ContactDTO() {
+    }
 
     public ContactDTO(String email) {
         this.email = email;

@@ -3,8 +3,10 @@ package com.itechart.contactsList.service;
 import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -23,8 +25,7 @@ public class QuartzListener implements ServletContextListener {
             scheduler = new StdSchedulerFactory().getScheduler();
             scheduler.start();
             scheduler.scheduleJob(job, trigger);
-        }
-        catch (SchedulerException e) {
+        } catch (SchedulerException e) {
             log.error(e);
         }
     }

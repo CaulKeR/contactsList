@@ -1,6 +1,6 @@
 function showAllContacts(contactsPerPage, pageNumber) {
     document.getElementById("pagination").style.visibility = 'visible';
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contacts');
+    history.pushState({prevUrl: window.location.href}, null, '/contacts');
     hideAllExcept("mainForm");
     document.getElementById("searchIcon").style.display = 'block';
     if (contactsPerPage === undefined || pageNumber === undefined) {
@@ -8,7 +8,7 @@ function showAllContacts(contactsPerPage, pageNumber) {
         pageNumber = 1;
         changeContactsPerPage(contactsPerPage);
     }
-    fetch("/contactsList/api/contacts?count=" + contactsPerPage + "&page=" + pageNumber, {
+    fetch("/api/contacts?count=" + contactsPerPage + "&page=" + pageNumber, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function showAllContacts(contactsPerPage, pageNumber) {
 }
 
 function showCreateContactForm() {
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact');
+    history.pushState({prevUrl: window.location.href}, null, '/contact');
     hideAllExcept("createForm");
 }
 
@@ -61,7 +61,7 @@ function createContact() {
         }
     };
     if (validateContactInputFields(contact)) {
-        fetch("/contactsList/api/contact",
+        fetch("/api/contact",
             {
                 method: "POST",
                 headers: {
@@ -83,7 +83,7 @@ function createContact() {
 
 function deleteContact(id) {
     if (confirm("Delete this contact?")) {
-        fetch("/contactsList/api/contact/" + id, {
+        fetch("/api/contact/" + id, {
             method: "DELETE",
         })
             .then(function (res) {
@@ -94,9 +94,9 @@ function deleteContact(id) {
 }
 
 function showEditForm(id) {
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + id);
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + id);
     hideAllExcept("editForm");
-    fetch("/contactsList/api/contact/" + id, {
+    fetch("/api/contact/" + id, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -165,10 +165,9 @@ function editContact(id) {
         }
     };
     if (validateContactInputFields(contact)) {
-        ``
         let formData = new FormData();
         formData.append('file', document.getElementById("avatar").files[0]);
-        fetch("/contactsList/api/contact/" + id + "/photo",
+        fetch("/api/contact/" + id + "/photo",
             {
                 method: "POST",
                 body: formData
@@ -176,7 +175,7 @@ function editContact(id) {
             .then(function (res) {
                 return res.statusText;
             });
-        fetch("/contactsList/api/contact/" + id,
+        fetch("/api/contact/" + id,
             {
                 method: "PUT",
                 headers: {
@@ -202,7 +201,7 @@ function deleteContacts() {
         let boxes = document.getElementById("mainTable").getElementsByTagName("input");
         for (i = 0; i < boxes.length; i++) {
             if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
-                fetch("/contactsList/api/contact/" + boxes[i].value, {
+                fetch("/api/contact/" + boxes[i].value, {
                     method: "DELETE",
                 })
                     .then(function (res) {
@@ -216,9 +215,9 @@ function deleteContacts() {
 }
 
 function showFullContactInfoForm(id) {
-    history.pushState({prevUrl: window.location.href}, null, '/contactsList/contact/' + id);
+    history.pushState({prevUrl: window.location.href}, null, '/contact/' + id);
     hideAllExcept("fullContactInfoForm");
-    fetch("/contactsList/api/contact/" + id, {
+    fetch("/api/contact/" + id, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -240,7 +239,7 @@ function showFullContactInfoForm(id) {
         .catch(function (err) {
             console.log('Fetch Error :-S', err);
         });
-    fetch("/contactsList/api/contact/" + id + "/phones", {
+    fetch("/api/contact/" + id + "/phones", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -296,7 +295,7 @@ function searchContacts() {
             postcode: ""
         }
     };
-    fetch("/contactsList/api/search", {
+    fetch("/api/search", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -322,7 +321,7 @@ function searchContacts() {
 
 function changeContactsPerPage(contactsPerPage) {
     document.getElementById("ContactsPerPage").value = contactsPerPage;
-    fetch("/contactsList/api/countOfContacts", {
+    fetch("/api/countOfContacts", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -390,8 +389,7 @@ function changePage(param) {
 }
 
 function getAvatarUrl(isAvatarCustom, id) {
-    return isAvatarCustom ? "http://localhost:8080/contactsList/api/contact/" + id + "/photo" :
-        "/contactsList/images/defaultAvatar.png";
+    return isAvatarCustom ? "http://localhost:8080/api/contact/" + id + "/photo" : "/images/defaultAvatar.png";
 }
 
 function validateContactInputFields(contact) {
@@ -424,7 +422,7 @@ function validateContactInputFields(contact) {
         isValid = false;
         alert("Nationality is too long!");
     }
-    if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm.test(contact.website)) {
+    if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()\*\+,;=.]+$/gm.test(contact.website)) {
         isValid = false;
         alert("Website is not URL!");
     }
@@ -436,7 +434,7 @@ function validateContactInputFields(contact) {
         isValid = false;
         alert("E-mail is too long!");
     }
-    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(contact.email)) {
+    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(contact.email)) {
         isValid = false;
         alert("E-mail is not correct!");
     }

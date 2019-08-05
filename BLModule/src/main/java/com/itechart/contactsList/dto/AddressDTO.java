@@ -10,7 +10,8 @@ public class AddressDTO {
     private Short apartment;
     private String postcode;
 
-    public AddressDTO(){}
+    public AddressDTO() {
+    }
 
     public AddressDTO(Long id, String country, String locality, String street, String house, Short apartment, String postcode) {
         this.id = id;

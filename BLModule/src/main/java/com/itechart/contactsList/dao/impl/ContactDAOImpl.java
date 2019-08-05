@@ -142,7 +142,7 @@ public class ContactDAOImpl implements ContactDAO {
         try (Connection connection = new Connector().getConnection()) {
             contactsList = getRs(connection.prepareStatement(searchRequest).executeQuery());
         } catch (SQLException e) {
-           log.error("Error in DAO searchContacts for " + contact.print());
+            log.error("Error in DAO searchContacts for " + contact.print());
             log.error(e);
         }
         return contactsList;
