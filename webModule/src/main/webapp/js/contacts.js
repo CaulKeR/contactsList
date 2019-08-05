@@ -88,6 +88,7 @@ function deleteContact(id) {
         })
             .then(function (res) {
                 showAllContacts();
+                alert("Contact successfully deleted!");
                 return res.statusText;
             })
     }
