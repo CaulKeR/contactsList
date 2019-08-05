@@ -9,7 +9,7 @@ create table `contacts_list`.`address`
     `locality`  varchar(150),
     `street`    varchar(100),
     `house`     varchar(10),
-    `apartment` int(6),
+    `apartment` integer(6),
     `postcode`  varchar(25),
     primary key (`id`)
 ) engine = InnoDB

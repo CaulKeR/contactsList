@@ -107,8 +107,8 @@
                         <a onclick="showFullContactInfoForm({{id}});">
                             {{firstName}} {{surname}} {{patronymic}}</a></td>
                     <td>{{birthDate}}</td>
-                    <td>{{address.country}}, {{address.locality}}, {{address.street}}, {{address.house}},
-                        {{address.apartment}}, {{address.postcode}}
+                    <td>{{address.country}} {{address.locality}} {{address.street}} {{address.house}}
+                        {{address.apartment}} {{address.postcode}}
                     </td>
                     <td>{{currentWorkplace}}</td>
                     <td>
@@ -152,7 +152,7 @@
                         <input type="text" id="surname" placeholder="Enter last name here"></p>
                     <p><label for="patronymic">Patronymic</label>
                         <input type="text" id="patronymic" placeholder="Enter patronymic here"></p>
-                    <p><label for="birthDate">Birth date</label>
+                    <p><label for="birthDate">Birth date*</label>
                         <input type="date" id="birthDate" placeholder="Enter birth date here"></p>
                     <label>Sex*</label>
                     <fieldset id="sexGroup">
@@ -221,9 +221,9 @@
                     <p>Apartment: {{address.apartment}}</p>
                     <p>Postcode: {{address.postcode}}</p>
                 </div>
-                <button class="button" onclick="showEditForm({{id}});">Edit this contact</button>
-                <button class="button" onclick="deleteContact({{id}});">Delete this contact</button>
-                <button class="button" onclick="showAllContacts()">Cancel</button>
+                <button type="button" class="button" onclick="showEditForm({{id}});">Edit this contact</button>
+                <button type="button" class="button" onclick="deleteContact({{id}});">Delete this contact</button>
+                <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
             </script>
             <div id="contact"></div>
             <script type="text/template" id="dynamicPhoneTable">
@@ -232,7 +232,7 @@
                         <input id="mainPhoneCheckbox" type="checkbox" onclick="selectAllCheckboxes('mainPhoneCheckbox',
                                     'mainPhoneTable')">Phone
                     </th>
-                    <th>Description</th>
+                    <th>Type</th>
                     <th>Comment</th>
                     <th>Actions</th>
                 </tr>
@@ -242,7 +242,7 @@
                         <input type="checkbox" value={{id}}
                                onclick="selectCheckbox('mainPhoneCheckbox', 'mainPhoneTable');">
                     </label>
-                        +{{countryCode}}({{operatorsCode}}){{phoneNumber}}
+                        {{countryCode}}({{operatorsCode}}){{phoneNumber}}
                     </td>
                     <td>{{type}}</td>
                     <td>{{comment}}</td>
@@ -274,7 +274,7 @@
                         <input type="text" id="editSurname" value={{surname}}></p>
                     <p><label for="editPatronymic">Patronymic</label>
                         <input type="text" id="editPatronymic" value={{patronymic}}></p>
-                    <p><label for="editBirthDate">Birth date</label>
+                    <p><label for="editBirthDate">Birth date*</label>
                         <input type="date" id="editBirthDate" value={{birthDate}}></p>
                     <p><label>Sex*</label></p>
                     <fieldset id="sexEditGroup">
@@ -398,9 +398,9 @@
                     </label>
                 </p>
                 <p>
-                    <button class="button" onclick="sendEmail()">Send e-mail</button>
+                    <button type="button" class="button" onclick="sendEmail()">Send e-mail</button>
                     <button class="button" type="reset">Reset</button>
-                    <button class="button" type="reset" onclick="showAllContacts()">Cancel</button>
+                    <button class="button" type="button" onclick="showAllContacts()">Cancel</button>
                 </p>
             </form>
         </div>
@@ -431,7 +431,7 @@
                     <p id="hiddenPhoneUserId" hidden>{{contactId}}</p>
                     <p><label for="editCountryCode">Country code(without "+")</label>
                         <input type="number" id="editCountryCode" value={{countryCode}}></p>
-                    <p><label for="editOperatorsCode">Operator's code</label>
+                    <p><label for="editOperatorsCode">Operator's code*</label>
                         <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
                     <p><label for="editPhoneNumber">Phone number*</label>
                         <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
@@ -461,7 +461,7 @@
                     <p id="contactId" hidden></p>
                     <p><label for="countryCode">Country code(without "+")</label>
                         <input type="number" id="countryCode" placeholder="Enter country here"></p>
-                    <p><label for="operatorsCode">Operator's code</label>
+                    <p><label for="operatorsCode">Operator's code*</label>
                         <input type="number" id="operatorsCode" placeholder="Enter operator's code here"></p>
                     <p><label for="phoneNumber">Phone number*</label>
                         <input type="number" id="phoneNumber" placeholder="Enter phone number here"></p>

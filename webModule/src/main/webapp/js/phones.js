@@ -58,6 +58,9 @@ function showPhoneEditForm(id) {
                 response.json().then(function (phone) {
                     document.getElementById("phoneEditor").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicPhoneEditor").innerHTML, phone);
+                    if (phone.countryCode === null || phone.countryCode === 0) {
+                        phone.countryCode = '';
+                    }
                     switch (phone.type) {
                         case 'home' :
                             document.getElementById("editHome").checked = true;
@@ -86,6 +89,12 @@ function editPhone(id) {
             document.getElementById("editMobile").checked ? "mobile" : "",
         comment: document.getElementById("phoneComment").value
     };
+    if (phone.countryCode === 0) {
+        phone.countryCode = '';
+    }
+    if (phone.operatorsCode === 0) {
+        phone.operatorsCode = '';
+    }
     if (validatePhoneInputFields(phone)) {
         fetch("/api/contact/" + userId + "/phone/" + id,
             {
@@ -144,6 +153,10 @@ function validatePhoneInputFields(phone) {
     if (phone.countryCode > 9999) {
         isValid = false;
         alert("Country code is not valid!");
+    }
+    if (phone.operatorsCode === '') {
+        isValid = false;
+        alert("Operators code cannot be empty!");
     }
     if (phone.operatorsCode > 99999999999) {
         isValid = false;

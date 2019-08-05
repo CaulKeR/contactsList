@@ -13,7 +13,7 @@ public class AttachmentDTO {
     private Long size;
     private String comment;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss z", timezone = "Europe/Minsk")
     private Date lastUpdate;
 
     public AttachmentDTO(Long id, Long userId, String file, Long size, Date lastUpdate, String comment) {

@@ -21,6 +21,11 @@ function showAllContacts(contactsPerPage, pageNumber) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (contacts) {
+                    for (let i = 0; i < contacts.length; i++) {
+                        if (contacts[i].address.apartment === null || contacts[i].address.apartment === 0) {
+                            contacts[i].address.apartment = '';
+                        }
+                    }
                     document.getElementById("mainTable").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicMainTable").innerHTML, contacts);
                 });
@@ -110,6 +115,9 @@ function showEditForm(id) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (contact) {
+                    if (contact.address.apartment === null || contact.address.apartment === 0) {
+                        contact.address.apartment = '';
+                    }
                     document.getElementById("editor").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicContactEditor").innerHTML, contact);
                     document.getElementById("editFormAvatar").src = getAvatarUrl(contact.customAvatar, id);
@@ -231,6 +239,9 @@ function showFullContactInfoForm(id) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (contact) {
+                    if (contact.address.apartment === null || contact.address.apartment === 0) {
+                        contact.address.apartment = '';
+                    }
                     document.getElementById("contact").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicContact").innerHTML, contact);
                     document.getElementById("fullContactInfoAvatar").src = getAvatarUrl(contact.customAvatar, id);
@@ -253,6 +264,14 @@ function showFullContactInfoForm(id) {
                     console.log('Looks like there was a problem. Status Code: ' + response.status);
                 }
                 response.json().then(function (phones) {
+                    for (let i = 0; i < phones.length; i++) {
+                        if (phones[i].countryCode === null || phones[i].countryCode === 0) {
+                            phones[i].countryCode = '';
+                        }
+                        if (phones[i].operatorsCode === null || phones[i].operatorsCode === 0) {
+                            phones[i].operatorsCode = '';
+                        }
+                    }
                     document.getElementById("mainPhoneTable").innerHTML = Mustache.to_html(document
                         .getElementById("dynamicPhoneTable").innerHTML, phones);
                     document.getElementById("mainPhoneCheckbox").value = id;
@@ -419,11 +438,15 @@ function validateContactInputFields(contact) {
         isValid = false;
         alert("Birth date cannot be empty!");
     }
+    if (contact.sex === undefined || contact.sex === "") {
+        isValid = false;
+        alert("Choose sex!");
+    }
     if (contact.nationality.length > 30) {
         isValid = false;
         alert("Nationality is too long!");
     }
-    if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()\*\+,;=.]+$/gm.test(contact.website)) {
+    if (contact.website !== '' && !/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()\*\+,;=.]+$/gm.test(contact.website)) {
         isValid = false;
         alert("Website is not URL!");
     }
@@ -435,7 +458,7 @@ function validateContactInputFields(contact) {
         isValid = false;
         alert("E-mail is too long!");
     }
-    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(contact.email)) {
+    if (contact.email !== '' && !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(contact.email)) {
         isValid = false;
         alert("E-mail is not correct!");
     }

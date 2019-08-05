@@ -5,10 +5,7 @@ import com.itechart.contactsList.dto.PhoneDTO;
 import com.itechart.contactsList.utility.Connector;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +19,21 @@ public class PhoneDAOImpl implements PhoneDAO {
             PreparedStatement createPs = connection.prepareStatement("insert into phone (contact_id, country_code," +
                     " operators_code, phone_number, phone_type, comment) values (?, ?, ?, ?, ?, ?);");
             createPs.setLong(1, phone.getContactId());
-            createPs.setShort(2, phone.getCountryCode());
-            createPs.setInt(3, phone.getOperatorsCode());
-            createPs.setInt(4, phone.getPhoneNumber());
+            if (phone.getCountryCode() != null) {
+                createPs.setShort(2, phone.getCountryCode());
+            } else {
+                createPs.setNull(2, Types.INTEGER);
+            }
+            if (phone.getOperatorsCode() != null) {
+                createPs.setInt(3, phone.getOperatorsCode());
+            } else {
+                createPs.setNull(3, Types.INTEGER);
+            }
+            if (phone.getPhoneNumber() != null) {
+                createPs.setInt(4, phone.getPhoneNumber());
+            } else {
+                createPs.setNull(4, Types.INTEGER);
+            }
             createPs.setString(5, phone.getType());
             createPs.setString(6, phone.getComment());
             createPs.executeUpdate();
@@ -39,9 +48,21 @@ public class PhoneDAOImpl implements PhoneDAO {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement updatePs = connection.prepareStatement("update phone set country_code = ?, " +
                     "operators_code = ?, phone_number = ?, phone_type = ?, comment = ? where id = ?;");
-            updatePs.setShort(1, phone.getCountryCode());
-            updatePs.setInt(2, phone.getOperatorsCode());
-            updatePs.setInt(3, phone.getPhoneNumber());
+            if (phone.getCountryCode() != null) {
+                updatePs.setShort(1, phone.getCountryCode());
+            } else {
+                updatePs.setNull(1, Types.INTEGER);
+            }
+            if (phone.getOperatorsCode() != null) {
+                updatePs.setInt(2, phone.getOperatorsCode());
+            } else {
+                updatePs.setNull(2, Types.INTEGER);
+            }
+            if (phone.getPhoneNumber() != null) {
+                updatePs.setInt(3, phone.getPhoneNumber());
+            } else {
+                updatePs.setNull(3, Types.INTEGER);
+            }
             updatePs.setString(4, phone.getType());
             updatePs.setString(5, phone.getComment());
             updatePs.setLong(6, phone.getId());

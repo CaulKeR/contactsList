@@ -20,7 +20,7 @@ public class ContactDAOImpl implements ContactDAO {
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getMainContactsInfoPs = connection.prepareStatement("select c.id, c.first_name," +
                     " c.surname, c.patronymic, c.birth_date, a.country, a.locality, a.street, a.house, a.apartment," +
-                    " a.postcode, c.сurrent_workplace from contact c, address a where c.address_id = a.id and" +
+                    " a.postcode, c.current_workplace from contact c, address a where c.address_id = a.id and" +
                     " c.deleteDate is null limit ?, ?;");
             getMainContactsInfoPs.setInt(1, (page - 1) * count);
             getMainContactsInfoPs.setInt(2, count);
@@ -38,7 +38,7 @@ public class ContactDAOImpl implements ContactDAO {
             AddressDAOImpl addressDAO = new AddressDAOImpl();
             long addressId = addressDAO.create(contact.getAddress());
             PreparedStatement createPs = connection.prepareStatement("insert into contact (first_name, surname," +
-                    " patronymic,birth_date, sex, nationality, family_status, website, email, сurrent_workplace," +
+                    " patronymic,birth_date, sex, nationality, family_status, website, email, current_workplace," +
                     " address_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
             createPs = setPs(createPs, contact, addressId);
             createPs.executeUpdate();
@@ -62,7 +62,7 @@ public class ContactDAOImpl implements ContactDAO {
                     rs.getDate("birth_date"), rs.getString("sex"),
                     rs.getString("nationality"), rs.getString("family_status"),
                     rs.getString("website"), rs.getString("email"),
-                    rs.getString("сurrent_workplace"), rs.getDate("deleteDate"));
+                    rs.getString("current_workplace"), rs.getDate("deleteDate"));
             AddressDAOImpl addressDAO = new AddressDAOImpl();
             contact.setAddress(addressDAO.getAddressById(rs.getLong("address_id")));
         } catch (SQLException e) {
@@ -81,7 +81,7 @@ public class ContactDAOImpl implements ContactDAO {
             addressDAO.update(address);
             PreparedStatement updatePs = connection.prepareStatement("update contact set first_name = ?, surname = ?," +
                     " patronymic = ?, birth_date = ?, sex = ?, nationality = ?, family_status = ?, website = ?, " +
-                    "email = ?, сurrent_workplace = ?, address_id = ? where id = ?;");
+                    "email = ?, current_workplace = ?, address_id = ? where id = ?;");
             updatePs = setPs(updatePs, contact, address.getId());
             updatePs.setLong(12, contact.getId());
             updatePs.executeUpdate();
@@ -107,7 +107,7 @@ public class ContactDAOImpl implements ContactDAO {
     @Override
     public List<ContactDTO> searchContacts(ContactDTO contact) {
         String searchRequest = "select c.id, c.first_name, c.surname, c.patronymic, c.birth_date, a.country, " +
-                "a.locality, a.street, a.house, a.apartment, a.postcode, c.сurrent_workplace from contact c, " +
+                "a.locality, a.street, a.house, a.apartment, a.postcode, c.current_workplace from contact c, " +
                 "address a where c.address_id = a.id and c.deleteDate is null";
         if (contact.getFirstName() != null && !contact.getFirstName().equals("")) {
             searchRequest += " and first_name = \'" + contact.getFirstName() + "\'";
@@ -134,7 +134,7 @@ public class ContactDAOImpl implements ContactDAO {
             searchRequest += " and family_status = \'" + contact.getFamilyStatus() + "\'";
         }
         if (contact.getCurrentWorkplace() != null && !contact.getCurrentWorkplace().equals("")) {
-            searchRequest += " and сurrent_workplace = \'" + contact.getCurrentWorkplace() + "\'";
+            searchRequest += " and current_workplace = \'" + contact.getCurrentWorkplace() + "\'";
         }
         searchRequest += " ;";
         System.out.println(searchRequest);
@@ -247,7 +247,7 @@ public class ContactDAOImpl implements ContactDAO {
             while (rs.next()) {
                 ContactDTO contactDTO = new ContactDTO(rs.getLong("id"), rs.getString("first_name"),
                         rs.getString("surname"), rs.getString("patronymic"),
-                        rs.getDate("birth_date"), rs.getString("сurrent_workplace"));
+                        rs.getDate("birth_date"), rs.getString("current_workplace"));
                 AddressDTO address = new AddressDTO(rs.getString("country"),
                         rs.getString("locality"), rs.getString("street"),
                         rs.getString("house"), rs.getShort("apartment"),

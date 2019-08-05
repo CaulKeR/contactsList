@@ -15,6 +15,15 @@ body {
     flex: 1 0 auto;
 }
 
+#createPhoneForm {
+     display: block;
+     margin: 10px 20px;
+     text-align: -webkit-left;
+     color: black;
+     font-size: larger;
+     font-style: italic;
+ }
+
 button {
     cursor: pointer;
     border-radius: 8px;

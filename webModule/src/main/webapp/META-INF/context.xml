@@ -1,4 +1,4 @@
-<Context>
+<Context docBase="webModule_war" path="" reloadable="true">
     <Resource
             name="jdbc/Users"
             auth="Container"

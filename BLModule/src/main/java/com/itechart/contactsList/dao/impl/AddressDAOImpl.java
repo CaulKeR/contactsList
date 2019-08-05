@@ -5,10 +5,7 @@ import com.itechart.contactsList.dto.AddressDTO;
 import com.itechart.contactsList.utility.Connector;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class AddressDAOImpl implements AddressDAO {
 
@@ -88,7 +85,11 @@ public class AddressDAOImpl implements AddressDAO {
             ps.setString(2, address.getLocality());
             ps.setString(3, address.getStreet());
             ps.setString(4, address.getHouse());
-            ps.setShort(5, address.getApartment());
+            if (address.getApartment() != null) {
+                ps.setShort(5, address.getApartment());
+            } else {
+                ps.setNull(5, Types.INTEGER);
+            }
             ps.setString(6, address.getPostcode());
         } catch (SQLException e) {
             log.error(e);
