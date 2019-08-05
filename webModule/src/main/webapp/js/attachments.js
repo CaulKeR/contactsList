@@ -4,7 +4,7 @@ function showAllAttachments(id) {
     fetch("/api/contact/" + id + "/attachments", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -32,8 +32,7 @@ function showEditAttachForm(id) {
     fetch("/api/contact/" + userId + '/attachment/' + id, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'charset': 'utf-8',
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -65,9 +64,8 @@ function editAttach(id) {
             {
                 method: "PUT",
                 headers: {
-                    'charset': 'utf-8',
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json;charset=utf-8',
                     'mode': 'cors',
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": true
@@ -76,6 +74,10 @@ function editAttach(id) {
             })
             .then(function (res) {
                 alert("Attachment edited!");
+                document.getElementById("hiddenUserId").innerText = '';
+                document.getElementById("editAttachTitle").value = '';
+                document.getElementById("hiddenFileType").innerText = '';
+                document.getElementById("attachComment").value = '';
                 showAllAttachments(userId);
                 return res.statusText;
             })
@@ -83,18 +85,21 @@ function editAttach(id) {
 }
 
 function uploadAttach(id) {
-    let formData = new FormData();
-    formData.append('file', document.getElementById("attachField").files[0]);
-    fetch("/api/contact/" + id + "/attachments",
-        {
-            method: "POST",
-            body: formData
-        })
-        .then(function (res) {
-            showAllAttachments(id);
-            alert("Attachment added");
-            return res.statusText;
-        });
+    if (validateAttachFileField()) {
+        let formData = new FormData();
+        formData.append('file', document.getElementById("attachField").files[0]);
+        fetch("/api/contact/" + id + "/attachments",
+            {
+                method: "POST",
+                body: formData
+            })
+            .then(function (res) {
+                showAllAttachments(id);
+                alert("Attachment added");
+                document.getElementById("attachField").value = '';
+                return res.statusText;
+            });
+    }
 }
 
 function downloadAttach(id) {
@@ -174,6 +179,16 @@ function validateAttachInputFields(attach) {
     if (attach.comment.length > 300) {
         isValid = false;
         alert("Comment is too long!");
+    }
+    return isValid;
+}
+
+function validateAttachFileField() {
+    console.log(document.getElementById("attachField").value);
+    let isValid = true;
+    if (document.getElementById("attachField").value === '' || document.getElementById("attachField").value === null) {
+        isValid = false;
+        alert("You did not select file to upload!");
     }
     return isValid;
 }

@@ -167,18 +167,18 @@ public class ContactDAOImpl implements ContactDAO {
     }
 
     @Override
-    public String getFirstNameByEmail(String email) {
+    public String getFirstNameById(long id) {
         String firstName = null;
         try (Connection connection = new Connector().getConnection()) {
             PreparedStatement getFirstNameByEmailPs = connection.prepareStatement("select first_name from contact where " +
-                    "email = ? and deleteDate is null;");
-            getFirstNameByEmailPs.setString(1, email);
+                    "id = ? and deleteDate is null;");
+            getFirstNameByEmailPs.setLong(1, id);
             ResultSet rs = getFirstNameByEmailPs.executeQuery();
             if (rs.next()) {
                 firstName = rs.getString("first_name");
             }
         } catch (SQLException e) {
-            log.error("Error in DAO getFirstNameByEmail for email=" + email);
+            log.error("Error in DAO getFirstNameByEmail for id=" + id);
             log.error(e);
         }
         return firstName;

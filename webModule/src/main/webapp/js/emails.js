@@ -16,8 +16,7 @@ function showEmailForm(id) {
         fetch("/api/contact/" + ids[i] + "/mail", {
             method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'charset': 'utf-8',
+                'Content-Type': 'application/json;charset=utf-8',
             }
         })
             .then(function (response) {
@@ -26,6 +25,7 @@ function showEmailForm(id) {
                     }
                     response.json().then(function (contact) {
                         document.getElementById("sendTo").innerHTML += contact.email + " ";
+                        document.getElementById("sendToIds").innerHTML += ids[i] + " ";
                     });
                 }
             )
@@ -36,8 +36,7 @@ function showEmailForm(id) {
     fetch("/api/mail/templates", {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'charset': 'utf-8',
+            'Content-Type': 'application/json;charset=utf-8',
         }
     })
         .then(function (response) {
@@ -54,21 +53,19 @@ function showEmailForm(id) {
 
 function sendEmail() {
     let email = {
+        ids: document.getElementById("sendToIds").innerText.split(' '),
         emails: document.getElementById("sendTo").innerText.replace("Send e-mail to: ", '')
             .split(' '),
         subject: document.getElementById("emailSubject").value,
         text: document.getElementById("emailText").value
     };
-    console.log(email.emails);
-    console.log(email.subject);
-    console.log(email.text);
+    console.log(email.ids);
     fetch("/api/mail",
         {
             method: "POST",
             headers: {
-                'charset': 'utf-8',
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json;charset=utf-8',
                 'mode': 'cors',
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Credentials": true
@@ -77,6 +74,7 @@ function sendEmail() {
         })
         .then(function (res) {
             alert("E-mail sent!");
+            cleanEmailFields();
             showAllContacts(10, 1);
             return res.statusText;
         })
@@ -84,4 +82,11 @@ function sendEmail() {
 
 function changeOption(value) {
     document.getElementById("emailText").value = value;
+}
+
+function cleanEmailFields() {
+    document.getElementById("sendToIds").innerText = '';
+    document.getElementById("sendTo").innerText = '';
+    document.getElementById("emailSubject").value = '';
+    document.getElementById("emailText").value = '';
 }

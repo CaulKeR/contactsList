@@ -51,14 +51,15 @@ public class EmailService {
             Properties emailProperties = new Properties();
             emailProperties.load(in);
             for (int i = 0; i < emailDTO.getEmails().length; i++) {
-                if (!emailDTO.getEmails()[i].equals("") && emailDTO.getEmails()[i] != null) {
+                if (!emailDTO.getEmails()[i].equals("") && emailDTO.getIds()[i] != 0L) {
                     Session mailSession = Session.getDefaultInstance(emailProperties, null);
                     MimeMessage emailMessage = new MimeMessage(mailSession);
                     emailMessage.setFrom(new InternetAddress(SERVICE_EMAIL));
-                    emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailDTO.getEmails()[i]));
+                    emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(new ContactDAOImpl()
+                            .getEmailById(emailDTO.getIds()[i])));
                     emailMessage.setSubject(emailDTO.getSubject());
                     ST text = new ST(emailDTO.getText().trim());
-                    text.add("name", new ContactDAOImpl().getFirstNameByEmail(emailDTO.getEmails()[i]));
+                    text.add("name", new ContactDAOImpl().getFirstNameById(emailDTO.getIds()[i]));
                     emailMessage.setText(text.render());
                     transport = mailSession.getTransport("smtp");
                     if (transport != null) {

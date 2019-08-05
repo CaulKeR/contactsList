@@ -22,8 +22,7 @@ function createPhone() {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'charset': 'utf-8',
+                    'Content-Type': 'application/json;charset=utf-8',
                     'mode': 'cors',
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": true
@@ -32,6 +31,11 @@ function createPhone() {
             })
             .then(function (res) {
                 alert("Phone created!");
+                document.getElementById("countryCode").value = '';
+                document.getElementById("operatorsCode").value = '';
+                document.getElementById("phoneNumber").value = '';
+                document.getElementById("phoneTypeCreateGroup").value = '';
+                document.getElementById("phoneCreateComment").value = '';
                 showFullContactInfoForm(userId);
                 return res.statusText;
             });
@@ -46,8 +50,7 @@ function showPhoneEditForm(id) {
     fetch("/api/contact/" + userId + "/phone/" + id, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'charset': 'utf-8',
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -100,9 +103,8 @@ function editPhone(id) {
             {
                 method: "PUT",
                 headers: {
-                    'charset': 'utf-8',
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json;charset=utf-8',
                     'mode': 'cors',
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": true
@@ -111,6 +113,11 @@ function editPhone(id) {
             })
             .then(function (res) {
                 alert("Phone edited!");
+                document.getElementById("editCountryCode").value = '';
+                document.getElementById("editOperatorsCode").value = '';
+                document.getElementById("editPhoneNumber").value = '';
+                document.getElementById("phoneTypeEditGroup").value = '';
+                document.getElementById("phoneComment").value = '';
                 showFullContactInfoForm(userId);
                 return res.statusText;
             })

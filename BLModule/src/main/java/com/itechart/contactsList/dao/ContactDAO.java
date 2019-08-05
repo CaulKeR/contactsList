@@ -21,7 +21,7 @@ public interface ContactDAO {
 
     String getEmailById(Long id);
 
-    String getFirstNameByEmail(String email);
+    String getFirstNameById(long id);
 
     List<ContactDTO> getContactsByBirthDate(Date birthDate);
 

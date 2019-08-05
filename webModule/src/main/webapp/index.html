@@ -264,63 +264,61 @@
             </div>
         </div>
         <div id="editForm">
-            <form>
-                <script type="text/template" id="dynamicContactEditor">
-                    <img id="editFormAvatar" src="" alt="avatarEditForm"/>
-                    <input id="avatar" type="file" class="button"/>
-                    <p><label for="editFirstName">First Name*</label>
-                        <input type="text" id="editFirstName" value={{firstName}}></p>
-                    <p><label for="editSurname">Surname*</label>
-                        <input type="text" id="editSurname" value={{surname}}></p>
-                    <p><label for="editPatronymic">Patronymic</label>
-                        <input type="text" id="editPatronymic" value={{patronymic}}></p>
-                    <p><label for="editBirthDate">Birth date*</label>
-                        <input type="date" id="editBirthDate" value={{birthDate}}></p>
-                    <p><label>Sex*</label></p>
-                    <fieldset id="sexEditGroup">
-                        <p><label for="editMale">Male</label>
-                            <input type="radio" name="sexEditGroup" id="editMale"></p>
-                        <p><label for="editFemale">Female</label>
-                            <input type="radio" name="sexEditGroup" id="editFemale"></p>
-                    </fieldset>
-                    <p><label for="editNationality">Nationality</label>
-                        <input type="text" id="editNationality" value={{nationality}}></p>
-                    <p><label>Family status</label></p>
-                    <fieldset id="fsEditGroup">
-                        <p><label for="editSingle">Single</label>
-                            <input type="radio" name="fsEditGroup" id="editSingle"></p>
-                        <p><label for="editDivorced">Divorced</label>
-                            <input type="radio" name="fsEditGroup" id="editDivorced"></p>
-                        <p><label for="editMarried">Married</label>
-                            <input type="radio" name="fsEditGroup" id="editMarried"></p>
-                    </fieldset>
-                    <p><label for="editWebsite">Website</label>
-                        <input type="url" id="editWebsite" value={{website}}></p>
-                    <p><label for="editEmail">E-mail</label>
-                        <input type="email" id="editEmail" value={{email}}></p>
-                    <p><label for="editCurrentWorkplace">Current workplace</label>
-                        <input type="text" id="editCurrentWorkplace" value={{currentWorkplace}}></p>
-                    <p><label for="editCountry">Country</label>
-                        <input type="text" id="editCountry" value={{address.country}}></p>
-                    <p><label for="editLocality">Locality</label>
-                        <input type="text" id="editLocality" value={{address.locality}}></p>
-                    <p><label for="editStreet">Street</label>
-                        <input type="text" id="editStreet" value={{address.street}}></p>
-                    <p><label for="editHouse">House</label>
-                        <input type="text" id="editHouse" value={{address.house}}></p>
-                    <p><label for="editApartment">Apartment</label>
-                        <input type="text" id="editApartment" value={{address.apartment}}></p>
-                    <p><label for="editPostcode">Postcode</label>
-                        <input type="text" id="editPostcode" value={{address.postcode}}></p>
-                        <p class="warning">Fields marked "*" must be filled</p>
-                    <p>
-                        <button type="button" class="button" onclick="editContact({{id}});">Submit</button>
-                        <button class="button" type="reset">Reset</button>
-                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
-                    </p>
-                </script>
-                <div id="editor"></div>
-            </form>
+            <script type="text/template" id="dynamicContactEditor">
+                <img id="editFormAvatar" src="" alt="avatarEditForm"/>
+                <input id="avatar" type="file" class="button"/>
+                <p><label for="editFirstName">First Name*</label>
+                    <input type="text" id="editFirstName" value={{firstName}}></p>
+                <p><label for="editSurname">Surname*</label>
+                    <input type="text" id="editSurname" value={{surname}}></p>
+                <p><label for="editPatronymic">Patronymic</label>
+                    <input type="text" id="editPatronymic" value={{patronymic}}></p>
+                <p><label for="editBirthDate">Birth date*</label>
+                    <input type="date" id="editBirthDate" value={{birthDate}}></p>
+                <p><label>Sex*</label></p>
+                <fieldset id="sexEditGroup">
+                    <p><label for="editMale">Male</label>
+                        <input type="radio" name="sexEditGroup" id="editMale"></p>
+                    <p><label for="editFemale">Female</label>
+                        <input type="radio" name="sexEditGroup" id="editFemale"></p>
+                </fieldset>
+                <p><label for="editNationality">Nationality</label>
+                    <input type="text" id="editNationality" value={{nationality}}></p>
+                <p><label>Family status</label></p>
+                <fieldset id="fsEditGroup">
+                    <p><label for="editSingle">Single</label>
+                        <input type="radio" name="fsEditGroup" id="editSingle"></p>
+                    <p><label for="editDivorced">Divorced</label>
+                        <input type="radio" name="fsEditGroup" id="editDivorced"></p>
+                    <p><label for="editMarried">Married</label>
+                        <input type="radio" name="fsEditGroup" id="editMarried"></p>
+                </fieldset>
+                <p><label for="editWebsite">Website</label>
+                    <input type="url" id="editWebsite" value={{website}}></p>
+                <p><label for="editEmail">E-mail</label>
+                    <input type="email" id="editEmail" value={{email}}></p>
+                <p><label for="editCurrentWorkplace">Current workplace</label>
+                    <input type="text" id="editCurrentWorkplace" value={{currentWorkplace}}></p>
+                <p><label for="editCountry">Country</label>
+                    <input type="text" id="editCountry" value={{address.country}}></p>
+                <p><label for="editLocality">Locality</label>
+                    <input type="text" id="editLocality" value={{address.locality}}></p>
+                <p><label for="editStreet">Street</label>
+                    <input type="text" id="editStreet" value={{address.street}}></p>
+                <p><label for="editHouse">House</label>
+                    <input type="text" id="editHouse" value={{address.house}}></p>
+                <p><label for="editApartment">Apartment</label>
+                    <input type="text" id="editApartment" value={{address.apartment}}></p>
+                <p><label for="editPostcode">Postcode</label>
+                    <input type="text" id="editPostcode" value={{address.postcode}}></p>
+                <p class="warning">Fields marked "*" must be filled</p>
+                <p>
+                    <button type="button" class="button" onclick="editContact({{id}});">Submit</button>
+                    <button type="button" class="button" onclick="showEditForm({{id}});">Reset</button>
+                    <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
+                </p>
+            </script>
+            <div id="editor"></div>
         </div>
         <div id="attachmentsForm">
             <script type="text/template" id="dynamicAttachTable">
@@ -376,8 +374,8 @@
                     {{email}}
                     {{/.}}
                 </script>
-                <p id="sendTo">
-                </p>
+                <p id="sendToIds" hidden></p>
+                <p id="sendTo"></p>
                 <p><label for="emailSubject">Subject</label>
                     <input type="text" id="emailSubject"></p>
                 <p>
@@ -405,25 +403,23 @@
             </form>
         </div>
         <div id="editAttachForm">
-            <form>
-                <script type="text/template" id="dynamicAttachEditor">
-                    <p id="hiddenId" hidden>{{id}}</p>
-                    <p id="hiddenUserId" hidden>{{userId}}</p>
-                    <p id="hiddenFileType" hidden>{{type}}</p>
-                    <p><label for="editAttachTitle">File title*</label>
-                        <input type="text" id="editAttachTitle" value={{title}}></p>
-                    <p><label for="attachComment">Comment
-                        <textarea id="attachComment">{{comment}}</textarea>
-                    </label></p>
-                    <p class="warning">Fields marked "*" must be filled</p>
-                    <p>
-                        <button type="button" class="button" onclick="editAttach({{id}});">Submit</button>
-                        <button class="button" type="reset">Reset</button>
-                        <button type="button" class="button" onclick="showAllAttachments({{userId}});">Cancel</button>
-                    </p>
-                </script>
-                <div id="attachEditor"></div>
-            </form>
+            <script type="text/template" id="dynamicAttachEditor">
+                <p id="hiddenId" hidden>{{id}}</p>
+                <p id="hiddenUserId" hidden>{{userId}}</p>
+                <p id="hiddenFileType" hidden>{{type}}</p>
+                <p><label for="editAttachTitle">File title*</label>
+                    <input type="text" id="editAttachTitle" value={{title}}></p>
+                <p><label for="attachComment">Comment
+                    <textarea id="attachComment">{{comment}}</textarea>
+                </label></p>
+                <p class="warning">Fields marked "*" must be filled</p>
+                <p>
+                    <button type="button" class="button" onclick="editAttach({{id}});">Submit</button>
+                    <button class="button" onclick="showEditAttachForm({{id}});">Reset</button>
+                    <button type="button" class="button" onclick="showAllAttachments({{userId}});">Cancel</button>
+                </p>
+            </script>
+            <div id="attachEditor"></div>
         </div>
         <div id="editPhoneForm">
             <form>

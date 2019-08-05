@@ -2,11 +2,13 @@ package com.itechart.contactsList.dto;
 
 public class EmailDTO {
 
+    private long[] ids;
     private String[] emails;
     private String subject;
     private String text;
 
-    public EmailDTO(String[] emails, String subject, String text) {
+    public EmailDTO(long[] ids, String[] emails, String subject, String text) {
+        this.ids = ids;
         this.emails = emails;
         this.subject = subject;
         this.text = text;
@@ -37,5 +39,13 @@ public class EmailDTO {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public long[] getIds() {
+        return ids;
+    }
+
+    public void setIds(long[] ids) {
+        this.ids = ids;
     }
 }

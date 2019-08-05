@@ -11,8 +11,7 @@ function showAllContacts(contactsPerPage, pageNumber) {
     fetch("/api/contacts?count=" + contactsPerPage + "&page=" + pageNumber, {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            'charset': 'utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -80,6 +79,22 @@ function createContact() {
             })
             .then(function (res) {
                 alert("Contact created!");
+                document.getElementById("firstName").value = '';
+                document.getElementById("surname").value = '';
+                document.getElementById("patronymic").value = '';
+                document.getElementById("birthDate").value = '';
+                document.getElementById("sexGroup").value = '';
+                document.getElementById("nationality").value = '';
+                document.getElementById("fsGroup").value = '';
+                document.getElementById("website").value = '';
+                document.getElementById("email").value = '';
+                document.getElementById("currentWorkplace").value = '';
+                document.getElementById("country").value = '';
+                document.getElementById("locality").value = '';
+                document.getElementById("street").value = '';
+                document.getElementById("house").value = '';
+                document.getElementById("apartment").value = '';
+                document.getElementById("postcode").value = '';
                 showAllContacts();
                 return res.statusText;
             });
@@ -105,8 +120,7 @@ function showEditForm(id) {
     fetch("/api/contact/" + id, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'charset': 'utf-8',
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -188,9 +202,8 @@ function editContact(id) {
             {
                 method: "PUT",
                 headers: {
-                    'charset': 'utf-8',
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json;charset=utf-8',
                     'mode': 'cors',
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Credentials": true
@@ -199,6 +212,22 @@ function editContact(id) {
             })
             .then(function (res) {
                 alert("Contact edited!");
+                document.getElementById("editFirstName").value = '';
+                document.getElementById("editSurname").value = '';
+                document.getElementById("editPatronymic").value = '';
+                document.getElementById("editBirthDate").value = '';
+                document.getElementById("sexEditGroup").value = '';
+                document.getElementById("editNationality").value = '';
+                document.getElementById("fsEditGroup").value = '';
+                document.getElementById("editWebsite").value = '';
+                document.getElementById("editEmail").value = '';
+                document.getElementById("editCurrentWorkplace").value = '';
+                document.getElementById("editCountry").value = '';
+                document.getElementById("editLocality").value = '';
+                document.getElementById("editStreet").value = '';
+                document.getElementById("editHouse").value = '';
+                document.getElementById("editApartment").value = '';
+                document.getElementById("editPostcode").value = '';
                 showFullContactInfoForm(id);
                 return res.statusText;
             })
@@ -229,8 +258,7 @@ function showFullContactInfoForm(id) {
     fetch("/api/contact/" + id, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/json',
-            'Charset': 'UTF-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -254,8 +282,7 @@ function showFullContactInfoForm(id) {
     fetch("/api/contact/" + id + "/phones", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            'charset': 'utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
@@ -318,8 +345,7 @@ function searchContacts() {
     fetch("/api/search", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            'charset': 'utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify(contact)
     })
@@ -344,8 +370,7 @@ function changeContactsPerPage(contactsPerPage) {
     fetch("/api/countOfContacts", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json",
-            'charset': 'utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
     })
         .then(
