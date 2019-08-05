@@ -18,7 +18,7 @@
         @import "css/attachments.css";
         @import "css/emails.css";
     </style>
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico"/>
+    <link rel="shortcut icon" type="image/x-icon" href="imaашудвыges/favicon.ico"/>
 </head>
 <body>
 <div class="wrapper">
@@ -146,15 +146,15 @@
         <div id="createForm">
             <form>
                 <div id="creator">
-                    <p><label for="firstName">First Name</label>
+                    <p><label for="firstName">First Name*</label>
                         <input type="text" id="firstName" placeholder="Enter first name here"></p>
-                    <p><label for="surname">Surname</label>
+                    <p><label for="surname">Surname*</label>
                         <input type="text" id="surname" placeholder="Enter last name here"></p>
                     <p><label for="patronymic">Patronymic</label>
                         <input type="text" id="patronymic" placeholder="Enter patronymic here"></p>
                     <p><label for="birthDate">Birth date</label>
                         <input type="date" id="birthDate" placeholder="Enter birth date here"></p>
-                    <label>Sex</label>
+                    <label>Sex*</label>
                     <fieldset id="sexGroup">
                         <p><label for="male">Male</label>
                             <input type="radio" id="male" name="sexGroup"></p>
@@ -190,6 +190,7 @@
                         <input type="number" id="apartment" placeholder="Enter apartment here"></p>
                     <p><label for="postcode">Postcode</label>
                         <input type="text" id="postcode" placeholder="Enter postcode here"></p>
+                    <p class="warning">Fields marked "*" must be filled</p>
                     <p>
                         <button type="button" class="button" onclick="createContact()">Submit</button>
                         <button type="reset" class="button">Reset</button>
@@ -267,15 +268,15 @@
                 <script type="text/template" id="dynamicContactEditor">
                     <img id="editFormAvatar" src="" alt="avatarEditForm"/>
                     <input id="avatar" type="file" class="button"/>
-                    <p><label for="editFirstName">First Name</label>
+                    <p><label for="editFirstName">First Name*</label>
                         <input type="text" id="editFirstName" value={{firstName}}></p>
-                    <p><label for="editSurname">Surname</label>
+                    <p><label for="editSurname">Surname*</label>
                         <input type="text" id="editSurname" value={{surname}}></p>
                     <p><label for="editPatronymic">Patronymic</label>
                         <input type="text" id="editPatronymic" value={{patronymic}}></p>
                     <p><label for="editBirthDate">Birth date</label>
                         <input type="date" id="editBirthDate" value={{birthDate}}></p>
-                    <p><label>Sex</label></p>
+                    <p><label>Sex*</label></p>
                     <fieldset id="sexEditGroup">
                         <p><label for="editMale">Male</label>
                             <input type="radio" name="sexEditGroup" id="editMale"></p>
@@ -311,6 +312,7 @@
                         <input type="text" id="editApartment" value={{address.apartment}}></p>
                     <p><label for="editPostcode">Postcode</label>
                         <input type="text" id="editPostcode" value={{address.postcode}}></p>
+                        <p class="warning">Fields marked "*" must be filled</p>
                     <p>
                         <button type="button" class="button" onclick="editContact({{id}});">Submit</button>
                         <button class="button" type="reset">Reset</button>
@@ -408,12 +410,12 @@
                     <p id="hiddenId" hidden>{{id}}</p>
                     <p id="hiddenUserId" hidden>{{userId}}</p>
                     <p id="hiddenFileType" hidden>{{type}}</p>
-                    <p><label for="editAttachTitle">File title</label>
+                    <p><label for="editAttachTitle">File title*</label>
                         <input type="text" id="editAttachTitle" value={{title}}></p>
                     <p><label for="attachComment">Comment
                         <textarea id="attachComment">{{comment}}</textarea>
-                    </label>
-                    </p>
+                    </label></p>
+                    <p class="warning">Fields marked "*" must be filled</p>
                     <p>
                         <button type="button" class="button" onclick="editAttach({{id}});">Submit</button>
                         <button class="button" type="reset">Reset</button>
@@ -427,11 +429,11 @@
             <form>
                 <script type="text/template" id="dynamicPhoneEditor">
                     <p id="hiddenPhoneUserId" hidden>{{contactId}}</p>
-                    <p><label for="editCountryCode">Country code</label>
+                    <p><label for="editCountryCode">Country code(without "+")</label>
                         <input type="number" id="editCountryCode" value={{countryCode}}></p>
                     <p><label for="editOperatorsCode">Operator's code</label>
                         <input type="number" id="editOperatorsCode" value={{operatorsCode}}></p>
-                    <p><label for="editPhoneNumber">Phone number</label>
+                    <p><label for="editPhoneNumber">Phone number*</label>
                         <input type="number" id="editPhoneNumber" value={{phoneNumber}}></p>
                     <p><label>Type</label></p>
                     <fieldset id="phoneTypeEditGroup">
@@ -441,7 +443,8 @@
                             <input type="radio" name="phoneTypeEditGroup" id="editMobile"></p>
                     </fieldset>
                     <p><label for="phoneComment">Comment
-                        <textarea id="phoneComment">{{comment}}</textarea>
+                        <textarea id="phoneComment">{{comment}}</textarea></label></p>
+                    <p class="warning">Fields marked "*" must be filled</p>
                     <p>
                         <button type="button" class="button" onclick="editPhone({{id}});">Submit</button>
                         <button class="button" type="reset">Reset</button>
@@ -456,11 +459,11 @@
             <div id="phoneCreator">
                 <form>
                     <p id="contactId" hidden></p>
-                    <p><label for="countryCode">Country code</label>
+                    <p><label for="countryCode">Country code(without "+")</label>
                         <input type="number" id="countryCode" placeholder="Enter country here"></p>
                     <p><label for="operatorsCode">Operator's code</label>
                         <input type="number" id="operatorsCode" placeholder="Enter operator's code here"></p>
-                    <p><label for="phoneNumber">Phone number</label>
+                    <p><label for="phoneNumber">Phone number*</label>
                         <input type="number" id="phoneNumber" placeholder="Enter phone number here"></p>
                     <p><label>Type</label></p>
                     <fieldset id="phoneTypeCreateGroup">
@@ -469,14 +472,14 @@
                         <p><label for="mobile">Mobile</label>
                             <input type="radio" id="mobile" name="phoneTypeCreateGroup"></p>
                     </fieldset>
-                    <label for="phoneCreateComment">Comment
-                        <textarea id="phoneCreateComment"></textarea>
-                        <p>
-                            <button type="button" class="button" onclick="createPhone()">Submit</button>
-                            <button type="reset" class="button">Reset</button>
-                            <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
-                        </p>
-                    </label>
+                    <p><label for="phoneCreateComment">Comment
+                        <textarea id="phoneCreateComment"></textarea></label></p>
+                    <p class="warning">Fields marked "*" must be filled</p>
+                    <p>
+                        <button type="button" class="button" onclick="createPhone()">Submit</button>
+                        <button type="reset" class="button">Reset</button>
+                        <button type="button" class="button" onclick="showAllContacts()">Cancel</button>
+                    </p>
                 </form>
             </div>
         </div>

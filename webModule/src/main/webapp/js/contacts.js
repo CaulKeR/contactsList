@@ -122,7 +122,7 @@ function showEditForm(id) {
                             break;
                     }
                     switch (contact.familyStatus) {
-                        case 'male' :
+                        case 'single' :
                             document.getElementById("editSingle").checked = true;
                             break;
                         case 'divorced' :

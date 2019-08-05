@@ -33,3 +33,8 @@ button {
     background-color: #d5e6a2;
     color: black;
 }
+
+.warning {
+    font-size: large;
+    color: red;
+}
