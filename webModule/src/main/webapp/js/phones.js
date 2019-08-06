@@ -44,7 +44,6 @@ function createPhone() {
 
 function showPhoneEditForm(id) {
     let userId = document.getElementById("mainPhoneCheckbox").value;
-    console.log("userId " + userId);
     history.pushState({prevUrl: window.location.href}, null, '/contact/' + userId + '/phone/' + id);
     hideAllExcept("editPhoneForm");
     fetch("/api/contact/" + userId + "/phone/" + id, {
@@ -82,7 +81,6 @@ function showPhoneEditForm(id) {
 
 function editPhone(id) {
     let userId = document.getElementById("hiddenPhoneUserId").innerText;
-    console.log("userId " + userId);
     let phone = {
         id: id,
         countryCode: document.getElementById("editCountryCode").value,

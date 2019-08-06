@@ -36,6 +36,8 @@ public class AvatarService {
                         log.info("Photo added: " + filePath);
                     }
                 }
+            } else {
+                log.error("formItems are null for userId=" + userId);
             }
         } catch (Exception e) {
             log.error(e);

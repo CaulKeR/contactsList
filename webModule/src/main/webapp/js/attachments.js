@@ -26,7 +26,6 @@ function showAllAttachments(id) {
 
 function showEditAttachForm(id) {
     let userId = document.getElementById("attachCheckbox").value;
-    console.log('userId ' + userId);
     history.pushState({prevUrl: window.location.href}, null, '/contact/' + userId + '/attachment/' + id);
     hideAllExcept("editAttachForm");
     fetch("/api/contact/" + userId + '/attachment/' + id, {
@@ -74,10 +73,7 @@ function editAttach(id) {
             })
             .then(function (res) {
                 alert("Attachment edited!");
-                document.getElementById("hiddenUserId").innerText = '';
-                document.getElementById("editAttachTitle").value = '';
-                document.getElementById("hiddenFileType").innerText = '';
-                document.getElementById("attachComment").value = '';
+                cleanEditAttachFields();
                 showAllAttachments(userId);
                 return res.statusText;
             })
@@ -186,9 +182,17 @@ function validateAttachInputFields(attach) {
 function validateAttachFileField() {
     console.log(document.getElementById("attachField").value);
     let isValid = true;
-    if (document.getElementById("attachField").value === '' || document.getElementById("attachField").value === null) {
+    if (document.getElementById("attachField").value === '' ||
+        document.getElementById("attachField").value === null) {
         isValid = false;
         alert("You did not select file to upload!");
     }
     return isValid;
+}
+
+function cleanEditAttachFields() {
+    document.getElementById("hiddenUserId").innerText = '';
+    document.getElementById("editAttachTitle").value = '';
+    document.getElementById("hiddenFileType").innerText = '';
+    document.getElementById("attachComment").value = '';
 }

@@ -16,13 +16,13 @@ body {
 }
 
 #createPhoneForm {
-     display: block;
-     margin: 10px 20px;
-     text-align: -webkit-left;
-     color: black;
-     font-size: larger;
-     font-style: italic;
- }
+    display: block;
+    margin: 10px 20px;
+    text-align: -webkit-left;
+    color: black;
+    font-size: larger;
+    font-style: italic;
+}
 
 button {
     cursor: pointer;

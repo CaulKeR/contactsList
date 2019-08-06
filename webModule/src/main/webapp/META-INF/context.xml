@@ -9,7 +9,7 @@
             driverClassName="com.mysql.cj.jdbc.Driver"
             url="jdbc:mysql://localhost:3306/contacts_list?autoReconnect=true&amp;useSSL=false&amp;useUnicode=true&amp;
                 useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;
-                allowPublicKeyRetrieval=true"
+                allowPublicKeyRetrieval=true&amp;characterEncoding=utf8"
             username="root"
             password="dota21kmmr"/>
 </Context>

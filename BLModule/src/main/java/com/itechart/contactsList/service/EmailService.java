@@ -57,16 +57,20 @@ public class EmailService {
                     emailMessage.setFrom(new InternetAddress(SERVICE_EMAIL));
                     emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(new ContactDAOImpl()
                             .getEmailById(emailDTO.getIds()[i])));
-                    emailMessage.setSubject(emailDTO.getSubject());
+                    emailMessage.setSubject(emailDTO.getSubject(), "UTF-8");
                     ST text = new ST(emailDTO.getText().trim());
                     text.add("name", new ContactDAOImpl().getFirstNameById(emailDTO.getIds()[i]));
-                    emailMessage.setText(text.render());
+                    emailMessage.setText(text.render(), "UTF-8");
                     transport = mailSession.getTransport("smtp");
                     if (transport != null) {
                         transport.connect("smtp.gmail.com", SERVICE_EMAIL, SERVICE_PASS);
                         transport.sendMessage(emailMessage, emailMessage.getAllRecipients());
                         log.info("E-mail was sent successfully to " + emailDTO.getEmails()[i]);
+                    } else {
+                        log.error("transport object is null");
                     }
+                } else {
+                    log.error("Email or id is null for id=" + emailDTO.getIds()[i]);
                 }
             }
         } catch (Exception e) {

@@ -20,12 +20,16 @@ public class ContactService {
         ContactDTO contact = new ContactDAOImpl().getContactById(id);
         File[] listOfFiles = new File(ServerDirectories.PHOTO_DIRECTORY).listFiles();
         if (listOfFiles != null) {
-            for (File listOfFile : listOfFiles) {
-                if (listOfFile.isFile() && listOfFile.getName().equals(String.valueOf(contact.getId()))) {
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().equals(String.valueOf(contact.getId()))) {
                     contact.setCustomAvatar(true);
                     break;
+                } else {
+                    log.error("Object with name " + file + " is not a file, otherwise file name isn't equals contact id");
                 }
             }
+        } else {
+            log.error("Photo directory is empty!");
         }
         return contact;
     }

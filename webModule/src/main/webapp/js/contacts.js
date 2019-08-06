@@ -79,22 +79,7 @@ function createContact() {
             })
             .then(function (res) {
                 alert("Contact created!");
-                document.getElementById("firstName").value = '';
-                document.getElementById("surname").value = '';
-                document.getElementById("patronymic").value = '';
-                document.getElementById("birthDate").value = '';
-                document.getElementById("sexGroup").value = '';
-                document.getElementById("nationality").value = '';
-                document.getElementById("fsGroup").value = '';
-                document.getElementById("website").value = '';
-                document.getElementById("email").value = '';
-                document.getElementById("currentWorkplace").value = '';
-                document.getElementById("country").value = '';
-                document.getElementById("locality").value = '';
-                document.getElementById("street").value = '';
-                document.getElementById("house").value = '';
-                document.getElementById("apartment").value = '';
-                document.getElementById("postcode").value = '';
+                cleanCreateContactFields();
                 showAllContacts();
                 return res.statusText;
             });
@@ -212,22 +197,7 @@ function editContact(id) {
             })
             .then(function (res) {
                 alert("Contact edited!");
-                document.getElementById("editFirstName").value = '';
-                document.getElementById("editSurname").value = '';
-                document.getElementById("editPatronymic").value = '';
-                document.getElementById("editBirthDate").value = '';
-                document.getElementById("sexEditGroup").value = '';
-                document.getElementById("editNationality").value = '';
-                document.getElementById("fsEditGroup").value = '';
-                document.getElementById("editWebsite").value = '';
-                document.getElementById("editEmail").value = '';
-                document.getElementById("editCurrentWorkplace").value = '';
-                document.getElementById("editCountry").value = '';
-                document.getElementById("editLocality").value = '';
-                document.getElementById("editStreet").value = '';
-                document.getElementById("editHouse").value = '';
-                document.getElementById("editApartment").value = '';
-                document.getElementById("editPostcode").value = '';
+                cleanEditContactFields();
                 showFullContactInfoForm(id);
                 return res.statusText;
             })
@@ -237,7 +207,7 @@ function editContact(id) {
 function deleteContacts() {
     if (confirm("Delete selected contact?")) {
         let boxes = document.getElementById("mainTable").getElementsByTagName("input");
-        for (i = 0; i < boxes.length; i++) {
+        for (let i = 0; i < boxes.length; i++) {
             if (boxes[i].type === "checkbox" && boxes[i].checked && boxes[i].value !== 'on') {
                 fetch("/api/contact/" + boxes[i].value, {
                     method: "DELETE",
@@ -311,11 +281,9 @@ function showFullContactInfoForm(id) {
 }
 
 function switchSearchFormVisibility() {
-    if (document.getElementById("searcher").style.display === 'none') {
-        document.getElementById("searcher").style.display = 'block';
-    } else {
+    document.getElementById("searcher").style.display === 'none' ?
+        document.getElementById("searcher").style.display = 'block' :
         document.getElementById("searcher").style.display = 'none';
-    }
 }
 
 function searchContacts() {
@@ -334,12 +302,7 @@ function searchContacts() {
                 (document.getElementById("searchMarried").checked ? "married" : "")),
         currentWorkplace: document.getElementById("searchCurrentWorkplace").value,
         address: {
-            country: "",
-            locality: "",
-            street: "",
-            house: "",
-            apartment: "",
-            postcode: ""
+            country: "", locality: "", street: "", house: "", apartment: "", postcode: ""
         }
     };
     fetch("/api/search", {
@@ -383,7 +346,8 @@ function changeContactsPerPage(contactsPerPage) {
                     document.getElementById("hiddenMaxPageNumber").innerText = countOfPages.toString();
                     document.getElementById("pageController").innerHTML = '<a onclick=\"changePage(\'prev\')\">&laquo;</a>';
                     for (let i = 1; i < countOfPages + 1; i++) {
-                        document.getElementById("pageController").innerHTML += '<a id=\"page' + i + '\" onclick=\"changePage(' + i + ')\">' + i + '</a>';
+                        document.getElementById("pageController").innerHTML +=
+                            '<a id=\"page' + i + '\" onclick=\"changePage(' + i + ')\">' + i + '</a>';
                     }
                     document.getElementById("pageController").innerHTML += '<a onclick=\"changePage(\'next\')\">&raquo;</a>';
                     document.getElementById("page1").style.backgroundColor = '#b0e0e6';
@@ -402,10 +366,12 @@ function changePage(param) {
             if (parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) > 1) {
                 showAllContacts(document.getElementById("ContactsPerPage").value,
                     parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) - 1);
-                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '';
+                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber")
+                    .innerText).style.backgroundColor = '';
                 document.getElementById("hiddenCurrentPageNumber").innerText = (parseInt(document
                     .getElementById("hiddenCurrentPageNumber").innerText) - 1).toString();
-                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '#b0e0e6';
+                document.getElementById('page' + document.getElementById("hiddenCurrentPageNumber")
+                    .innerText).style.backgroundColor = '#b0e0e6';
             }
             break;
         case 'next' :
@@ -413,10 +379,12 @@ function changePage(param) {
                 .getElementById("hiddenMaxPageNumber").innerText)) {
                 showAllContacts(document.getElementById("ContactsPerPage").value,
                     parseInt(document.getElementById("hiddenCurrentPageNumber").innerText) + 1);
-                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '';
+                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber")
+                    .innerText).style.backgroundColor = '';
                 document.getElementById("hiddenCurrentPageNumber").innerText = (parseInt(document
                     .getElementById("hiddenCurrentPageNumber").innerText) + 1).toString();
-                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber").innerText).style.backgroundColor = '#b0e0e6';
+                document.getElementById("page" + document.getElementById("hiddenCurrentPageNumber")
+                    .innerText).style.backgroundColor = '#b0e0e6';
             }
             break;
         default:
@@ -516,4 +484,42 @@ function validateContactInputFields(contact) {
         alert("Postcode is too long!");
     }
     return isValid;
+}
+
+function cleanCreateContactFields() {
+    document.getElementById("firstName").value = '';
+    document.getElementById("surname").value = '';
+    document.getElementById("patronymic").value = '';
+    document.getElementById("birthDate").value = '';
+    document.getElementById("sexGroup").value = '';
+    document.getElementById("nationality").value = '';
+    document.getElementById("fsGroup").value = '';
+    document.getElementById("website").value = '';
+    document.getElementById("email").value = '';
+    document.getElementById("currentWorkplace").value = '';
+    document.getElementById("country").value = '';
+    document.getElementById("locality").value = '';
+    document.getElementById("street").value = '';
+    document.getElementById("house").value = '';
+    document.getElementById("apartment").value = '';
+    document.getElementById("postcode").value = '';
+}
+
+function cleanEditContactFields() {
+    document.getElementById("editFirstName").value = '';
+    document.getElementById("editSurname").value = '';
+    document.getElementById("editPatronymic").value = '';
+    document.getElementById("editBirthDate").value = '';
+    document.getElementById("sexEditGroup").value = '';
+    document.getElementById("editNationality").value = '';
+    document.getElementById("fsEditGroup").value = '';
+    document.getElementById("editWebsite").value = '';
+    document.getElementById("editEmail").value = '';
+    document.getElementById("editCurrentWorkplace").value = '';
+    document.getElementById("editCountry").value = '';
+    document.getElementById("editLocality").value = '';
+    document.getElementById("editStreet").value = '';
+    document.getElementById("editHouse").value = '';
+    document.getElementById("editApartment").value = '';
+    document.getElementById("editPostcode").value = '';
 }

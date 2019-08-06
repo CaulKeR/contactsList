@@ -44,7 +44,7 @@ public class UrlMapper {
                 return (Executable) ((Map.Entry) patternExecutableEntry).getValue();
             }
         }
-        log.error("Incorrect URL " + uri);
+        log.error("Incorrect URI " + uri);
         return new ReferenceToIndex();
     }
 

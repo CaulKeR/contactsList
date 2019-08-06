@@ -3,6 +3,7 @@ package com.itechart.contactsList.dao;
 import com.itechart.contactsList.dto.AttachmentDTO;
 
 public interface AttachmentDAO {
+
     Long create(String fileName, Long userId);
 
     String getFileName(Long id);

@@ -31,9 +31,11 @@ public class AttachmentService {
                         AttachmentDTO attachment = new AttachmentDTO(id, userId, fileName, listOfFile.length(),
                                 new Date(listOfFile.lastModified()));
                         list.add(attachment);
+                    } else {
+                        log.error("File name is null for userId=" + userId);
                     }
-                } else if (listOfFile.isDirectory()) {
-                    System.out.println("Directory " + listOfFile.getName());
+                } else {
+                    log.error("Object is not a file for userId=" + userId);
                 }
             }
         } else {
@@ -49,6 +51,8 @@ public class AttachmentService {
             if (!uploadDir.mkdir()) {
                 log.info("Directory is not created for id=" + userId);
             }
+        } else {
+            log.error("Upload directory ");
         }
         try {
             if (formItems != null && formItems.size() > 0) {
@@ -61,9 +65,11 @@ public class AttachmentService {
                         log.info("File added: " + filePath);
                     }
                 }
+            } else {
+                log.error("formItems are null for userId=" + userId);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 

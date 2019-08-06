@@ -15,14 +15,9 @@ function hideAllExcept(form) {
 
 function selectAllCheckboxes(mainCheckbox, table) {
     let boxes = document.getElementById(table).getElementsByTagName("input");
-    if (document.getElementById(mainCheckbox).checked) {
-        for (let i = 0; i < boxes.length; i++) {
-            boxes[i].checked = true;
-        }
-    } else {
-        for (let i = 0; i < boxes.length; i++) {
-            boxes[i].checked = false;
-        }
+    let isMainCheckboxChecked = document.getElementById(mainCheckbox).checked;
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].checked = isMainCheckboxChecked;
     }
 }
 

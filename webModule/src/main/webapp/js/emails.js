@@ -59,7 +59,6 @@ function sendEmail() {
         subject: document.getElementById("emailSubject").value,
         text: document.getElementById("emailText").value
     };
-    console.log(email.ids);
     fetch("/api/mail",
         {
             method: "POST",
